@@ -48,7 +48,7 @@ echo "Installing repos for epel, IUS, Percona, nginx."
 rpm -Uhv http://dl.iuscommunity.org/pub/ius/stable/CentOS/6/x86_64/epel-release-6-5.noarch.rpm
 rpm -Uhv http://dl.iuscommunity.org/pub/ius/stable/CentOS/6/x86_64/ius-release-1.0-13.ius.centos6.noarch.rpm
 rpm -Uhv http://www.percona.com/downloads/percona-release/percona-release-0.0-1.x86_64.rpm
-cp /$PROJECT_ROOT/yum/nginx.repo /etc/yum.repos.d/nginx.repo
+cp -rf /$PROJECT_ROOT/yum/nginx.repo /etc/yum.repos.d/nginx.repo
 
 # Install all software needed for machine
 PHP_VERSION="php54"
@@ -64,7 +64,7 @@ yum -y install \
 zlib-devel vim-common vim-enhanced vim-minimal htop mytop nmap at yum-utils \
 openssl openssl-devel curl libcurl libcurl-devel lsof tmux bash-completion \
 weechat gpg rpm-build rpm-devel autoconf automake lynx gcc httpd httpd-devel \
-mod_ssl mod_fcgid mod_geoip memcached memcached-devel nginx \
+mod_ssl mod_fcgid mod_geoip memcached memcached-devel nginx npm \
 $PHP_VERSION \
 $PHP_VERSION-devel $PHP_VERSION-common $PHP_VERSION-gd $PHP_VERSION-imap \
 $PHP_VERSION-mbstring $PHP_VERSION-mcrypt $PHP_VERSION-mhash \
@@ -85,9 +85,12 @@ mv composer.phar /usr/local/bin/composer
 
 # SSH
 echo -e "Copying Vagrant SSH keys."
-mkdir ~/.ssh
+mkdir -pv ~/.ssh
+mkdir -pv /home/vagrant/.ssh
 cp -rf /$PROJECT_ROOT/ssh/* ~/.ssh/
+cp -rf /$PROJECT_ROOT/ssh/* /home/vagrant/.ssh/
 chmod 600 ~/.ssh/*
+chmod 600 /home/vagrant/.ssh/*
 
 # Installing PECL Scrypt extension for PHP...
 echo "Installing PECL Scrypt extension for PHP."
@@ -127,14 +130,16 @@ done
 echo "Setting up DB, and granting all privileges to '$DB_USER'@'%'."
 mysql -u $DB_USER --password="$DB_PASS" -e "GRANT ALL PRIVILEGES ON *.* TO '$DB_USER'@'%' WITH GRANT OPTION"
 mysql -u $DB_USER --password="$DB_PASS" -e "DROP DATABASE IF EXISTS $DB_NAME; CREATE DATABASE $DB_NAME"
-mysql -u $DB_USER --password="$DB_PASS" $DB_NAME < /$PROJECT_ROOT/db/latest.sql
+if [[ -f $DB_DUMP ]]; then
+	mysql -u $DB_USER --password="$DB_PASS" $DB_NAME < $DB_DUMP
+fi
 
 # Append httpd.conf
 #echo "Appending httpd.conf file"
 #bash -c "echo 'Include /vagrant/httpd/*.httpd.conf' >> /etc/httpd/conf/httpd.conf"
 echo -e "Symlinking httpd and nginx vhosts files."
 # Move unnecessary default configs into bak directories.
-mkdir /etc/httpd/conf.d/bak /etc/nginx/conf.d/bak
+mkdir -pv /etc/httpd/conf.d/bak /etc/nginx/conf.d/bak
 mv /etc/nginx/conf.d/*.conf /etc/nginx/conf.d/bak/
 ln -nsfv /vagrant/httpd/develop.vagrant.dev.httpd.conf /etc/httpd/conf.d
 ln -nsfv /vagrant/nginx/develop.vagrant.dev.nginx.conf /etc/nginx/conf.d
@@ -155,7 +160,8 @@ yum -y remove git && yum -y install git2u
 
 # Install dotfiles
 #echo -e "Installing Dane MacMillan's dotfiles."
-git clone git@github.com:danemacmillan/dotfiles.git .dotfiles && cd .dotfiles && source bootstrap.sh
+cd /root && git clone git@github.com:danemacmillan/dotfiles.git .dotfiles && cd .dotfiles && source bootstrap.sh
+cd /home/vagrant && git clone git@github.com:danemacmillan/dotfiles.git .dotfiles && cd .dotfiles && source bootstrap.sh
 
 # Generate install files to prevent reinstalls.
 echo -e "Cleaning install."
@@ -164,29 +170,29 @@ touch $VAGRANT_PROVISION_DONE
 yum -y clean all
 
 echo -e "\nProvisioning complete!"
-echo -e "\n=============================="
+echo -e "-------------------------"
 echo "$PROJECT_ROOT provisioning complete."
 echo "DB:"
 echo " - User: '$DB_USER'@'%'"
 echo " - Pass: $DB_PASS"
-echo " - Addr: 192.168.33.10"
+echo " - Addr: 192.168.80.80"
 echo " - Port: guest 3306 -> host 3306"
 echo "Web:"
 echo " - guest *:80 -> host 80"
 echo " - guest *:443 -> host 443"
 echo " "
-echo "Remember to set host's host files to"
-echo "match (NameVirtualHost +) ServerName."
+echo "Remember to set /etc/hosts (or C:\Windows\System32\Drivers\etc\hosts):"
+echo "192.168.80.80 develop.vagrant.dev"
 echo " "
 echo -e "\n Dotfiles (for better shell usage): "
-echo -e "git clone git@github.com:danemacmillan/dotfiles.git .dotfiles && cd .dotfiles && source bootstrap.sh"
-echo "==============================\n"
+echo -e "cd /home/vagrant git clone git@github.com:danemacmillan/dotfiles.git .dotfiles && cd .dotfiles && source bootstrap.sh"
+echo "-------------------------\n"
 # to change hostname
 # vi /etc/sysconfig/network
-# HOSTNAME=develop.dev
-# hostname develop.dev
+# HOSTNAME=vagrant.dev
+# hostname vagrant.dev
 # vi /etc/hosts
-# 192.168.33.19 develop.dev
+# 192.168.80.80 develop.vagrant.dev
 # /etc/init.d/network restart
 
 #to change to httpd worker
