@@ -18,7 +18,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 		develop.vm.hostname = "vagrant.dev"
 		develop.vm.network :private_network, ip: "192.168.80.80"
 
-		#develop.vm.synced_folder ".", "/vagrant", type: "nfs"
+		develop.vm.synced_folder ".", "/vagrant", type: "nfs"
 		#develop.vm.synced_folder "/local/path", "/remote", type: "nfs"
 		#develop.vm.synced_folder ".", "/vagrant", :mount_options => ["dmode=777","fmode=777"]
 
