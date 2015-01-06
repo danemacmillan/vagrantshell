@@ -1,0 +1,61 @@
+SHA1 Fingerprint=DB:77:CC:9D:99:9E:F0:74:F3:45:9C:4F:2A:D9:BE:BF:AE:DF:34:7A
+Certificate:
+    Data:
+        Version: 3 (0x2)
+        Serial Number:
+            fc:8a:4b:09:b0:51:e0:33
+        Signature Algorithm: sha1WithRSAEncryption
+        Issuer: C=CA, ST=Quebec, L=Montreal, O=danemacmillan.com, OU=danemacmillan.com, CN=*.vagrant.dev
+        Validity
+            Not Before: Jan  6 21:12:28 2015 GMT
+            Not After : Jan  3 21:12:28 2025 GMT
+        Subject: C=CA, ST=Quebec, L=Montreal, O=danemacmillan.com, OU=danemacmillan.com, CN=*.vagrant.dev
+        Subject Public Key Info:
+            Public Key Algorithm: rsaEncryption
+            RSA Public Key: (2048 bit)
+                Modulus (2048 bit):
+                    00:f0:d8:b0:0b:07:8e:8b:ab:d4:3b:da:47:37:0b:
+                    72:95:33:a3:3e:98:6e:2c:d2:b1:ba:6a:7e:7d:b8:
+                    72:38:ca:af:b9:9b:5b:0b:4c:db:8b:7a:5b:29:d3:
+                    22:a5:ec:5e:0c:01:5e:6e:75:f5:dd:18:b9:75:13:
+                    2d:fc:85:36:28:8d:2d:38:1a:28:cf:da:41:a2:74:
+                    dd:52:21:b9:cd:8b:16:b5:7f:ab:e4:87:9b:bf:7b:
+                    ef:d7:b0:75:9f:21:28:a0:26:f0:cf:94:5a:73:9c:
+                    a5:52:cc:d8:65:c2:f3:3b:92:93:26:2c:04:49:9f:
+                    71:5d:55:5f:87:4b:ef:61:47:f3:61:91:47:05:5b:
+                    79:f4:bc:e5:ac:4d:b9:bb:bf:3a:54:0c:7b:3f:ea:
+                    4d:dc:86:2b:9d:09:28:0d:cf:83:67:45:9f:55:17:
+                    55:2f:0c:62:35:c6:fa:93:df:e4:e1:45:65:01:13:
+                    5e:00:23:0e:64:65:4f:e1:78:9e:bb:c7:1d:91:12:
+                    44:64:61:6b:d4:34:eb:b3:c3:b6:07:b3:62:6c:5a:
+                    c0:ce:03:95:9c:3f:54:ee:a5:15:5c:ed:01:27:ad:
+                    a1:af:b4:39:ab:e3:1f:1e:cc:62:1c:6c:41:0e:81:
+                    02:2a:e0:b5:14:5f:a0:71:60:8d:51:6b:50:74:b1:
+                    f4:ef
+                Exponent: 65537 (0x10001)
+        X509v3 extensions:
+            X509v3 Subject Key Identifier: 
+                39:4D:E1:7B:DE:8C:A6:16:DB:CD:C2:16:3D:D1:43:93:18:ED:5A:71
+            X509v3 Authority Key Identifier: 
+                keyid:39:4D:E1:7B:DE:8C:A6:16:DB:CD:C2:16:3D:D1:43:93:18:ED:5A:71
+                DirName:/C=CA/ST=Quebec/L=Montreal/O=danemacmillan.com/OU=danemacmillan.com/CN=*.vagrant.dev
+                serial:FC:8A:4B:09:B0:51:E0:33
+
+            X509v3 Basic Constraints: 
+                CA:TRUE
+    Signature Algorithm: sha1WithRSAEncryption
+        94:ce:d4:b4:31:b4:9b:34:c7:7b:3f:59:7a:a5:3d:52:92:0f:
+        f6:50:c8:6e:26:55:10:ac:90:e5:3c:08:10:4a:21:6a:b7:87:
+        62:9d:2b:4d:0b:d3:65:c8:c4:34:0c:89:90:e6:ea:59:e2:d9:
+        59:7f:df:15:df:be:46:b5:80:91:38:8d:8e:33:83:c6:20:51:
+        97:5a:5b:bd:ef:1d:c9:fc:cb:04:f6:f7:c2:eb:28:52:1c:e5:
+        18:95:a7:9b:55:07:37:74:00:f7:93:71:ac:7e:11:90:8f:94:
+        b1:8d:88:7b:ad:1e:78:4b:37:51:26:1b:11:ae:1a:2d:7c:46:
+        32:8b:db:3e:98:f5:54:2b:80:10:5f:28:1b:83:1d:c4:77:35:
+        e8:50:05:42:e1:53:5d:4b:a4:6d:78:1d:1d:59:7e:48:0d:61:
+        78:a7:07:48:2e:6b:f0:c5:39:46:03:2f:56:ab:bd:be:fe:d2:
+        fd:27:45:3e:db:c5:fc:03:d0:c1:79:6f:53:65:e6:88:19:43:
+        17:01:56:91:8b:f8:a3:20:e8:32:e9:70:53:0d:70:10:e1:27:
+        12:2f:14:58:b2:d7:29:2b:5d:fa:cc:b4:a0:46:0d:50:f9:3d:
+        41:7d:c2:b8:38:99:6d:31:52:a0:cf:d2:5b:a8:39:8e:82:b9:
+        84:e1:ac:5e
