@@ -23,6 +23,8 @@ If you have OSX, just use `brew`, otherwise have a look here:
 
 https://docs.vagrantup.com/v2/installation/
 
+https://www.vagrantup.com/downloads.html
+
 # Install guest additions plugin
 
 `vagrant plugin install vagrant-vbguest`

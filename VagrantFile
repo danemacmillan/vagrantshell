@@ -10,7 +10,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 		develop.vm.box = "chef/centos-6.5"
 		#develop.vm.box_url = ""
 
-		#develop.vm.network "forwarded_port", guest: 22, host: 22, id: "ssh", auto_correct: true
+		develop.vm.network "forwarded_port", guest: 22, host: 4444, id: "ssh", auto_correct: true
 		#develop.vm.network "forwarded_port", guest: 80, host: 80
 		#develop.vm.network "forwarded_port", guest: 443, host: 443
 		#develop.vm.network "forwarded_port", guest: 3306, host: 3306
