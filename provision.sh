@@ -136,39 +136,21 @@ mysql -u $DB_USER --password="$DB_PASS" $DB_NAME < /$PROJECT_ROOT/db/latest.sql
 
 # Append httpd.conf
 #echo "Appending httpd.conf file"
-#bash -c "echo 'Include /vagrant/sites/*.httpd.conf' >> /etc/httpd/conf/httpd.conf"
-echo "Symlinking httpd and nginx vhosts files."
-ln -nsfv /vagrant/httpd/develop.vagrant.dev.httpd.conf /etc/httpd/conf.d
-rm -rf /etc/nginx/conf.d/*.conf
-ln -nsfv /vagrant/nginx/develop.vagrant.dev.nginx.conf /etc/nginx/conf.d
-
-# Append httpd.conf file to autoload vhosts for Develop
-echo "Loading vhosts for $PROJECT_ROOT"
+#bash -c "echo 'Include /vagrant/httpd/*.httpd.conf' >> /etc/httpd/conf/httpd.conf"
+echo -e "Symlinking httpd and nginx vhosts files."
 # Move unnecessary default configs into bak directories.
 mkdir /etc/httpd/conf.d/bak /etc/nginx/conf.d/bak
-mv /etc/httpd/conf.d/*.conf /etc/httpd/conf.d/bak/
 mv /etc/nginx/conf.d/*.conf /etc/nginx/conf.d/bak/
-ln -nsfv /$PROJECT_ROOT/include/config/httpdconf/dev/vhosts/*.conf /etc/httpd/conf.d/
-#bash -c "echo 'Include /develop/include/config/httpdconf/dev/vhosts/*.conf' >> /etc/httpd/conf/httpd.conf"
-# Remember Listen 80 in main config interrupts project configs.
+ln -nsfv /vagrant/httpd/develop.vagrant.dev.httpd.conf /etc/httpd/conf.d
+ln -nsfv /vagrant/nginx/develop.vagrant.dev.nginx.conf /etc/nginx/conf.d
 
 # Give permissions to fcgid wapper.
-echo -e "Giving php.fcgi 777 permissions."
-chmod 777 /$PROJECT_ROOT/include/config/httpdconf/dev/fastcgi/php.fcgi
+#echo -e "Giving php.fcgi 777 permissions."
+#chmod 777 /$PROJECT_ROOT/include/config/httpdconf/dev/fastcgi/php.fcgi
 
 # Restart httpd for new configs and fcgid wrapper
-/etc/init.d/httpd restart
-
-# Clear previous dependencies, if any.
-rm -rf /$PROJECT_ROOT/include/vendor
-
-# Install project dependencies.
-#echo -e "Installing composer dependencies."
-#(cd /develop/include && php /usr/local/bin/composer install)
-
-# Install scrypt wrapper for project.
-#echo -e "Cloning php-scrypt library."
-#git clone git@github.com:DomBlack/php-scrypt.git /$PROJECT_ROOT/include/vendor/php-scrypt
+echo -e "Restarting servers to use vhost configs."
+/etc/init.d/nginx restart
 
 # Install dotfiles
 #echo -e "Installing Dane MacMillan's dotfiles."
