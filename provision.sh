@@ -41,6 +41,7 @@ fi
 
 # Update base box
 echo "Updating current software."
+yum -y install kernel kernel-devel
 yum -y update
 
 # Install missing repos
