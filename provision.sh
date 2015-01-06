@@ -74,10 +74,6 @@ $PHP_VERSION-xml $PHP_VERSION-pdo $PHP_VERSION-fpm $PHP_OPCODE_VERSION \
 $PHP_VERSION-pecl-redis redis \
 Percona-Server-client-56 Percona-Server-server-56
 
-#echo 'Updating old repo software to new repo software.'
-#yum -y remove git
-#yum -y install git18
-
 # SPDY depends on "at" and "httpd"
 echo "Installing SPDY..."
 rpm -U https://dl-ssl.google.com/dl/linux/direct/mod-spdy-beta_current_x86_64.rpm
@@ -90,8 +86,7 @@ mv composer.phar /usr/local/bin/composer
 # SSH
 echo -e "Copying Vagrant SSH keys."
 mkdir ~/.ssh
-cp /$PROJECT_ROOT/scripts/ssh/vagrant* ~/.ssh/
-cp /$PROJECT_ROOT/scripts/ssh/config ~/.ssh
+cp -rf /$PROJECT_ROOT/ssh/* ~/.ssh/
 chmod 600 ~/.ssh/*
 
 # Installing PECL Scrypt extension for PHP...
@@ -150,11 +145,17 @@ ln -nsfv /vagrant/nginx/develop.vagrant.dev.nginx.conf /etc/nginx/conf.d
 
 # Restart httpd for new configs and fcgid wrapper
 echo -e "Restarting servers to use vhost configs."
+/etc/init.d/httpd stop
 /etc/init.d/nginx restart
+/etc/init.d/php-fpm restart
+
+#
+echo -e 'Updating Git.'
+yum -y remove git && yum -y install git2u
 
 # Install dotfiles
 #echo -e "Installing Dane MacMillan's dotfiles."
-#git clone git@github.com:danemacmillan/dotfiles.git .dotfiles && cd .dotfiles && source bootstrap.sh
+git clone git@github.com:danemacmillan/dotfiles.git .dotfiles && cd .dotfiles && source bootstrap.sh
 
 # Generate install files to prevent reinstalls.
 echo -e "Cleaning install."
