@@ -164,14 +164,6 @@ echo -e "Restarting servers to use vhost configs."
 echo -e 'Updating Git.'
 yum -y remove git && yum -y install git2u
 
-# Install dotfiles (perhaps move this to post-provision?)
-echo -e "\nInstalling Dane MacMillan's dotfiles. This will take a minute."
-echo -e "--------------------------------------------------------------------------------"
-echo -e "Installing for 'root' user..."
-cd /root && git clone git@github.com:danemacmillan/dotfiles.git .dotfiles && cd .dotfiles && source bootstrap.sh &> /dev/null
-echo -e "Installing for '$USER_USER' user..."
-su $USER_USER -c "cd /home/$USER_USER && git clone git@github.com:danemacmillan/dotfiles.git .dotfiles && cd .dotfiles && source bootstrap.sh &> /dev/null"
-
 # Set permissions on regular user.
 echo -e "Setting permissions for $USER_USER:$USER_GROUP on /home/$USER_USER"
 chown -R $USER_USER:$USER_GROUP /home/$USER_USER
@@ -202,9 +194,7 @@ echo -e "\nRemember to set /etc/hosts (or C:\Windows\System32\Drivers\etc\hosts)
 echo "   192.168.80.80 develop.vagrant.dev"
 echo -e "\nFor any questions: Dane MacMillan <work@danemacmillan.com>"
 echo -e "This vagrant box was provisioned using: https://github.com/danemacmillan/vagrantshell"
-echo -e "It includes the following dotfiles: https://github.com/danemacmillan/dotfiles"
 echo -e "--------------------------------------------------------------------------------"
-echo " "
 
 
 # Post-provision
@@ -217,22 +207,21 @@ for dbdump in $DB_DUMP
 do
 	if [[ -f "$dbdump" ]]; then
 		echo -e "Importing sql file into DB $DB_NAME: $dbdump"
-		echo " "
 		mysql -u $DB_USER --password="$DB_PASS" $DB_NAME < "$dbdump"
+		echo " "
 	fi
 done
 
-echo " "
-
 # Execute scripts
+# Note: dotfiles are installed in post-provision
 POST_PROVISION=/$PROJECT_ROOT/post-provision/*.sh
 shopt -s nullglob
 for pp in $POST_PROVISION
 do
 	if [[ -f "$pp" ]]; then
 		echo -e "Running post-provision script: $pp"
-		echo " "
 		source "$pp"
+		echo " "
 	fi
 done
 
