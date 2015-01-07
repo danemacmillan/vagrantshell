@@ -8,6 +8,7 @@ set -e
 # Set SELinux to permissive mode
 # This is done because for a virtual environment, we do not want SELINUX to be
 # overriding permissions.
+# TODO read this: http://nginx.com/blog/nginx-se-linux-changes-upgrading-rhel-6-6/
 echo -e "Setting selinux enforcing to permissive mode."
 setenforce 0
 
