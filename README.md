@@ -31,7 +31,7 @@ https://www.vagrantup.com/downloads.html
 
 https://github.com/dotless-de/vagrant-vbguest
 
-# Provisioning
+# Provision
 
 1. Navigate to the directory you want to work from.
 
@@ -43,6 +43,17 @@ https://github.com/dotless-de/vagrant-vbguest
 
 5. Have a drink.
 
-# Logging in
+# Log in
 
 From the directory with the `VagrantFile`, run `vagrant ssh`. You're in.
+
+# Edit hosts file
+
+This is necessary so that the environment can be accessed in a browser. Edit
+`/etc/hosts` to include the following line:
+
+`192.168.80.80 develop.vagrant.dev`
+
+On Windows machine, the file is located at `C:\Windows\System32\Drivers\etc\hosts`.
+
+Browse to the address at `develop.vagrant.dev` using `HTTP` or `HTTPS`.
