@@ -146,8 +146,8 @@ echo -e "Symlinking httpd and nginx vhosts files."
 # Move unnecessary default configs into bak directories.
 mkdir -pv /etc/httpd/conf.d/bak /etc/nginx/conf.d/bak
 mv /etc/nginx/conf.d/*.conf /etc/nginx/conf.d/bak/
-ln -nsfv /vagrant/httpd/develop.vagrant.dev.httpd.conf /etc/httpd/conf.d
-ln -nsfv /vagrant/nginx/develop.vagrant.dev.nginx.conf /etc/nginx/conf.d
+ln -nsfv /$PROJECT_ROOT/httpd/develop.vagrant.dev.httpd.conf /etc/httpd/conf.d
+ln -nsfv /$PROJECT_ROOT/nginx/develop.vagrant.dev.nginx.conf /etc/nginx/conf.d
 
 # Give permissions to fcgid wapper.
 #echo -e "Giving php.fcgi 777 permissions."
@@ -165,11 +165,11 @@ yum -y remove git && yum -y install git2u
 
 # Install dotfiles (perhaps move this to post-provision?)
 echo -e "\nInstalling Dane MacMillan's dotfiles. This will take a minute."
-echo -e "--------------------------------------------------"
+echo -e "--------------------------------------------------------------------------------"
 echo -e "Installing for 'root' user..."
 cd /root && git clone git@github.com:danemacmillan/dotfiles.git .dotfiles && cd .dotfiles && source bootstrap.sh &> /dev/null
 echo -e "Installing for '$USER_USER' user..."
-su $USER_USER -c "cd /home/vagrant && git clone git@github.com:danemacmillan/dotfiles.git .dotfiles && cd .dotfiles && source bootstrap.sh &> /dev/null"
+su $USER_USER -c "cd /home/$USER_USER && git clone git@github.com:danemacmillan/dotfiles.git .dotfiles && cd .dotfiles && source bootstrap.sh &> /dev/null"
 
 # Set permissions on regular user.
 echo -e "Setting permissions for $USER_USER:$USER_GROUP on /home/$USER_USER"
@@ -181,8 +181,8 @@ touch $VAGRANT_PROVISION_FIRST
 touch $VAGRANT_PROVISION_DONE
 yum -y clean all
 
-echo -e "\nProvisioning complete!"
-echo -e "--------------------------------------------------"
+echo -e "\n\nProvisioning complete!"
+echo -e "--------------------------------------------------------------------------------"
 echo "$PROJECT_ROOT provisioning complete."
 echo -e "\nDB:"
 echo "   User: '$DB_USER'@'%'"
@@ -197,21 +197,24 @@ echo "   User: $USER_USER"
 echo "   Group: $USER_GROUP"
 echo "   root access: 'sudo su'"
 echo "   guest :22 -> host :4444"
-echo "\Remember to set /etc/hosts (or C:\Windows\System32\Drivers\etc\hosts):"
+echo -e "\nRemember to set /etc/hosts (or C:\Windows\System32\Drivers\etc\hosts):"
 echo "   192.168.80.80 develop.vagrant.dev"
-echo -e "--------------------------------------------------\n"
+echo -e "\nFor any questions: Dane MacMillan <work@danemacmillan.com>"
+echo -e "This vagrant box was provisioned using: https://github.com/danemacmillan/vagrantshell"
+echo -e "It includes the following dotfiles: https://github.com/danemacmillan/dotfiles"
+echo -e "--------------------------------------------------------------------------------\n\n"
 
 
 # Post-provision
 # --------------
 
 # Execute scripts
-POST_PROVISION=/vagrant/post-provision/*.sh
+POST_PROVISION=/$PROJECT_ROOT/post-provision/*.sh
 shopt -s nullglob
 for pp in $POST_PROVISION
 do
 	if [[ -f "$pp" ]]; then
-		echo "Running post-provision script: $pp"
+		echo -e "Running post-provision script: $pp\n"
 		source "$pp"
 	fi
 done
@@ -219,12 +222,12 @@ done
 echo " "
 
 # Import sql files
-DB_DUMP=/$PROJECT_ROOT/db/*.sql
+DB_DUMP=/$PROJECT_ROOT/post-provision/*.sql
 shopt -s nullglob
 for dbdump in $DB_DUMP
 do
 	if [[ -f "$dbdump" ]]; then
-		echo "Importing sql file into DB $DB_NAME: $dbdump"
+		echo -e "Importing sql file into DB $DB_NAME: $dbdump\n"
 		mysql -u $DB_USER --password="$DB_PASS" $DB_NAME < "$dbdump"
 	fi
 done
