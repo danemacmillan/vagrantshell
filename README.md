@@ -37,7 +37,7 @@ If you are on Windows and this does not work, just move on.
 
 1. Navigate to the directory you want to work from.
 
-2. `git clone` this repo.
+2. `git clone git@github.com:danemacmillan/vagrantshell.git` or `git clone https://github.com/danemacmillan/vagrantshell.git` (if you do not have SSH keys).
 
 3. `cd` into it.
 
