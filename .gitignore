@@ -27,3 +27,9 @@ nbproject/
 
 ## Vagrant
 .vagrant/
+
+## sites
+# Ignore them all, except for the default. Make sure project files not added,
+# so that vagrantshell can be updated without conflicts.
+sites/
+!sites/develop/phpinfo.php
