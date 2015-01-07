@@ -15,7 +15,6 @@ USER_GROUP=$USER_USER
 DB_NAME="develop"
 DB_USER="root"
 DB_PASS=""
-DB_DUMP=/$PROJECT_ROOT/db/*.sql
 
 # Generate provision files to prevent rebuilding every time.
 VAGRANT_PROVISION_FIRST="/$PROJECT_ROOT/tmp/vagrant-provision.first"
@@ -64,7 +63,7 @@ fi;
 
 yum -y groupinstall "Development Tools"
 yum -y install \
-zlib-devel vim-common vim-enhanced vim-minimal htop mytop nmap at yum-utils \
+zlib-devel vim vim-common vim-enhanced vim-minimal htop mytop nmap at yum-utils \
 openssl openssl-devel curl libcurl libcurl-devel lsof tmux bash-completion \
 weechat gpg rpm-build rpm-devel autoconf automake lynx gcc httpd httpd-devel \
 mod_ssl mod_fcgid mod_geoip memcached memcached-devel nginx npm \
@@ -135,18 +134,10 @@ while ! service mysql status | grep -q running; do
 	sleep 1
 done
 
-# Set database user and import tables
+# Set database user credentials
 echo "Setting up DB, and granting all privileges to '$DB_USER'@'%'."
 mysql -u $DB_USER --password="$DB_PASS" -e "GRANT ALL PRIVILEGES ON *.* TO '$DB_USER'@'%' WITH GRANT OPTION"
 mysql -u $DB_USER --password="$DB_PASS" -e "DROP DATABASE IF EXISTS $DB_NAME; CREATE DATABASE $DB_NAME"
-shopt -s nullglob
-for dbdump in $DB_DUMP
-do
-	if [[ -f "$dbdump" ]]; then
-		echo "Importing $dbdump..."
-		mysql -u $DB_USER --password="$DB_PASS" $DB_NAME < "$dbdump"
-	fi
-done
 
 # Append httpd.conf
 #echo "Appending httpd.conf file"
@@ -172,14 +163,16 @@ echo -e "Restarting servers to use vhost configs."
 echo -e 'Updating Git.'
 yum -y remove git && yum -y install git2u
 
-# Install dotfiles
-echo -e "Installing Dane MacMillan's dotfiles."
-echo -e "Installing for root..."
+# Install dotfiles (perhaps move this to post-provision?)
+echo -e "\nInstalling Dane MacMillan's dotfiles. This will take a minute."
+echo -e "--------------------------------------------------"
+echo -e "Installing for 'root' user..."
 cd /root && git clone git@github.com:danemacmillan/dotfiles.git .dotfiles && cd .dotfiles && source bootstrap.sh &> /dev/null
-echo -e "Installing for $USER_USER..."
-su vagrant bash -c 'cd /home/vagrant && git clone git@github.com:danemacmillan/dotfiles.git .dotfiles && cd .dotfiles && source bootstrap.sh &> /dev/null'
+echo -e "Installing for '$USER_USER' user..."
+su $USER_USER -c "cd /home/vagrant && git clone git@github.com:danemacmillan/dotfiles.git .dotfiles && cd .dotfiles && source bootstrap.sh &> /dev/null"
 
-echo -e "Setting permissions for $USER_USER:$USER_GROUP."
+# Set permissions on regular user.
+echo -e "Setting permissions for $USER_USER:$USER_GROUP on /home/$USER_USER"
 chown -R $USER_USER:$USER_GROUP /home/$USER_USER
 
 # Generate install files to prevent reinstalls.
@@ -204,14 +197,15 @@ echo "   User: $USER_USER"
 echo "   Group: $USER_GROUP"
 echo "   root access: 'sudo su'"
 echo "   guest :22 -> host :4444"
-echo "Remember to set /etc/hosts (or C:\Windows\System32\Drivers\etc\hosts):"
+echo "\Remember to set /etc/hosts (or C:\Windows\System32\Drivers\etc\hosts):"
 echo "   192.168.80.80 develop.vagrant.dev"
-echo -e "\n Dotfiles for better shell usage:"
-echo "   https://github.com/danemacmillan/dotfiles"
-#echo -e "cd /home/vagrant git clone git@github.com:danemacmillan/dotfiles.git .dotfiles && cd .dotfiles && source bootstrap.sh"
 echo -e "--------------------------------------------------\n"
 
+
 # Post-provision
+# --------------
+
+# Execute scripts
 POST_PROVISION=/vagrant/post-provision/*.sh
 shopt -s nullglob
 for pp in $POST_PROVISION
@@ -219,6 +213,19 @@ do
 	if [[ -f "$pp" ]]; then
 		echo "Running post-provision script: $pp"
 		source "$pp"
+	fi
+done
+
+echo " "
+
+# Import sql files
+DB_DUMP=/$PROJECT_ROOT/db/*.sql
+shopt -s nullglob
+for dbdump in $DB_DUMP
+do
+	if [[ -f "$dbdump" ]]; then
+		echo "Importing sql file into DB $DB_NAME: $dbdump"
+		mysql -u $DB_USER --password="$DB_PASS" $DB_NAME < "$dbdump"
 	fi
 done
 
