@@ -58,7 +58,10 @@ This is necessary so that the environment can be accessed in a browser. Edit
 
 On Windows machine, the file is located at `C:\Windows\System32\Drivers\etc\hosts`.
 
-Browse to the address at `develop.vagrant.dev` using `HTTP` or `HTTPS`.
+# Access from Web browser
+
+Browse to the address at `develop.vagrant.dev` using `HTTP` or `HTTPS`. This
+will work so long as the hosts file has been updated.
 
 # Development
 
