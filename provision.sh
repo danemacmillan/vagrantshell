@@ -10,10 +10,12 @@ PROJECT_ROOT="vagrant"
 #ln -nsfv /vagrant /$PROJECT_ROOT
 
 # Create project variables
+USER_USER="vagrant"
+USER_GROUP=$USER_USER
 DB_NAME="develop"
 DB_USER="root"
 DB_PASS=""
-DB_DUMP="/$PROJECT_ROOT/db/*.sql"
+DB_DUMP=/$PROJECT_ROOT/db/*.sql
 
 # Generate provision files to prevent rebuilding every time.
 VAGRANT_PROVISION_FIRST="/$PROJECT_ROOT/tmp/vagrant-provision.first"
@@ -87,13 +89,13 @@ mv composer.phar /usr/local/bin/composer
 # SSH
 echo -e "Copying Vagrant SSH keys."
 mkdir -pv ~/.ssh
-mkdir -pv /home/vagrant/.ssh
+mkdir -pv /home/$USER_USER/.ssh
 cp -rf /$PROJECT_ROOT/ssh/* ~/.ssh/
-cp -rf /$PROJECT_ROOT/ssh/* /home/vagrant/.ssh/
+cp -rf /$PROJECT_ROOT/ssh/* /home/$USER_USER/.ssh/
 chmod 700 ~/.ssh
 chmod 600 ~/.ssh/*
-chmod 700 /home/vagrant/.ssh
-chmod 600 /home/vagrant/.ssh/*
+chmod 700 /home/$USER_USER/.ssh
+chmod 600 /home/$USER_USER/.ssh/*
 
 # Installing PECL Scrypt extension for PHP...
 echo "Installing PECL Scrypt extension for PHP."
@@ -136,11 +138,14 @@ mysql -u $DB_USER --password="$DB_PASS" -e "DROP DATABASE IF EXISTS $DB_NAME; CR
 #if [[ -f $DB_DUMP ]]; then
 #	mysql -u $DB_USER --password="$DB_PASS" $DB_NAME < $DB_DUMP
 #fi
-#for dbdump in $DB_DUMP
-#do
-#  echo "Importing $dbdump..."
-#  mysql -u $DB_USER --password="$DB_PASS" $DB_NAME < $dbdump
-#done
+shopt -s nullglob
+for dbdump in $DB_DUMP
+do
+	if [[ -f "$dbdump" ]]; then
+		echo "Importing $dbdump..."
+		mysql -u $DB_USER --password="$DB_PASS" $DB_NAME < "$dbdump"
+	fi
+done
 
 # Append httpd.conf
 #echo "Appending httpd.conf file"
@@ -168,11 +173,11 @@ yum -y remove git && yum -y install git2u
 
 # Install dotfiles
 #echo -e "Installing Dane MacMillan's dotfiles."
-cd /root && git clone git@github.com:danemacmillan/dotfiles.git .dotfiles && cd .dotfiles && source bootstrap.sh
-cd /home/vagrant && git clone git@github.com:danemacmillan/dotfiles.git .dotfiles && cd .dotfiles && source bootstrap.sh
+cd /root && git clone git@github.com:danemacmillan/dotfiles.git .dotfiles && cd .dotfiles && source bootstrap.sh &> /dev/null
+cd /home/vagrant && git clone git@github.com:danemacmillan/dotfiles.git .dotfiles && cd .dotfiles && source bootstrap.sh &> /dev/null
 
-echo -e "Setting permissions for vagrant:vagrant."
-chown -R vagrant:vagrant /home/vagrant
+echo -e "Setting permissions for $USER_USER:$USER_GROUP."
+chown -R $USER_USER:$USER_GROUP /home/$USER_USER
 
 # Generate install files to prevent reinstalls.
 echo -e "Cleaning install."
@@ -192,6 +197,9 @@ echo -e "\nWeb:"
 echo "   guest :80 -> host :80"
 echo "   guest :443 -> host :443"
 echo -e "\nSSH:"
+echo "   User: $USER_USER"
+echo "   Group: $USER_GROUP"
+echo "   root access: 'sudo su'"
 echo "   guest :22 -> host :4444"
 echo "Remember to set /etc/hosts (or C:\Windows\System32\Drivers\etc\hosts):"
 echo "   192.168.80.80 develop.vagrant.dev"
@@ -200,13 +208,16 @@ echo "   https://github.com/danemacmillan/dotfiles"
 #echo -e "cd /home/vagrant git clone git@github.com:danemacmillan/dotfiles.git .dotfiles && cd .dotfiles && source bootstrap.sh"
 echo -e "--------------------------------------------------\n"
 
-#echo -e "Running additional shell code, if any:"
-#FILES="/vagrant/post-provision/*.sh"
-#for f in $FILES
-#do
-#  echo "Sourcing $f..."
-#  source $f
-#done
+echo -e "Running additional shell code, if any:"
+POST_PROVISION=/vagrant/post-provision/*.sh
+shopt -s nullglob
+for pp in $POST_PROVISION
+do
+	if [[ -f "$pp" ]]; then
+		echo "Sourcing $pp..."
+		source "$pp"
+	fi
+done
 
 
 
