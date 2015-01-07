@@ -178,8 +178,9 @@ chown -R $USER_USER:$USER_GROUP /home/$USER_USER
 # Set permissions on /vagrant
 # Note: since moving to CentOS 6.6 basebox, the permissions have not worked by
 # default, so nginx could not read
-echo -e "Setting permissions on /$PROJECT_ROOT"
-chmod -R 764 /$PROJECT_ROOT
+# This was done before realizing selinux setenforce 1 was responsible.
+#echo -e "Setting permissions on /$PROJECT_ROOT"
+#chmod -R 764 /$PROJECT_ROOT
 
 # Generate install files to prevent reinstalls.
 echo -e "Cleaning install."
