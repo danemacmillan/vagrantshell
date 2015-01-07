@@ -174,6 +174,10 @@ chown -R $USER_USER:$USER_GROUP /home/$USER_USER
 echo -e "Setting permissions on /$PROJECT_ROOT"
 chmod -R 764 /$PROJECT_ROOT
 
+# This is done because for a virtual environment, we do not want SELINUX to be
+# overriding permissions.
+echo -e "Setting selinux enforcing to permissive mode."
+setenforce 0
 
 # Generate install files to prevent reinstalls.
 echo -e "Cleaning install."
