@@ -33,7 +33,7 @@ https://github.com/dotless-de/vagrant-vbguest
 
 If you are on Windows and this does not work, just move on.
 
-# Provision
+# Provision (multiple steps)
 
 1. Navigate to the directory you want to work from.
 
@@ -44,6 +44,10 @@ If you are on Windows and this does not work, just move on.
 4. `vagrant up` where `VagrantFile` exists.
 
 5. Wait for everything to install. This can take about ten minutes, depending on the connection.
+
+## Or in one step
+
+`git clone https://github.com/danemacmillan/vagrantshell.git && cd vagrantshell && vagrant up`
 
 # Log in
 
