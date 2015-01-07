@@ -208,7 +208,7 @@ echo "   https://github.com/danemacmillan/dotfiles"
 #echo -e "cd /home/vagrant git clone git@github.com:danemacmillan/dotfiles.git .dotfiles && cd .dotfiles && source bootstrap.sh"
 echo -e "--------------------------------------------------\n"
 
-echo -e "Running additional shell code, if any:"
+echo -e "Running post-provision scripts, if any."
 POST_PROVISION=/vagrant/post-provision/*.sh
 shopt -s nullglob
 for pp in $POST_PROVISION
