@@ -136,11 +136,11 @@ mysql -u $DB_USER --password="$DB_PASS" -e "DROP DATABASE IF EXISTS $DB_NAME; CR
 #if [[ -f $DB_DUMP ]]; then
 #	mysql -u $DB_USER --password="$DB_PASS" $DB_NAME < $DB_DUMP
 #fi
-for dbdump in $DB_DUMP
-do
-  echo "Importing $dbdump..."
-  mysql -u $DB_USER --password="$DB_PASS" $DB_NAME < $dbdump
-done
+#for dbdump in $DB_DUMP
+#do
+#  echo "Importing $dbdump..."
+#  mysql -u $DB_USER --password="$DB_PASS" $DB_NAME < $dbdump
+#done
 
 # Append httpd.conf
 #echo "Appending httpd.conf file"
@@ -200,13 +200,13 @@ echo "   https://github.com/danemacmillan/dotfiles"
 #echo -e "cd /home/vagrant git clone git@github.com:danemacmillan/dotfiles.git .dotfiles && cd .dotfiles && source bootstrap.sh"
 echo -e "--------------------------------------------------\n"
 
-echo -e "Running additional shell code, if any:"
-FILES="/vagrant/post-provision/*.sh"
-for f in $FILES
-do
-  echo "Sourcing $f..."
-  source $f
-done
+#echo -e "Running additional shell code, if any:"
+#FILES="/vagrant/post-provision/*.sh"
+#for f in $FILES
+#do
+#  echo "Sourcing $f..."
+#  source $f
+#done
 
 
 
