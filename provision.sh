@@ -90,7 +90,9 @@ mkdir -pv ~/.ssh
 mkdir -pv /home/vagrant/.ssh
 cp -rf /$PROJECT_ROOT/ssh/* ~/.ssh/
 cp -rf /$PROJECT_ROOT/ssh/* /home/vagrant/.ssh/
+chmod 700 ~/.ssh
 chmod 600 ~/.ssh/*
+chmod 700 /home/vagrant/.ssh
 chmod 600 /home/vagrant/.ssh/*
 
 # Installing PECL Scrypt extension for PHP...
@@ -168,6 +170,9 @@ yum -y remove git && yum -y install git2u
 #echo -e "Installing Dane MacMillan's dotfiles."
 cd /root && git clone git@github.com:danemacmillan/dotfiles.git .dotfiles && cd .dotfiles && source bootstrap.sh
 cd /home/vagrant && git clone git@github.com:danemacmillan/dotfiles.git .dotfiles && cd .dotfiles && source bootstrap.sh
+
+echo -e "Setting permissions for vagrant:vagrant."
+chown -R vagrant:vagrant /home/vagrant
 
 # Generate install files to prevent reinstalls.
 echo -e "Cleaning install."
