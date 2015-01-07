@@ -11,3 +11,5 @@ su $USER_USER -c "cd /home/$USER_USER && git clone git@github.com:danemacmillan/
 # Set permissions on regular user.
 echo -e "Setting permissions for $USER_USER:$USER_GROUP on /home/$USER_USER"
 chown -R $USER_USER:$USER_GROUP /home/$USER_USER
+
+echo -e "\ndotfiles installed successfully!"

@@ -195,7 +195,8 @@ echo "   192.168.80.80 develop.vagrant.dev"
 echo -e "\nFor any questions: Dane MacMillan <work@danemacmillan.com>"
 echo -e "This vagrant box was provisioned using: https://github.com/danemacmillan/vagrantshell"
 echo -e "--------------------------------------------------------------------------------"
-
+echo " "
+echo " "
 
 # Post-provision
 # --------------
