@@ -13,7 +13,7 @@ PROJECT_ROOT="vagrant"
 DB_NAME="develop"
 DB_USER="root"
 DB_PASS=""
-DB_DUMP="/$PROJECT_ROOT/db/latest.sql"
+DB_DUMP="/$PROJECT_ROOT/db/*.sql"
 
 # Generate provision files to prevent rebuilding every time.
 VAGRANT_PROVISION_FIRST="/$PROJECT_ROOT/tmp/vagrant-provision.first"
@@ -131,9 +131,14 @@ done
 echo "Setting up DB, and granting all privileges to '$DB_USER'@'%'."
 mysql -u $DB_USER --password="$DB_PASS" -e "GRANT ALL PRIVILEGES ON *.* TO '$DB_USER'@'%' WITH GRANT OPTION"
 mysql -u $DB_USER --password="$DB_PASS" -e "DROP DATABASE IF EXISTS $DB_NAME; CREATE DATABASE $DB_NAME"
-if [[ -f $DB_DUMP ]]; then
-	mysql -u $DB_USER --password="$DB_PASS" $DB_NAME < $DB_DUMP
-fi
+#if [[ -f $DB_DUMP ]]; then
+#	mysql -u $DB_USER --password="$DB_PASS" $DB_NAME < $DB_DUMP
+#fi
+for dbdump in $DB_DUMP
+do
+  echo "Importing $dbdump..."
+  mysql -u $DB_USER --password="$DB_PASS" $DB_NAME < $dbdump
+done
 
 # Append httpd.conf
 #echo "Appending httpd.conf file"
@@ -171,23 +176,41 @@ touch $VAGRANT_PROVISION_DONE
 yum -y clean all
 
 echo -e "\nProvisioning complete!"
-echo -e "-------------------------"
+echo -e "--------------------------------------------------"
 echo "$PROJECT_ROOT provisioning complete."
-echo "DB:"
-echo " - User: '$DB_USER'@'%'"
-echo " - Pass: $DB_PASS"
-echo " - Addr: 192.168.80.80"
-echo " - Port: guest 3306 -> host 3306"
-echo "Web:"
-echo " - guest *:80 -> host 80"
-echo " - guest *:443 -> host 443"
-echo " "
+echo -e "\nDB:"
+echo "   User: '$DB_USER'@'%'"
+echo "   Pass: $DB_PASS"
+echo "   Addr: 192.168.80.80"
+echo "   Port: guest 3306 -> host 3306"
+echo -e "\nWeb:"
+echo "   guest :80 -> host :80"
+echo "   guest :443 -> host :443"
+echo -e "\nSSH:"
+echo "   guest :22 -> host :4444"
 echo "Remember to set /etc/hosts (or C:\Windows\System32\Drivers\etc\hosts):"
-echo "192.168.80.80 develop.vagrant.dev"
-echo " "
-echo -e "\n Dotfiles (for better shell usage): "
-echo -e "cd /home/vagrant git clone git@github.com:danemacmillan/dotfiles.git .dotfiles && cd .dotfiles && source bootstrap.sh"
-echo "-------------------------\n"
+echo "   192.168.80.80 develop.vagrant.dev"
+echo -e "\n Dotfiles for better shell usage:"
+echo "   https://github.com/danemacmillan/dotfiles"
+#echo -e "cd /home/vagrant git clone git@github.com:danemacmillan/dotfiles.git .dotfiles && cd .dotfiles && source bootstrap.sh"
+echo -e "--------------------------------------------------\n"
+
+echo -e "Running additional shell code, if any:"
+FILES="/vagrant/post-provision/*.sh"
+for f in $FILES
+do
+  echo "Sourcing $f..."
+  source $f
+done
+
+
+
+
+
+
+
+
+
 # to change hostname
 # vi /etc/sysconfig/network
 # HOSTNAME=vagrant.dev
