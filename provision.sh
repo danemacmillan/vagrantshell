@@ -142,6 +142,7 @@ mysql -u $DB_USER --password="$DB_PASS" -e "DROP DATABASE IF EXISTS $DB_NAME; CR
 # Append httpd.conf
 #echo "Appending httpd.conf file"
 #bash -c "echo 'Include /vagrant/httpd/*.httpd.conf' >> /etc/httpd/conf/httpd.conf"
+
 echo -e "Symlinking httpd and nginx vhosts files."
 # Move unnecessary default configs into bak directories.
 mkdir -pv /etc/httpd/conf.d/bak /etc/nginx/conf.d/bak
@@ -202,24 +203,12 @@ echo "   192.168.80.80 develop.vagrant.dev"
 echo -e "\nFor any questions: Dane MacMillan <work@danemacmillan.com>"
 echo -e "This vagrant box was provisioned using: https://github.com/danemacmillan/vagrantshell"
 echo -e "It includes the following dotfiles: https://github.com/danemacmillan/dotfiles"
-echo -e "--------------------------------------------------------------------------------\n\n"
+echo -e "--------------------------------------------------------------------------------"
+echo " "
 
 
 # Post-provision
 # --------------
-
-# Execute scripts
-POST_PROVISION=/$PROJECT_ROOT/post-provision/*.sh
-shopt -s nullglob
-for pp in $POST_PROVISION
-do
-	if [[ -f "$pp" ]]; then
-		echo -e "Running post-provision script: $pp\n"
-		source "$pp"
-	fi
-done
-
-echo " "
 
 # Import sql files
 DB_DUMP=/$PROJECT_ROOT/post-provision/*.sql
@@ -227,10 +216,27 @@ shopt -s nullglob
 for dbdump in $DB_DUMP
 do
 	if [[ -f "$dbdump" ]]; then
-		echo -e "Importing sql file into DB $DB_NAME: $dbdump\n"
+		echo -e "Importing sql file into DB $DB_NAME: $dbdump"
+		echo " "
 		mysql -u $DB_USER --password="$DB_PASS" $DB_NAME < "$dbdump"
 	fi
 done
+
+echo " "
+
+# Execute scripts
+POST_PROVISION=/$PROJECT_ROOT/post-provision/*.sh
+shopt -s nullglob
+for pp in $POST_PROVISION
+do
+	if [[ -f "$pp" ]]; then
+		echo -e "Running post-provision script: $pp"
+		echo " "
+		source "$pp"
+	fi
+done
+
+
 
 
 
