@@ -69,6 +69,11 @@ By default, the server parses documents from `/vagrant/sites/develop`. You can
 create additional vhosts under `/vagrant/sites` to test different codebases. On
 your host machine, go to `/your/local/path/sites/develop` to make changes.
 
+# Post-provision
+
+Read the `README.md` in `post-provision` to see how post-provision scripts and
+DB imports work.
+
 # Dependencies
 
 This vagrant provision includes the following dotfiles:
@@ -76,8 +81,3 @@ This vagrant provision includes the following dotfiles:
 https://github.com/danemacmillan/dotfiles
 
 It is installed during post-provision.
-
-# Post-provision
-
-Read the `README.md` in `post-provision` to see how post-provision scripts and
-DB imports work.
