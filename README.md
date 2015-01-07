@@ -31,17 +31,19 @@ https://www.vagrantup.com/downloads.html
 
 https://github.com/dotless-de/vagrant-vbguest
 
+If you are on Windows and this does not work, just move on.
+
 # Provision
 
 1. Navigate to the directory you want to work from.
 
-2. Clone this repo.
+2. `git clone` this repo.
 
 3. `cd` into it.
 
-4. `vagrant up`
+4. `vagrant up` where `VagrantFile` exists.
 
-5. Have a drink.
+5. Wait for everything to install. This can take about ten minutes, depending on the connection.
 
 # Log in
 
