@@ -92,6 +92,10 @@ mkdir -pv ~/.ssh
 mkdir -pv /home/$USER_USER/.ssh
 cp -rf /$PROJECT_ROOT/ssh/* ~/.ssh/
 cp -rf /$PROJECT_ROOT/ssh/* /home/$USER_USER/.ssh/
+
+# Permissions
+echo -e "Setting permissions for $USER_USER:$USER_GROUP and root:root."
+chown -R $USER_USER:$USER_GROUP /home/$USER_USER
 chmod 700 ~/.ssh
 chmod 600 ~/.ssh/*
 chmod 700 /home/$USER_USER/.ssh
@@ -135,9 +139,6 @@ done
 echo "Setting up DB, and granting all privileges to '$DB_USER'@'%'."
 mysql -u $DB_USER --password="$DB_PASS" -e "GRANT ALL PRIVILEGES ON *.* TO '$DB_USER'@'%' WITH GRANT OPTION"
 mysql -u $DB_USER --password="$DB_PASS" -e "DROP DATABASE IF EXISTS $DB_NAME; CREATE DATABASE $DB_NAME"
-#if [[ -f $DB_DUMP ]]; then
-#	mysql -u $DB_USER --password="$DB_PASS" $DB_NAME < $DB_DUMP
-#fi
 shopt -s nullglob
 for dbdump in $DB_DUMP
 do
@@ -167,14 +168,16 @@ echo -e "Restarting servers to use vhost configs."
 /etc/init.d/nginx restart
 /etc/init.d/php-fpm restart
 
-#
+# Git update. Note: git2u may change with IUS repo.
 echo -e 'Updating Git.'
 yum -y remove git && yum -y install git2u
 
 # Install dotfiles
-#echo -e "Installing Dane MacMillan's dotfiles."
+echo -e "Installing Dane MacMillan's dotfiles."
+echo -e "Installing for root..."
 cd /root && git clone git@github.com:danemacmillan/dotfiles.git .dotfiles && cd .dotfiles && source bootstrap.sh &> /dev/null
-cd /home/vagrant && git clone git@github.com:danemacmillan/dotfiles.git .dotfiles && cd .dotfiles && source bootstrap.sh &> /dev/null
+echo -e "Installing for $USER_USER..."
+su vagrant bash -c 'cd /home/vagrant && git clone git@github.com:danemacmillan/dotfiles.git .dotfiles && cd .dotfiles && source bootstrap.sh &> /dev/null'
 
 echo -e "Setting permissions for $USER_USER:$USER_GROUP."
 chown -R $USER_USER:$USER_GROUP /home/$USER_USER
@@ -208,13 +211,13 @@ echo "   https://github.com/danemacmillan/dotfiles"
 #echo -e "cd /home/vagrant git clone git@github.com:danemacmillan/dotfiles.git .dotfiles && cd .dotfiles && source bootstrap.sh"
 echo -e "--------------------------------------------------\n"
 
-echo -e "Running post-provision scripts, if any."
+# Post-provision
 POST_PROVISION=/vagrant/post-provision/*.sh
 shopt -s nullglob
 for pp in $POST_PROVISION
 do
 	if [[ -f "$pp" ]]; then
-		echo "Sourcing $pp..."
+		echo "Running post-provision script: $pp"
 		source "$pp"
 	fi
 done
