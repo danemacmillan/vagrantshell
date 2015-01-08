@@ -14,7 +14,11 @@ setenforce 0
 
 # Create symlink to vagrant document root for given project.
 PROJECT_ROOT="vagrant"
-#ln -nsfv /vagrant /$PROJECT_ROOT
+
+# Create empty develop dir in sites/
+PROJECT_VHOST_DIR="develop"
+mkdir -pv /vagrant/sites/$PROJECT_VHOST_DIR
+#ln -nsfv /vagrant-$PROJECT_VHOST_DIR /vagrant/sites/$PROJECT_VHOST_DIR
 
 # Create project variables
 USER_USER="vagrant"
@@ -154,7 +158,10 @@ echo -e "Symlinking httpd and nginx vhosts files."
 # Move unnecessary default configs into bak directories.
 mkdir -pv /etc/httpd/conf.d/bak /etc/nginx/conf.d/bak
 mv /etc/nginx/conf.d/*.conf /etc/nginx/conf.d/bak/
+# apache
 ln -nsfv /$PROJECT_ROOT/httpd/develop.vagrant.dev.httpd.conf /etc/httpd/conf.d
+# nginx
+ln -nsfv /$PROJECT_ROOT/nginx/vagrant.dev.nginx.conf /etc/nginx/conf.d
 ln -nsfv /$PROJECT_ROOT/nginx/develop.vagrant.dev.nginx.conf /etc/nginx/conf.d
 
 # Give permissions to fcgid wapper.
