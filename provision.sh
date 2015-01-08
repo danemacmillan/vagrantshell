@@ -152,10 +152,7 @@ echo "Setting up DB, and granting all privileges to '$DB_USER'@'%'."
 mysql -u $DB_USER --password="$DB_PASS" -e "GRANT ALL PRIVILEGES ON *.* TO '$DB_USER'@'%' WITH GRANT OPTION"
 mysql -u $DB_USER --password="$DB_PASS" -e "DROP DATABASE IF EXISTS $DB_NAME; CREATE DATABASE $DB_NAME"
 
-# Append httpd.conf
-#echo "Appending httpd.conf file"
-#bash -c "echo 'Include /vagrant/httpd/*.httpd.conf' >> /etc/httpd/conf/httpd.conf"
-
+#
 echo -e "Symlinking httpd and nginx vhosts files."
 # Move unnecessary default configs into bak directories.
 mkdir -pv /etc/httpd/conf.d/bak /etc/nginx/conf.d/bak
@@ -165,10 +162,6 @@ ln -nsfv /$PROJECT_ROOT/httpd/develop.vagrant.dev.httpd.conf /etc/httpd/conf.d
 # nginx
 ln -nsfv /$PROJECT_ROOT/nginx/vagrant.dev.nginx.conf /etc/nginx/conf.d
 ln -nsfv /$PROJECT_ROOT/nginx/develop.vagrant.dev.nginx.conf /etc/nginx/conf.d
-
-# Give permissions to fcgid wapper.
-#echo -e "Giving php.fcgi 777 permissions."
-#chmod 777 /$PROJECT_ROOT/include/config/httpdconf/dev/fastcgi/php.fcgi
 
 # Restart httpd for new configs and fcgid wrapper
 echo -e "Restarting servers to use vhost configs."
@@ -184,25 +177,30 @@ yum -y remove git && yum -y install git2u
 echo -e "Setting permissions for $USER_USER:$USER_GROUP on /home/$USER_USER"
 chown -R $USER_USER:$USER_GROUP /home/$USER_USER
 
-# Set permissions on /vagrant
-# Note: since moving to CentOS 6.6 basebox, the permissions have not worked by
-# default, so nginx could not read
-# This was done before realizing selinux setenforce 1 was responsible.
-#echo -e "Setting permissions on /$PROJECT_ROOT"
-#chmod -R 764 /$PROJECT_ROOT
-
 # Generate install files to prevent reinstalls.
 echo -e "Cleaning install."
 touch $VAGRANT_PROVISION_FIRST
 touch $VAGRANT_PROVISION_DONE
 yum -y clean all
 
+echo " "
+echo " "
+echo " "
+echo " "
+echo " "
+echo " "
+echo " "
+echo " "
+echo " "
+echo " "
+echo " "
 echo -e "\n\nProvisioning complete!"
 echo -e "--------------------------------------------------------------------------------"
 echo "$PROJECT_ROOT provisioning complete."
 echo -e "\nDB:"
 echo "   User: '$DB_USER'@'%'"
 echo "   Pass: $DB_PASS"
+echo "   DBName: $DB_NAME"
 echo "   Addr: 192.168.80.80"
 echo "   Port: guest 3306 -> host 3306"
 echo -e "\nWeb:"
@@ -214,10 +212,18 @@ echo "   Group: $USER_GROUP"
 echo "   root access: 'sudo su'"
 echo "   guest :22 -> host :4444"
 echo -e "\nRemember to set /etc/hosts (or C:\Windows\System32\Drivers\etc\hosts):"
-echo "   192.168.80.80 develop.vagrant.dev"
+echo "   192.168.80.80 vagrant.dev develop.vagrant.dev"
 echo -e "\nFor any questions: Dane MacMillan <work@danemacmillan.com>"
 echo -e "This vagrant box was provisioned using: https://github.com/danemacmillan/vagrantshell"
 echo -e "--------------------------------------------------------------------------------"
+echo " "
+echo " "
+echo " "
+echo " "
+echo " "
+echo " "
+echo " "
+echo " "
 echo " "
 echo " "
 
@@ -270,3 +276,13 @@ done
 #to change to httpd worker
 #/etc/sysconfig/httpd
 #uncomment the worker line.
+
+# Extra
+
+# Append httpd.conf
+#echo "Appending httpd.conf file"
+#bash -c "echo 'Include /vagrant/httpd/*.httpd.conf' >> /etc/httpd/conf/httpd.conf"
+
+# Give permissions to fcgid wapper.
+#echo -e "Giving php.fcgi 777 permissions."
+#chmod 777 /$PROJECT_ROOT/include/config/httpdconf/dev/fastcgi/php.fcgi
