@@ -41,11 +41,16 @@ If you are on Windows and this does not work, just move on.
 
 3. `cd` into it.
 
-4. `vagrant up` where `VagrantFile` exists.
+4. Copy any post-provision scripts or SQL dumps into `post-provision`. These
+will be files used to build the actual project you want to develop. Without
+these, the vagrantshell will just be a hosting environment ready to start new
+projects.
 
-5. Wait for everything to install. This can take about ten minutes, depending on the connection.
+5. `vagrant up` where `VagrantFile` exists.
 
-## Or in one step
+6. Wait for everything to install. This can take about ten minutes, depending on the connection.
+
+## Or in one step (without post-provision additions)
 
 `git clone https://github.com/danemacmillan/vagrantshell.git && cd vagrantshell && vagrant up`
 
