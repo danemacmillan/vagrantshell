@@ -87,7 +87,8 @@ $PHP_VERSION-mysql $PHP_VERSION-pear $PHP_VERSION-pecl-memcache \
 $PHP_VERSION-pecl-memcache-debuginfo $PHP_VERSION-pecl-xdebug \
 $PHP_VERSION-xml $PHP_VERSION-pdo $PHP_VERSION-fpm $PHP_OPCODE_VERSION \
 $PHP_VERSION-pecl-redis redis \
-Percona-Server-client-56 Percona-Server-server-56
+Percona-Server-client-56 Percona-Server-server-56 \
+mysql-utilities mysqlreport mysqltuner percona-toolkit percona-xtrabackup
 
 # SPDY depends on "at" and "httpd"
 echo "Installing SPDY..."
