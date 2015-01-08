@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
-set -e
+## Develop with errors on.
+#set -e
 
 #
 # Vagrant bootstrap file for building development environment.
