@@ -255,15 +255,7 @@ do
 	fi
 done
 
-
-
-
-
-
-
-
-
-
+# Extra
 
 # to change hostname
 # vi /etc/sysconfig/network
@@ -276,8 +268,6 @@ done
 #to change to httpd worker
 #/etc/sysconfig/httpd
 #uncomment the worker line.
-
-# Extra
 
 # Append httpd.conf
 #echo "Appending httpd.conf file"
