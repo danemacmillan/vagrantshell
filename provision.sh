@@ -238,7 +238,7 @@ for dbdump in $DB_DUMP
 do
 	if [[ -f "$dbdump" ]]; then
 		echo -e "Importing sql file into DB $DB_NAME: $dbdump"
-		mysql -u $DB_USER --password="$DB_PASS" $DB_NAME < "$dbdump"
+		mysql -u $DB_USER --password="$DB_PASS" -f $DB_NAME < "$dbdump"
 		echo " "
 	fi
 done
