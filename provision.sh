@@ -164,6 +164,10 @@ ln -nsfv /$PROJECT_ROOT/httpd/develop.vagrant.dev.httpd.conf /etc/httpd/conf.d
 ln -nsfv /$PROJECT_ROOT/nginx/vagrant.dev.nginx.conf /etc/nginx/conf.d
 ln -nsfv /$PROJECT_ROOT/nginx/develop.vagrant.dev.nginx.conf /etc/nginx/conf.d
 
+# For shitty code, turn on PHP's short_open_tags
+echo -e "Setting short_open_tag on."
+sed -i -e 's/short_open_tag = Off/short_open_tag = On/g' /etc/php.ini
+
 # Restart httpd for new configs and fcgid wrapper
 echo -e "Restarting servers to use vhost configs."
 /etc/init.d/httpd stop
