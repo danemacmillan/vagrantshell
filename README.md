@@ -94,3 +94,7 @@ It is installed during post-provision.
 # Author
 
 [Dane MacMillan](https://danemacmillan.com)
+
+# License
+
+MIT 2015
