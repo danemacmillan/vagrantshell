@@ -74,7 +74,9 @@ if [ $PHP_VERSION == "php55u" ]; then
 	PHP_OPCODE_VERSION="$PHP_VERSION-opcache"
 fi;
 
-yum -y groupinstall "Development Tools"
+yum -y --setopt=group_package_types=mandatory,default,optional groupinstall \
+"Base" "Development Tools" "Console internet tools" "Debugging Tools" \
+"Networking Tools" "Performance Tools" "System administration tools"
 yum -y install \
 zlib-devel vim vim-common vim-enhanced vim-minimal htop mytop nmap at yum-utils \
 openssl openssl-devel curl libcurl libcurl-devel lsof tmux bash-completion \
