@@ -162,10 +162,9 @@ echo -e "Symlinking httpd and nginx vhosts files."
 mkdir -pv /etc/httpd/conf.d/bak /etc/nginx/conf.d/bak
 mv /etc/nginx/conf.d/*.conf /etc/nginx/conf.d/bak/
 # apache
-ln -nsfv /$PROJECT_ROOT/httpd/develop.vagrant.dev.httpd.conf /etc/httpd/conf.d
+ln -nsfv /$PROJECT_ROOT/httpd/vagrant.dev.httpd.conf /etc/httpd/conf.d
 # nginx
 ln -nsfv /$PROJECT_ROOT/nginx/vagrant.dev.nginx.conf /etc/nginx/conf.d
-ln -nsfv /$PROJECT_ROOT/nginx/develop.vagrant.dev.nginx.conf /etc/nginx/conf.d
 
 # For shitty code, turn on PHP's short_open_tags
 echo -e "Setting short_open_tag on."
