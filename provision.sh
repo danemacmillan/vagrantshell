@@ -13,14 +13,12 @@
 echo -e "Setting selinux enforcing to permissive mode."
 setenforce 0
 
-# Create symlink to vagrant document root for given project.
 PROJECT_ROOT="vagrant"
 
 # Create empty develop dir in sites/
 PROJECT_VHOST_DIR="develop"
 mkdir -pv /vagrant/sites/$PROJECT_VHOST_DIR
 cp /vagrant/sites/phpinfo.php /vagrant/sites/$PROJECT_VHOST_DIR/index.php
-#ln -nsfv /vagrant-$PROJECT_VHOST_DIR /vagrant/sites/$PROJECT_VHOST_DIR
 
 # Create project variables
 USER_USER="vagrant"
