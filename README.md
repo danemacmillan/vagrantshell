@@ -90,3 +90,7 @@ This vagrant provision includes the following dotfiles:
 https://github.com/danemacmillan/dotfiles
 
 It is installed during post-provision.
+
+# Author
+
+[Dane MacMillan](https://danemacmillan.com)
