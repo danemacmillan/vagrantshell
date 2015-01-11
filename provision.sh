@@ -15,8 +15,8 @@ setenforce 0
 
 PROJECT_ROOT="vagrant"
 
-# Create empty develop dir in sites/
-PROJECT_VHOST_DIR="develop"
+# Create new project directory in sites/
+PROJECT_VHOST_DIR="develop.vagrant.dev"
 mkdir -pv /vagrant/sites/$PROJECT_VHOST_DIR
 cp /vagrant/sites/phpinfo.php /vagrant/sites/$PROJECT_VHOST_DIR/index.php
 
@@ -28,6 +28,7 @@ DB_USER="root"
 DB_PASS=""
 
 # Add vagrantshell bin to path
+chmod -R +x /$PROJECT_ROOT/bin
 export PATH="/$PROJECT_ROOT/bin:$PATH"
 
 # Generate provision files to prevent rebuilding every time.
