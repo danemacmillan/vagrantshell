@@ -33,4 +33,3 @@ nbproject/
 # so that vagrantshell can be updated without conflicts.
 sites/*
 !sites/phpinfo.php
-!sites/README.md

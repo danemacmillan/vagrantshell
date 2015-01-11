@@ -1,10 +1,6 @@
 vagrantshell
 ============
 
-Vagrant Box Provisioned Using Shell
-
----
-
 This is a vagrant box provisioned using bash shell scripting as the provisioner.
 There will come a time when `saltstack` or `ansible` will be used, but before that happens, work
 needs to be done. That will also exist in a different repo.
@@ -72,16 +68,32 @@ On Windows machine, the file is located at `C:\Windows\System32\Drivers\etc\host
 Browse to the address at `develop.vagrant.dev` using `HTTP` or `HTTPS`. This
 will work so long as the hosts file has been updated.
 
+---
+
 # Development
 
+A default root directory of `develop` will be created in `sites`. There is a
+vhost entry which will serve any content within.
+
 By default, the server parses documents from `/vagrant/sites/develop`. You can
-create additional vhosts under `/vagrant/sites` to test different codebases. On
-your host machine, go to `/your/local/path/sites/develop` to make changes.
+create additional sites under `/vagrant/sites` to test different codebases. Be
+sure a corresponding vhost entry exists. On your host machine, go to
+`/your/local/path/sites/develop` to make changes.
+
+# Adding new vhosts
+
+To add new sites, copy the template vhost in either `httpd/vhosts` or
+`nginx/vhosts`, name it something else, and paste it in the same directory;
+configure the paths in the new file; make sure that path exists in `sites`.
+Add another entry to the host OS' `hosts` file. Reload the server. The new
+vhost will be available from `newsubvhost.vagrant.dev`.
 
 # Post-provision
 
 Read the `README.md` in `post-provision` to see how post-provision scripts and
 DB imports work.
+
+---
 
 # Dependencies
 
