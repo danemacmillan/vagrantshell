@@ -2,7 +2,7 @@
 
 ## NOTE:
 # Do not use this. It does not work yet. Also, this will be retrofitted for
-# apache configs instead, as NGINX takes care of wildcard vhosts on its own.
+# apache configs instead, as NGINX takes care of wildcard vhosts on its own.g
 
 server=$1
 vhostname=$2
