@@ -28,8 +28,8 @@ DB_USER="root"
 DB_PASS=""
 
 # Add vagrantshell bin to path
-chmod -R +x /$PROJECT_ROOT/bin
-export PATH="/$PROJECT_ROOT/bin:$PATH"
+#chmod -R +x /$PROJECT_ROOT/bin
+#export PATH="/$PROJECT_ROOT/bin:$PATH"
 
 # Generate provision files to prevent rebuilding every time.
 VAGRANT_PROVISION_FIRST="/$PROJECT_ROOT/tmp/vagrant-provision.first"
