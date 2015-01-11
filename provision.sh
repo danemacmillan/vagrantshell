@@ -27,6 +27,9 @@ DB_NAME="develop"
 DB_USER="root"
 DB_PASS=""
 
+# Add vagrantshell bin to path
+export PATH="/$PROJECT_ROOT/bin:$PATH"
+
 # Generate provision files to prevent rebuilding every time.
 VAGRANT_PROVISION_FIRST="/$PROJECT_ROOT/tmp/vagrant-provision.first"
 VAGRANT_PROVISION_DONE="/$PROJECT_ROOT/tmp/vagrant-provision.done"

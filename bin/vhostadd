@@ -3,13 +3,13 @@
 server=$1
 vhostname=$2
 docroot="/vagrant/sites/$vhostname"
-vhostfile="/vagrant/$server/vhosts/$domain.vagrant.dev.$server.conf"
+vhostfile="/vagrant/$server/vhosts/$vhostname.vagrant.dev.$server.conf"
 
 # Create the Document Root directory
 sudo mkdir -p $docroot
 
 # Assign ownership to your regular user account
-sudo chown -R $USER:$USER $docroot
+#sudo chown -R $USER:$USER $docroot
 
 # Create the Nginx server block file:
 sudo tee $vhostfile > /dev/null <<EOF
