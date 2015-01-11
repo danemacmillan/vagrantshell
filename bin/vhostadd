@@ -1,5 +1,9 @@
 #!/usr/bin/env bash
 
+## NOTE:
+# Do not use this. It does not work yet. Also, this will be retrofitted for
+# apache configs instead, as NGINX takes care of wildcard vhosts on its own.
+
 server=$1
 vhostname=$2
 docroot="/vagrant/sites/$vhostname"
@@ -12,7 +16,7 @@ sudo mkdir -p $docroot
 #sudo chown -R $USER:$USER $docroot
 
 # Create the Nginx server block file:
-sudo tee $vhostfile > /dev/null <<EOF
+sudo tee $vhostfile > /dev/null <<"EOF"
 ##
 # http
 #
@@ -46,7 +50,7 @@ server {
         fastcgi_index  index.php;
         include        fastcgi_params;
         fastcgi_read_timeout 6000;
-        fastcgi_param  SCRIPT_FILENAME  $document_root$fastcgi_script_name;
+        fastcgi_param  SCRIPT_FILENAME  "$document_root$fastcgi_script_name";
 
         #Magento
         fastcgi_param MAGE_RUN_CODE default; # Store code is defined in administration > Configuration > Manage Stores
@@ -60,7 +64,7 @@ server {
 
     # Rewrite URLs for Magento
     location / {
-        try_files $uri $uri/ /index.php?$args; # make index.php handle requests for /
+        try_files \$uri \$uri/ /index.php?\$args; # make index.php handle requests for /
     }
 }
 
@@ -112,7 +116,7 @@ server {
         fastcgi_index  index.php;
         include        fastcgi_params;
         fastcgi_read_timeout 6000;
-        fastcgi_param  SCRIPT_FILENAME  $document_root$fastcgi_script_name;
+        fastcgi_param  SCRIPT_FILENAME  \$document_root\$fastcgi_script_name;
 
         #Magento
         fastcgi_param MAGE_RUN_CODE default; # Store code is defined in administration > Configuration > Manage Stores
@@ -127,7 +131,7 @@ server {
 
     # Rewrite URLs for Magento
     location / {
-        try_files $uri $uri/ /index.php?$args; # make index.php handle requests for /
+        try_files \$uri \$uri/ /index.php?\$args; # make index.php handle requests for /
     }
 }
 
