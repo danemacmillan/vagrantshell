@@ -6,7 +6,7 @@ These are for wildcard subdomains. That means any subdomain will work with SSL.
 For example, `example.vagrant.dev` or `foobar.vagrant.dev`. The `vagrant.dev`
 domain must be present.
 
-## `_.dev`
+## `_.dev.*`
 
 These are also for wildcard domains, but shortened. This means you can
 `example.dev` or `foobar.dev`.
