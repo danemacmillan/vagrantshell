@@ -28,6 +28,11 @@ nbproject/
 ## Vagrant
 .vagrant/
 
+## post-provision
+post-provision/*
+!post-provision/README.md
+!post-provision/00-dotfiles.sh
+
 ## sites
 # Ignore them all, except for the default. Make sure project files not added,
 # so that vagrantshell can be updated without conflicts.
