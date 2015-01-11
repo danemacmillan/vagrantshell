@@ -53,7 +53,6 @@ fi
 
 # Update base box
 echo "Updating current software."
-yum -y install kernel kernel-devel
 yum -y update
 
 # Install missing repos
@@ -64,7 +63,7 @@ rpm -Uhv http://www.percona.com/downloads/percona-release/percona-release-0.0-1.
 cp -rf /$PROJECT_ROOT/yum/nginx.repo /etc/yum.repos.d/nginx.repo
 
 # Install all software needed for machine
-PHP_VERSION="php54"
+PHP_VERSION="php55u"
 echo "Installing base software."
 
 PHP_OPCODE_VERSION="$PHP_VERSION-pecl-apc"
@@ -72,24 +71,31 @@ if [ $PHP_VERSION == "php55u" ]; then
 	PHP_OPCODE_VERSION="$PHP_VERSION-opcache"
 fi;
 
+# Install groups of software. Some of the essentials below will already be
+# included in these groups, but in case you ever want to shrink the size of the
+# install, these can be removed. "Development Tools" should always be installed.
 yum -y --setopt=group_package_types=mandatory,default,optional groupinstall \
 "Base" "Development Tools" "Console internet tools" "Debugging Tools" \
-"Networking Tools" "Performance Tools" "System administration tools"
+"Networking Tools" "Performance Tools"
+
+# Install some essentials
 yum -y install \
 zlib-devel vim vim-common vim-enhanced vim-minimal htop mytop nmap at yum-utils \
 openssl openssl-devel curl libcurl libcurl-devel lsof tmux bash-completion \
-weechat gpg rpm-build rpm-devel autoconf automake lynx gcc httpd httpd-devel \
+cmake gpg rpm-build rpm-devel autoconf automake lynx gcc httpd httpd-devel \
 mod_ssl mod_fcgid mod_geoip memcached memcached-devel nginx npm pv \
+ca-certificates weechat bitlbee bitlbee-otr \
 $PHP_VERSION \
 $PHP_VERSION-devel $PHP_VERSION-common $PHP_VERSION-gd $PHP_VERSION-imap \
 $PHP_VERSION-mbstring $PHP_VERSION-mcrypt $PHP_VERSION-mhash \
-$PHP_VERSION-mysql $PHP_VERSION-pear $PHP_VERSION-pecl-memcache \
-$PHP_VERSION-pecl-memcache-debuginfo $PHP_VERSION-pecl-xdebug \
+$PHP_VERSION-mysql $PHP_VERSION-pear $PHP_VERSION-pecl-memcached \
+$PHP_VERSION-pecl-memcached-debuginfo $PHP_VERSION-pecl-xdebug \
 $PHP_VERSION-xml $PHP_VERSION-pdo $PHP_VERSION-fpm $PHP_OPCODE_VERSION \
-$PHP_VERSION-pecl-redis redis \
+$PHP_VERSION-cli $PHP_VERSION-pecl-jsonc $PHP_VERSION-devel \
+$PHP_VERSION-pecl-geoip $PHP_VERSION-pecl-redis redis \
+$PHP_VERSION-pecl-mongo mongodb mongodb-server \
 Percona-Server-client-56 Percona-Server-server-56 \
-mysql-utilities mysqlreport mysqltuner percona-toolkit percona-xtrabackup \
-mysql-devel mysql-embedded mysql-libs
+percona-toolkit percona-xtrabackup mysql-utilities mysqlreport mysqltuner
 
 # SPDY depends on "at" and "httpd"
 echo "Installing SPDY..."
