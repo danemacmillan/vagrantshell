@@ -8,7 +8,7 @@ domain must be present.
 
 ## `_.dev.*`
 
-These are also for wildcard domains, but shortened. This means you can
+These are also for wildcard domains, but shortened. This means you can use
 `example.dev` or `foobar.dev`.
 
 # Generating new certs
