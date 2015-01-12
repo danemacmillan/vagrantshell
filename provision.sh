@@ -184,6 +184,10 @@ echo -e "Restarting servers to use vhost configs."
 /etc/init.d/nginx restart
 /etc/init.d/php-fpm restart
 
+# Update rsync
+echo -e "Updating rsync."
+yum -y remove rsync && yum -y install rsync31u
+
 # Git update. Note: git2u may change with IUS repo.
 echo -e 'Updating Git.'
 yum -y remove git && yum -y install git2u
