@@ -178,6 +178,10 @@ ln -nsfv /$PROJECT_ROOT/nginx/vagrant.dev.nginx.conf /etc/nginx/conf.d
 echo -e "Setting short_open_tag on."
 sed -i -e 's/short_open_tag = Off/short_open_tag = On/g' /etc/php.ini
 
+# Copying xdebug config
+echo -e "Configuring PHP Xdebug."
+cp -rf /$PROJECT_ROOT/php/xdebug.ini /etc/php.d/xdebug.ini
+
 # Restart httpd for new configs and fcgid wrapper
 echo -e "Restarting servers to use vhost configs."
 /etc/init.d/httpd stop
