@@ -76,23 +76,25 @@ This is necessary so that the environment can be accessed in a browser. Edit
 
 On Windows, the file is located at `C:\Windows\System32\Drivers\etc\hosts`.
 
+## Cloning `vagrantshell`
+
+- Navigate to the directory you want to work from.
+
+- `git clone git@github.com:danemacmillan/vagrantshell.git` or `git clone https://github.com/danemacmillan/vagrantshell.git` (if you do not have SSH keys).
+
+- `cd` into it.
+
 ## Provisioning
 
-1. Navigate to the directory you want to work from.
-
-2. `git clone git@github.com:danemacmillan/vagrantshell.git` or `git clone https://github.com/danemacmillan/vagrantshell.git` (if you do not have SSH keys).
-
-3. `cd` into it.
-
-4. Copy any post-provision scripts or SQL dumps into `post-provision`. These
+1. Copy any post-provision scripts or SQL dumps into `post-provision`. These
 will be files used to build the actual project you want to develop. Without
 these, the vagrantshell will just be a hosting environment ready to start new
-projects.
+projects. If there none, this step can be ignored.
 
-5. `vagrant up` in the `vagrantshell` directory where the `VagrantFile` file
+2. Run `vagrant up` in the `vagrantshell` directory where the `VagrantFile` file
 exists.
 
-6. Wait for everything to install. This can take about ten minutes, depending
+3. Wait for everything to install. This can take about ten minutes, depending
 on the connection.
 
 ---
