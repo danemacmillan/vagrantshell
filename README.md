@@ -93,6 +93,14 @@ vhost will be available from `newsubvhost.vagrant.dev`.
 Read the `README.md` in `post-provision` to see how post-provision scripts and
 DB imports work.
 
+# Debugging PHP
+
+Xdebug is running. It is configured according this tutorial:
+
+https://danemacmillan.com/how-to-configure-xdebug-in-phpstorm-through-vagrant/
+
+The `xdebug.idekey` is `PHPSTORM`, and the `xdebug.remote_port` is `9000`.
+
 ---
 
 # Dependencies
@@ -102,6 +110,8 @@ This vagrant provision includes the following dotfiles:
 https://github.com/danemacmillan/dotfiles
 
 It is installed during post-provision.
+
+---
 
 # Author
 
