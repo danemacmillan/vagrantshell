@@ -100,13 +100,14 @@ type, `sudo su`.
 
 # Development
 
-A default root directory of `develop` will be created in `sites`. There is a
-vhost entry which will serve any content within.
+A default root directory of `develop.vagrant.dev` will be created in `sites`.
+There is a wildcard vhost entry which will serve any content within the `sites`
+directory, using the exact directory name created.
 
-By default, the server parses documents from `/vagrant/sites/develop`. You can
-create additional sites under `/vagrant/sites` to test different codebases. Be
-sure a corresponding vhost entry exists. On your host machine, go to
-`/your/local/path/sites/develop` to make changes.
+By default, the server parses documents from `/vagrant/sites/develop.vagrant.dev`.
+Additional sites can be created under `/vagrant/sites` to test different
+codebases. On your host machine, go to `/your/local/path/vagrantshell/sites/develop.vagrant.dev`
+to make changes.
 
 ## Access from Web browser
 
@@ -115,11 +116,16 @@ will work so long as the hosts file has been updated.
 
 ## Adding new vhosts
 
-To add new sites, copy the template vhost in either `httpd/vhosts` or
-`nginx/vhosts`, name it something else, and paste it in the same directory;
-configure the paths in the new file; make sure that path exists in `sites`.
-Add another entry to the host OS' `hosts` file. Reload the server. The new
-vhost will be available from `newsubvhost.vagrant.dev`.
+Create a new directory in `sites`. Nginx will automatically pick up on it. A
+corresponding `/etc/hosts` entry should exist, otherwise the new directory will
+be inaccessible. For example, create a directory, `tests.vagrant.dev` or
+`foobar.dev` in `sites`, reload `nginx` (`/etc/init.d/nginx reload`), and edit
+the host's host file to include `192.168.80.80 foobar.dev`, and browse to it.
+Note that the directory name will be *exactly* what should be typed in a browser's
+address bar.
+
+The setup is a little different if using the Apache server, as it does not
+support wildcard server names like nginx.
 
 ## Post-provision
 
