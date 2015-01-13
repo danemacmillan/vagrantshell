@@ -75,12 +75,15 @@ if [ $PHP_VERSION == "php55u" ]; then
 	PHP_OPCODE_VERSION="$PHP_VERSION-opcache"
 fi;
 
+# Smaller footprint.
+yum -y --setopt=group_package_types=mandatory,default,optional groupinstall "Development Tools"
+
 # Install groups of software. Some of the essentials below will already be
 # included in these groups, but in case you ever want to shrink the size of the
 # install, these can be removed. "Development Tools" should always be installed.
-yum -y --setopt=group_package_types=mandatory,default,optional groupinstall \
-"Base" "Development Tools" "Console internet tools" "Debugging Tools" \
-"Networking Tools" "Performance Tools"
+#yum -y --setopt=group_package_types=mandatory,default,optional groupinstall \
+#"Base" "Console internet tools" "Debugging Tools" \
+#"Networking Tools" "Performance Tools"
 
 # Install some essentials
 yum -y install \
