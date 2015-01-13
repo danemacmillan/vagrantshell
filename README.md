@@ -6,7 +6,7 @@ this box if you are hip, trendy, or both; they will all laugh at you.
 
 # Who is this for?
 
-This set up is for newcomers to Web development. It is also for veterans
+This setup is for newcomers to Web development. It is also for veterans
 looking to add virtualization to their development toolbelt without being
 inundanted by a hefty learning curve that involves a tonne of trendy new
 technologies and nomenclatures. This is why Bash is the provisioner. It is
