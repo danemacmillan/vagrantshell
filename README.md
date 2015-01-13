@@ -93,6 +93,8 @@ From the `vagrantshell` directory that contains the `VagrantFile` file, run
 `vagrant ssh`. You are in CentOS 6.6 as user, `vagrant`. For root access,
 type, `sudo su`.
 
+---
+
 # Development
 
 A default root directory of `develop` will be created in `sites`. There is a
