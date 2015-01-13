@@ -1,31 +1,67 @@
 vagrantshell
 ============
 
-This is a vagrant box provisioned using bash shell scripting as the provisioner.
-There will come a time when `saltstack` or `ansible` will be used, but before that happens, work
-needs to be done. That will also exist in a different repo.
+This is a Vagrant box provisioned using plain old bash shell scripting. Avoid
+this box if you are hip, trendy, or both; they will all laugh at you.
+
+# Who is this for?
+
+This set up is for newcomers to Web development. It is also for veterans
+looking to add virtualization to their development toolbelt without being
+inundanted by a hefty learning curve that involves a tonne of trendy new
+technologies and nomenclatures. This is why Bash is the provisioner. It is
+familiar; it is easy to understand. Once familiarity takes hold, I encourage
+you to start looking at more advanced build processes.
+
+There will come a time when `saltstack` or `ansible` will be used, but that
+will also exist in a different repo.
+
+# Technologies in the build
+
+## Main
+
+- Nginx 1.6+
+- PHP 5.5.*+ (with opcache)
+- Percona (MySQL)
+- Redis
+- MongoDB
+- Xdebug (read below)
+
+## Minor
+
+- Git 2.2+
+- Rsync 3.1+
+
+## Note
+
+This box is Magento-friendly. The proper variables and rewrites are
+included for Magento development. This does not mean only Magento can be
+developed on this box. The Magento settings do not change any other type of
+development.
 
 ---
 
-# Install VirtualBox
+# Installation
+
+## Install VirtualBox
 
 If you have OSX, just use `brew`, otherwise have a look here:
 
 https://www.virtualbox.org/wiki/Downloads
 
-# Install Vagrant
+## Install Vagrant
 
 If you have OSX, just use `brew`, otherwise have a look here:
 
 https://www.vagrantup.com/downloads.html
 
-# Install guest additions plugin
+## Install guest additions plugin
 
 `vagrant plugin install vagrant-vbguest`
 
 https://github.com/dotless-de/vagrant-vbguest
 
-# Edit hosts file
+## Edit hosts file
 
 This is necessary so that the environment can be accessed in a browser. Edit
 `/etc/hosts` to include the following line:
@@ -34,7 +70,7 @@ This is necessary so that the environment can be accessed in a browser. Edit
 
 On Windows, the file is located at `C:\Windows\System32\Drivers\etc\hosts`.
 
-# Provisioning
+## Provisioning
 
 1. Navigate to the directory you want to work from.
 
@@ -51,18 +87,11 @@ projects.
 
 6. Wait for everything to install. This can take about ten minutes, depending on the connection.
 
-# Log in
+## Log in
 
 From the `vagrantshell` directory that contains the `VagrantFile` file, run
 `vagrant ssh`. You are in CentOS 6.6 as user, `vagrant`. For root access,
 type, `sudo su`.
-
-# Access from Web browser
-
-Browse to the address at `develop.vagrant.dev` using `HTTP` or `HTTPS`. This
-will work so long as the hosts file has been updated.
-
----
 
 # Development
 
@@ -74,7 +103,12 @@ create additional sites under `/vagrant/sites` to test different codebases. Be
 sure a corresponding vhost entry exists. On your host machine, go to
 `/your/local/path/sites/develop` to make changes.
 
-# Adding new vhosts
+## Access from Web browser
+
+Browse to the address at `develop.vagrant.dev` using `HTTP` or `HTTPS`. This
+will work so long as the hosts file has been updated.
+
+## Adding new vhosts
 
 To add new sites, copy the template vhost in either `httpd/vhosts` or
 `nginx/vhosts`, name it something else, and paste it in the same directory;
@@ -82,12 +116,12 @@ configure the paths in the new file; make sure that path exists in `sites`.
 Add another entry to the host OS' `hosts` file. Reload the server. The new
 vhost will be available from `newsubvhost.vagrant.dev`.
 
-# Post-provision
+## Post-provision
 
 Read the `README.md` in `post-provision` to see how post-provision scripts and
 DB imports work.
 
-# Debugging PHP
+## Debugging PHP
 
 Xdebug is running. It is configured according this tutorial:
 
