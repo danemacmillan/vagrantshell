@@ -57,7 +57,9 @@ projects.
 
 # Log in
 
-From the directory with the `VagrantFile`, run `vagrant ssh`. You're in.
+From the `vagrantshell` directory that contains the `VagrantFile` file, run
+`vagrant ssh`. You are in CentOS 6.6 as user, `vagrant`. For root access,
+type, `sudo su`.
 
 # Access from Web browser
 
