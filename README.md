@@ -17,8 +17,6 @@ https://www.virtualbox.org/wiki/Downloads
 
 If you have OSX, just use `brew`, otherwise have a look here:
 
-https://docs.vagrantup.com/v2/installation/
-
 https://www.vagrantup.com/downloads.html
 
 # Install guest additions plugin
@@ -26,8 +24,6 @@ https://www.vagrantup.com/downloads.html
 `vagrant plugin install vagrant-vbguest`
 
 https://github.com/dotless-de/vagrant-vbguest
-
-If you are on Windows and this does not work, just move on.
 
 # Edit hosts file
 
