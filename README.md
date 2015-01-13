@@ -20,6 +20,7 @@ will also exist in a different repo.
 
 ## Main
 
+- CentOS 6.6
 - Nginx 1.6+
 - PHP 5.5.*+ (with opcache)
 - Percona (MySQL)
