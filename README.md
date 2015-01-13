@@ -23,7 +23,7 @@ will also exist in a different repo.
 - CentOS 6.6
 - Nginx 1.6+
 - PHP 5.5+ (PHP-FPM & opcache)
-- Percona (MySQL)
+- Percona 5.6+ (MySQL)
 - Redis
 - MongoDB
 - Xdebug (read below)

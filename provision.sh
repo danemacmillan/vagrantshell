@@ -75,10 +75,10 @@ if [ $PHP_VERSION == "php55u" ]; then
 	PHP_OPCODE_VERSION="$PHP_VERSION-opcache"
 fi;
 
-# Smaller footprint.
+# Smaller footprint. 66M downloaded.
 yum -y --setopt=group_package_types=mandatory,default groupinstall "Development Tools"
 
-# This will be 2.7GB installed.
+# This will be 1.2GB downloaded.
 # Install groups of software. Some of the essentials below will already be
 # included in these groups, but in case you ever want to shrink the size of the
 # install, these can be removed. "Development Tools" should always be installed.
@@ -86,7 +86,7 @@ yum -y --setopt=group_package_types=mandatory,default groupinstall "Development 
 #"Base" "Development Tools" "Console internet tools" "Debugging Tools" \
 #"Networking Tools" "Performance Tools"
 
-# Install some essentials
+# Install some essentials. 165MB downloaded.
 yum -y install \
 zlib-devel vim vim-common vim-enhanced vim-minimal htop mytop nmap at yum-utils \
 openssl openssl-devel curl libcurl libcurl-devel lsof tmux bash-completion \
