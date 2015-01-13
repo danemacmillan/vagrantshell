@@ -44,6 +44,11 @@ development.
 
 # Installation
 
+## (For Windows users only)
+
+If you are on Windows and are still using the basic command prompt, stop using
+it. It has nothing to offer. Use [cmder](https://bliker.github.io/cmder/).
+
 ## Install VirtualBox
 
 If you have OSX, just use `brew`, otherwise have a look here:
@@ -90,15 +95,24 @@ exists.
 6. Wait for everything to install. This can take about ten minutes, depending
 on the connection.
 
-## Log in
-
-From the `vagrantshell` directory that contains the `VagrantFile` file, run
-`vagrant ssh`. You are in CentOS 6.6 as user, `vagrant`. For root access,
-type, `sudo su`.
-
 ---
 
 # Development
+
+## Log in
+
+From the `vagrantshell` directory that contains the `VagrantFile` file, run
+`vagrant ssh`. You are in CentOS as user, `vagrant`. For root access,
+type, `sudo su`.
+
+### (For Windows users only)
+
+Oddly, the dotfiles are not sourced during post-provision, so upon SSH'ing into
+the box for the first time, run `source ~/.dotfiles/bootsrap.sh`. This will
+change the color of your PS1 and add a tonne of handy functionality.
+
+
+## Directories
 
 A default root directory of `develop.vagrant.dev` will be created in `sites`.
 There is a wildcard vhost entry which will serve any content within the `sites`
@@ -106,8 +120,8 @@ directory, using the exact directory name created.
 
 By default, the server parses documents from `/vagrant/sites/develop.vagrant.dev`.
 Additional sites can be created under `/vagrant/sites` to test different
-codebases. On your host machine, go to `/your/local/path/vagrantshell/sites/develop.vagrant.dev`
-to make changes.
+codebases. On your host machine, point your IDE or editor to
+`/your/local/path/vagrantshell/sites/develop.vagrant.dev` to make changes.
 
 ## Access from Web browser
 
