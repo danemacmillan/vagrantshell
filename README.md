@@ -16,7 +16,7 @@ you to start looking at more advanced build processes.
 There will come a time when `saltstack` or `ansible` will be used, but that
 will also exist in a different repo.
 
-# Technologies in the build
+# Technology stack
 
 ## Main
 
