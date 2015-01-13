@@ -29,6 +29,15 @@ https://github.com/dotless-de/vagrant-vbguest
 
 If you are on Windows and this does not work, just move on.
 
+# Edit hosts file
+
+This is necessary so that the environment can be accessed in a browser. Edit
+`/etc/hosts` to include the following line:
+
+`192.168.80.80 dev develop.vagrant.dev`
+
+On Windows, the file is located at `C:\Windows\System32\Drivers\etc\hosts`.
+
 # Provisioning
 
 1. Navigate to the directory you want to work from.
@@ -49,15 +58,6 @@ projects.
 # Log in
 
 From the directory with the `VagrantFile`, run `vagrant ssh`. You're in.
-
-# Edit hosts file
-
-This is necessary so that the environment can be accessed in a browser. Edit
-`/etc/hosts` to include the following line:
-
-`192.168.80.80 develop.vagrant.dev`
-
-On Windows machine, the file is located at `C:\Windows\System32\Drivers\etc\hosts`.
 
 # Access from Web browser
 
