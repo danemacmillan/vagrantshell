@@ -84,7 +84,8 @@ will be files used to build the actual project you want to develop. Without
 these, the vagrantshell will just be a hosting environment ready to start new
 projects.
 
-5. `vagrant up` where in `vagrantshell` where the `VagrantFile` file exists.
+5. `vagrant up` in the `vagrantshell` directory where the `VagrantFile` file
+exists.
 
 6. Wait for everything to install. This can take about ten minutes, depending
 on the connection.
