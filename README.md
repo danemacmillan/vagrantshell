@@ -86,8 +86,8 @@ On Windows, the file is located at `C:\Windows\System32\Drivers\etc\hosts`.
 
 ## Provisioning
 
-1. Copy any post-provision scripts or SQL dumps into `post-provision`. These
-will be files used to build the actual project you want to develop. Without
+1. Copy any post-provision scripts or SQL dumps into `vagrantshell/post-provision`.
+These will be files used to build the actual project you want to develop. Without
 these, the vagrantshell will just be a hosting environment ready to start new
 projects. If there none, this step can be ignored.
 
