@@ -16,7 +16,7 @@ you to start looking at more advanced build processes.
 There will come a time when `saltstack` or `ansible` will be used, but that
 will also exist in a different repo.
 
-# Technology stack
+# Technology stackg
 
 ## Main
 
@@ -84,9 +84,10 @@ will be files used to build the actual project you want to develop. Without
 these, the vagrantshell will just be a hosting environment ready to start new
 projects.
 
-5. `vagrant up` where `VagrantFile` exists.
+5. `vagrant up` where in `vagrantshell` where the `VagrantFile` file exists.
 
-6. Wait for everything to install. This can take about ten minutes, depending on the connection.
+6. Wait for everything to install. This can take about ten minutes, depending
+on the connection.
 
 ## Log in
 
