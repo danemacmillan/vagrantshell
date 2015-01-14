@@ -145,13 +145,6 @@ https://danemacmillan.com/how-to-configure-xdebug-in-phpstorm-through-vagrant/
 
 The `xdebug.idekey` is `PHPSTORM`, and the `xdebug.remote_port` is `9000`.
 
-## Note
-
-This box is Magento-friendly. The proper variables and rewrites are
-included for Magento development. This does not mean only Magento can be
-developed on this box. The Magento settings do not change any other type of
-development.
-
 ## Dependencies
 
 This vagrant provision includes the following dotfiles:
@@ -159,6 +152,13 @@ This vagrant provision includes the following dotfiles:
 https://github.com/danemacmillan/dotfiles
 
 It is installed during post-provision.
+
+## Note
+
+This box is Magento-friendly. The proper variables and rewrites are
+included for Magento development. This does not mean only Magento can be
+developed on this box. The Magento settings do not change any other type of
+development.
 
 ## Author
 
