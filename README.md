@@ -1,4 +1,4 @@
-# vagrantshell
+vagrantshell
 ============
 
 This is a Vagrant box provisioned using plain old bash shell scripting. Avoid
