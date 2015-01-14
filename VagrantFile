@@ -25,6 +25,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 		develop.vm.provider "virtualbox" do |vb|
 			#vb.gui = true
 			vb.customize ["modifyvm", :id, "--memory", "2048"]
+			# https://github.com/mitchellh/vagrant/issues/713#issuecomment-17296765
 			vb.customize ["setextradata", :id, "VBoxInternal2/SharedFoldersEnableSymlinksCreate/vagrant", "1"]
 		end
 
