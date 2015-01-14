@@ -18,7 +18,7 @@ will also exist in a different repo.
 
 # Technology stack
 
-## Main
+## Major
 
 - CentOS 6.6
 - Nginx 1.6+
@@ -32,13 +32,6 @@ will also exist in a different repo.
 
 - Git 2.2+
 - Rsync 3.1+
-
-## Note
-
-This box is Magento-friendly. The proper variables and rewrites are
-included for Magento development. This does not mean only Magento can be
-developed on this box. The Magento settings do not change any other type of
-development.
 
 ---
 
@@ -157,6 +150,13 @@ https://danemacmillan.com/how-to-configure-xdebug-in-phpstorm-through-vagrant/
 The `xdebug.idekey` is `PHPSTORM`, and the `xdebug.remote_port` is `9000`.
 
 ---
+
+# Note
+
+This box is Magento-friendly. The proper variables and rewrites are
+included for Magento development. This does not mean only Magento can be
+developed on this box. The Magento settings do not change any other type of
+development.
 
 # Dependencies
 
