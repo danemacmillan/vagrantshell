@@ -1,10 +1,10 @@
-vagrantshell
+# vagrantshell
 ============
 
 This is a Vagrant box provisioned using plain old bash shell scripting. Avoid
 this box if you are hip, trendy, or both; they will all laugh at you.
 
-# Who is this for?
+## Who is this for?
 
 This setup is for newcomers to Web development. It is also for veterans
 looking to add virtualization to their development toolbelt without being
@@ -16,9 +16,9 @@ you to start looking at more advanced build processes.
 There will come a time when `saltstack` or `ansible` will be used, but that
 will also exist in a different repo.
 
-# Technology stack
+## Technology stack
 
-## Major
+### Major
 
 - CentOS 6.6
 - Nginx 1.6+
@@ -28,39 +28,37 @@ will also exist in a different repo.
 - MongoDB
 - Xdebug (read below)
 
-## Minor
+### Minor
 
 - Git 2.2+
 - Rsync 3.1+
 
----
+## Installation
 
-# Installation
-
-## (For Windows users only)
+### (For Windows users only)
 
 If you are on Windows and are still using the basic command prompt, stop using
 it. It has nothing to offer. Use [cmder](https://bliker.github.io/cmder/).
 
-## Install VirtualBox
+### Install VirtualBox
 
 If you have OSX, just use `brew`, otherwise have a look here:
 
 https://www.virtualbox.org/wiki/Downloads
 
-## Install Vagrant
+### Install Vagrant
 
 If you have OSX, just use `brew`, otherwise have a look here:
 
 https://www.vagrantup.com/downloads.html
 
-## Install guest additions plugin
+### Install guest additions plugin
 
 `vagrant plugin install vagrant-vbguest`
 
 https://github.com/dotless-de/vagrant-vbguest
 
-## Edit hosts file
+### Edit hosts file
 
 This is necessary so that the environment can be accessed in a browser. Edit
 `/etc/hosts` to include the following line:
@@ -69,7 +67,7 @@ This is necessary so that the environment can be accessed in a browser. Edit
 
 On Windows, the file is located at `C:\Windows\System32\Drivers\etc\hosts`.
 
-## Cloning `vagrantshell`
+### Cloning `vagrantshell`
 
 - Navigate to the directory you want to work from.
 
@@ -77,7 +75,7 @@ On Windows, the file is located at `C:\Windows\System32\Drivers\etc\hosts`.
 
 - `cd` into it.
 
-## Provisioning
+### Provisioning
 
 1. Copy any post-provision scripts or SQL dumps into `vagrantshell/post-provision`.
 These will be files used to build the actual project you want to develop. Without
@@ -90,11 +88,9 @@ exists.
 3. Wait for everything to install. This can take about ten minutes, depending
 on the connection.
 
----
+## Development
 
-# Development
-
-## Log in
+### Log in
 
 From the `vagrantshell` directory that contains the `VagrantFile` file, run
 `vagrant ssh`. You are in CentOS as user, `vagrant`. For root access,
@@ -107,7 +103,7 @@ the box for the first time, run `source ~/.dotfiles/bootsrap.sh`. This will
 change the color of your PS1 and add a tonne of handy functionality.
 
 
-## Directories
+### Directories
 
 A default root directory of `develop.vagrant.dev` will be created in `sites`.
 There is a wildcard vhost entry which will serve any content within the `sites`
@@ -118,12 +114,12 @@ Additional sites can be created under `/vagrant/sites` to test different
 codebases. On your host machine, point your IDE or editor to
 `/your/local/path/vagrantshell/sites/develop.vagrant.dev` to make changes.
 
-## Access from Web browser
+### Access from Web browser
 
 Browse to the address at `develop.vagrant.dev` using `HTTP` or `HTTPS`. This
 will work so long as the hosts file has been updated.
 
-## Adding new vhosts
+### Adding new vhosts
 
 Create a new directory in `sites`. Nginx will automatically pick up on it. A
 corresponding `/etc/hosts` entry should exist, otherwise the new directory will
@@ -136,12 +132,12 @@ address bar.
 The setup is a little different if using the Apache server, as it does not
 support wildcard server names like nginx.
 
-## Post-provision
+### Post-provision
 
 Read the `README.md` in `post-provision` to see how post-provision scripts and
 DB imports work.
 
-## Debugging PHP
+### Debugging PHP
 
 Xdebug is running. It is configured according this tutorial:
 
@@ -149,16 +145,14 @@ https://danemacmillan.com/how-to-configure-xdebug-in-phpstorm-through-vagrant/
 
 The `xdebug.idekey` is `PHPSTORM`, and the `xdebug.remote_port` is `9000`.
 
----
-
-# Note
+## Note
 
 This box is Magento-friendly. The proper variables and rewrites are
 included for Magento development. This does not mean only Magento can be
 developed on this box. The Magento settings do not change any other type of
 development.
 
-# Dependencies
+## Dependencies
 
 This vagrant provision includes the following dotfiles:
 
@@ -166,12 +160,10 @@ https://github.com/danemacmillan/dotfiles
 
 It is installed during post-provision.
 
----
-
-# Author
+## Author
 
 [Dane MacMillan](https://danemacmillan.com)
 
-# License
+## License
 
 MIT 2015
