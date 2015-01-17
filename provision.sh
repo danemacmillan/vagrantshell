@@ -121,6 +121,10 @@ mkdir -pv /home/$USER_USER/.ssh
 cp -rf /$PROJECT_ROOT/ssh/* ~/.ssh/
 cp -rf /$PROJECT_ROOT/ssh/* /home/$USER_USER/.ssh/
 
+# Generating new one for those with zero knowledge of how this works. This can
+# be automatically renamed to id_rsa in a post-provision script.
+ssh-keygen -b 4096 -f /home/$USER_USER/.ssh/vagrantshell.id_rsa -C vagrantshell@4096_`date +%Y-%m-%d-%H%M%S` -N ""
+
 # Permissions
 echo -e "Setting permissions for $USER_USER:$USER_GROUP and root:root."
 chown -R $USER_USER:$USER_GROUP /home/$USER_USER
