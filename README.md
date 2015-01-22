@@ -22,6 +22,7 @@ will also exist in a different repo.
 
 - CentOS 6.6
 - Nginx 1.7+ (mainline branch)
+- Apache 2.2+
 - PHP 5.5+ (PHP-FPM & opcache)
 - Percona 5.6+ (MySQL)
 - Redis
@@ -32,6 +33,10 @@ will also exist in a different repo.
 
 - Git 2.2+
 - Rsync 3.1+
+
+### Additional
+
+- The `SPDY` protocol is activated for both Apache and Nginx when using `HTTPS`.
 
 ## Installation
 
@@ -117,7 +122,9 @@ codebases. On your host machine, point your IDE or editor to
 ### Access from Web browser
 
 Browse to the address at `develop.vagrant.dev` using `HTTP` or `HTTPS`. This
-will work so long as the hosts file has been updated.
+will work so long as the hosts file has been updated. Note that the `SPDY`
+protocol will be used for secure connections; this is true for both Apache and
+Nginx.
 
 ### Adding new vhosts
 
@@ -130,7 +137,7 @@ Note that the directory name will be *exactly* what should be typed in a browser
 address bar.
 
 The setup is a little different if using the Apache server, as it does not
-support wildcard server names like nginx.
+support wildcard server names like Nginx.
 
 ### Post-provision
 
