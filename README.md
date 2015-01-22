@@ -80,7 +80,7 @@ On Windows, the file is located at `C:\Windows\System32\Drivers\etc\hosts`.
 1. Copy any post-provision scripts or SQL dumps into `vagrantshell/post-provision`.
 These will be files used to build the actual project you want to develop. Without
 these, the vagrantshell will just be a hosting environment ready to start new
-projects. If there none, this step can be ignored.
+projects. If there are none, this step can be ignored.
 
 2. Run `vagrant up` in the `vagrantshell` directory where the `VagrantFile` file
 exists.
