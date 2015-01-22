@@ -160,12 +160,31 @@ https://github.com/danemacmillan/dotfiles
 
 It is installed during post-provision.
 
-## Note
+## Framework / CMS notes
 
-This box is Magento-friendly. The proper variables and rewrites are
-included for Magento development. This does not mean only Magento can be
-developed on this box. The Magento settings do not change any other type of
-development.
+There is no reason why any framework or CMS would not work with this Vagrant
+box. Unless very custom server configurations are required, the defaults are
+plenty. However, this Vagrant box has been configured to easily allow such
+customizations.
+
+### Magento
+
+This box is [Magento](http://www.magentocommerce.com/download)-friendly. The
+proper variables and rewrites are included for Magento development. This does
+not mean only Magento can be developed on this box. The Magento settings do not
+change any other type of development. Magento version 1.9+ has been tested.
+Downgrading the version of PHP to 5.4 or 5.3 will increase compatibility for
+older releases of Magento.
+
+### Ghost (Node.js)
+
+Port `2368` from the guest is forwarded to port `2368` on the host. Instructions
+to install and run an instance of the [Ghost](https://github.com/tryghost/Ghost)
+blogging platform are available online.
+
+### Wordpress
+
+[Wordpress](https://wordpress.org/) development is not an issue.
 
 ## Author
 
