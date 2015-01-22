@@ -21,7 +21,7 @@ will also exist in a different repo.
 ### Major
 
 - CentOS 6.6
-- Nginx 1.6+
+- Nginx 1.7+ (mainline branch)
 - PHP 5.5+ (PHP-FPM & opcache)
 - Percona 5.6+ (MySQL)
 - Redis
