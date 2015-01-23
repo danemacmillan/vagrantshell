@@ -6,13 +6,6 @@
 # Vagrant bootstrap file for building development environment.
 #
 
-# Set SELinux to permissive mode
-# This is done because for a virtual environment, we do not want SELINUX to be
-# overriding permissions.
-# TODO read this: http://nginx.com/blog/nginx-se-linux-changes-upgrading-rhel-6-6/
-echo -e "Setting selinux enforcing to permissive mode."
-setenforce 0
-
 PROJECT_ROOT="vagrant"
 
 # Create new project directory in sites/
@@ -92,7 +85,7 @@ zlib-devel vim vim-common vim-enhanced vim-minimal htop mytop nmap at yum-utils 
 openssl openssl-devel curl libcurl libcurl-devel lsof tmux bash-completion \
 cmake expect lua gpg rpm-build rpm-devel autoconf automake lynx gcc httpd httpd-devel \
 mod_ssl mod_fcgid mod_geoip memcached memcached-devel nginx npm pv \
-ca-certificates weechat bitlbee bitlbee-otr \
+ca-certificates weechat bitlbee bitlbee-otr setroubleshoot \
 $PHP_VERSION \
 $PHP_VERSION-devel $PHP_VERSION-common $PHP_VERSION-gd $PHP_VERSION-imap \
 $PHP_VERSION-mbstring $PHP_VERSION-mcrypt $PHP_VERSION-mhash \
@@ -104,6 +97,14 @@ $PHP_VERSION-pecl-geoip $PHP_VERSION-pecl-redis redis \
 $PHP_VERSION-pecl-mongo mongodb mongodb-server \
 Percona-Server-client-56 Percona-Server-server-56 \
 percona-toolkit percona-xtrabackup mysql-utilities mysqlreport mysqltuner
+
+# Set SELinux to permissive mode for Nginx
+# This is done because for a virtual environment, we do not want SELINUX to be
+# overriding permissions.
+# TODO read this: http://nginx.com/blog/nginx-se-linux-changes-upgrading-rhel-6-6/
+echo -e "Setting SELinux enforcing of Nginx policy to permissive mode."
+#setenforce 0
+semanage permissive -a httpd_t
 
 # SPDY depends on "at" and "httpd"
 echo "Installing SPDY..."
