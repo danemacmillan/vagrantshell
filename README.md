@@ -186,6 +186,15 @@ blogging platform are available online.
 
 [Wordpress](https://wordpress.org/) development is not an issue.
 
+## Troubleshooting
+
+- Running `vagrant halt` and then `vagrant up` will cause the SELinux enforce
+policy to reactivate. This blocks Nginx from being accessible. Since CentOS 6.6
+[the SELinux policy for Nginx has been changed](nginx.com/blog/nginx-se-linux-changes-upgrading-rhel-6-6/).
+ For the meantime, after Vagrant has been booted, SSH into the box and run
+ `setenforce 0` as root. Restart Nginx `/etc/init.d/nginx restart` and PHP-FPM
+ `/etc/init.d/php-fpm restart`. The server will devliver content once again.
+
 ## Author
 
 [Dane MacMillan](https://danemacmillan.com)
