@@ -4,31 +4,48 @@
 VAGRANTFILE_API_VERSION = "2"
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
-	# DEVELOP MACHINE
-	config.vm.define "develop", primary: true do |develop|
+	# vagrantshell machine
+	config.vm.define "vagrantshell", primary: true do |vagrantshell|
 
-		develop.vm.box = "chef/centos-6.6"
-		#develop.vm.box_url = ""
+		vagrantshell.vm.box = "chef/centos-6.6"
+		#vagrantshell.vm.box_url = ""
+		vagrantshell.vm.hostname = "vagrant.dev"
+		vagrantshell.vm.network :private_network, ip: "192.168.80.80"
 
-		develop.vm.network "forwarded_port", guest: 22, host: 4444, id: "ssh", auto_correct: true
-		develop.vm.network "forwarded_port", guest: 2368, host: 2368, auto_correct: true
-		#develop.vm.network "forwarded_port", guest: 443, host: 443
-		#develop.vm.network "forwarded_port", guest: 3306, host: 3306
+		vagrantshell.vm.network "forwarded_port", guest: 22, host: 4444, id: "ssh", auto_correct: true
+		vagrantshell.vm.network "forwarded_port", guest: 2368, host: 2368, auto_correct: true
+		vagrantshell.vm.network "forwarded_port", guest: 6379, host: 6379, auto_correct: true
+		
+		#, :mount_options => ["dmode=777","fmode=777"]
+		vagrantshell.vm.synced_folder ".", "/vagrant", type: "nfs"
 
-		develop.vm.hostname = "vagrant.dev"
-		develop.vm.network :private_network, ip: "192.168.80.80"
+		vagrantshell.vm.post_up_message = "Having issues? Check the 'vagrantshell' documentation: https://github.com/danemacmillan/vagrantshell."
 
-		develop.vm.synced_folder ".", "/vagrant", type: "nfs"
-		#develop.vm.synced_folder "/local/path", "/remote", type: "nfs"
-		#develop.vm.synced_folder ".", "/vagrant", :mount_options => ["dmode=777","fmode=777"]
+		vagrantshell.vm.provider "virtualbox" do |v|
+			# https://stefanwrobel.com/how-to-make-vagrant-performance-not-suck
+			host = RbConfig::CONFIG['host_os']
+			# Give VM 1/4 system memory & access to all cpu cores on the host
+			if host =~ /darwin/
+				cpus = `sysctl -n hw.ncpu`.to_i
+    		# sysctl returns Bytes and we need to convert to MB
+    		mem = `sysctl -n hw.memsize`.to_i / 1024 / 1024 / 4
+  		elsif host =~ /linux/
+    		cpus = `nproc`.to_i
+    		# meminfo shows KB and we need to convert to MB
+    		mem = `grep 'MemTotal' /proc/meminfo | sed -e 's/MemTotal://' -e 's/ kB//'`.to_i / 1024 / 4
+  		else # sorry Windows folks, I can't help you
+    		cpus = 2
+    		mem = 2048
+			end
 
-		develop.vm.provider "virtualbox" do |vb|
-			#vb.gui = true
-			vb.customize ["modifyvm", :id, "--memory", "2048"]
-			# https://github.com/mitchellh/vagrant/issues/713#issuecomment-17296765
-			vb.customize ["setextradata", :id, "VBoxInternal2/SharedFoldersEnableSymlinksCreate/v-root", "1"]
+			# https://docs.vagrantup.com/v2/virtualbox/configuration.html
+			v.customize ["setextradata", :id, "VBoxInternal2/SharedFoldersEnableSymlinksCreate/vagrant", "1"] # https://github.com/mitchellh/vagrant/issues/713#issuecomment-17296765
+			v.customize ["modifyvm", :id, "--ioapic", "on"] # http://vl4rl.com/2014/06/04/enabling-mulitcpu-vagrant-machines/
+			v.memory = mem
+			v.cpus = cpus
+			v.gui = false
 		end
 
-		develop.vm.provision "shell", path: "provision.sh"
+		vagrantshell.vm.provision "shell", path: "provision.sh"
 	end
 end
