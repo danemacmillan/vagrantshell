@@ -5,23 +5,23 @@ VAGRANTFILE_API_VERSION = "2"
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
 	# vagrantshell machine
-	config.vm.define "vagrantshell", primary: true do |vagrantshell|
+	config.vm.define "develop", primary: true do |develop|
 
-		vagrantshell.vm.box = "chef/centos-6.6"
-		#vagrantshell.vm.box_url = ""
-		vagrantshell.vm.hostname = "vagrant.dev"
-		vagrantshell.vm.network :private_network, ip: "192.168.80.80"
+		develop.vm.box = "chef/centos-6.6"
+		#develop.vm.box_url = ""
+		develop.vm.hostname = "vagrant.dev"
+		develop.vm.network :private_network, ip: "192.168.80.80"
 
-		vagrantshell.vm.network "forwarded_port", guest: 22, host: 4444, id: "ssh", auto_correct: true
-		vagrantshell.vm.network "forwarded_port", guest: 2368, host: 2368, auto_correct: true
-		vagrantshell.vm.network "forwarded_port", guest: 6379, host: 6379, auto_correct: true
+		develop.vm.network "forwarded_port", guest: 22, host: 4444, id: "ssh", auto_correct: true
+		develop.vm.network "forwarded_port", guest: 2368, host: 2368, auto_correct: true
+		develop.vm.network "forwarded_port", guest: 6379, host: 6379, auto_correct: true
 		
 		#, :mount_options => ["dmode=777","fmode=777"]
-		vagrantshell.vm.synced_folder ".", "/vagrant", type: "nfs"
+		develop.vm.synced_folder ".", "/vagrant", type: "nfs"
 
-		vagrantshell.vm.post_up_message = "Having issues? Check the 'vagrantshell' documentation: https://github.com/danemacmillan/vagrantshell."
+		develop.vm.post_up_message = "Having issues? Check the 'vagrantshell' documentation: https://github.com/danemacmillan/vagrantshell."
 
-		vagrantshell.vm.provider "virtualbox" do |v|
+		develop.vm.provider "virtualbox" do |v|
 			# https://stefanwrobel.com/how-to-make-vagrant-performance-not-suck
 			host = RbConfig::CONFIG['host_os']
 			# Give VM 1/4 system memory & access to all cpu cores on the host
@@ -46,6 +46,6 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 			v.gui = false
 		end
 
-		vagrantshell.vm.provision "shell", path: "provision.sh"
+		develop.vm.provision "shell", path: "provision.sh"
 	end
 end
