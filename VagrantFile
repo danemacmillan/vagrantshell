@@ -40,7 +40,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
 			# https://docs.vagrantup.com/v2/virtualbox/configuration.html
 			v.customize ["setextradata", :id, "VBoxInternal2/SharedFoldersEnableSymlinksCreate/vagrant", "1"] # https://github.com/mitchellh/vagrant/issues/713#issuecomment-17296765
-			v.customize ["modifyvm", :id, "--ioapic", "on"] # http://vl4rl.com/2014/06/04/enabling-mulitcpu-vagrant-machines/
+			#v.customize ["modifyvm", :id, "--acpi", "off"]"
+			#v.customize ["modifyvm", :id, "--ioapic", "on"] # http://vl4rl.com/2014/06/04/enabling-mulitcpu-vagrant-machines/
 			v.customize ["modifyvm", :id, "--cpuexecutioncap", "60"]
 			v.memory = mem
 			v.cpus = cpus
