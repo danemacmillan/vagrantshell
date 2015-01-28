@@ -14,9 +14,10 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
 		develop.vm.network "forwarded_port", guest: 22, host: 4444, id: "ssh", auto_correct: true
 		develop.vm.network "forwarded_port", guest: 2368, host: 2368, auto_correct: true
+		develop.vm.network "forwarded_port", guest: 6081, host: 6081, auto_correct: true
 		develop.vm.network "forwarded_port", guest: 6379, host: 6379, auto_correct: true
 		develop.vm.network "forwarded_port", guest: 27017, host: 27017, auto_correct: true
-		
+
 		#, :mount_options => ["dmode=777","fmode=777"]
 		develop.vm.synced_folder ".", "/vagrant", type: "nfs"
 
