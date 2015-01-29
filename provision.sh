@@ -54,10 +54,11 @@ yum -y update
 
 # Install missing repos
 echo "Installing repos for epel, IUS, Percona, nginx."
-rpm -Uhv http://dl.iuscommunity.org/pub/ius/stable/CentOS/6/x86_64/epel-release-6-5.noarch.rpm
-rpm -Uhv http://dl.iuscommunity.org/pub/ius/stable/CentOS/6/x86_64/ius-release-1.0-13.ius.centos6.noarch.rpm
-rpm -Uhv http://www.percona.com/downloads/percona-release/percona-release-0.0-1.x86_64.rpm
-rpm -Uhv http://yum.newrelic.com/pub/newrelic/el5/x86_64/newrelic-repo-5-3.noarch.rpm
+rpm -Uhv --nosignature http://dl.iuscommunity.org/pub/ius/stable/CentOS/6/x86_64/epel-release-6-5.noarch.rpm
+rpm -Uhv --nosignature http://dl.iuscommunity.org/pub/ius/stable/CentOS/6/x86_64/ius-release-1.0-13.ius.centos6.noarch.rpm
+rpm -Uhv --nosignature http://www.percona.com/downloads/percona-release/percona-release-0.0-1.x86_64.rpm
+rpm -Uhv --nosignature http://yum.newrelic.com/pub/newrelic/el5/x86_64/newrelic-repo-5-3.noarch.rpm
+rpm -Uhv --nosignature https://repo.varnish-cache.org/redhat/varnish-3.0.el6.rpm
 cp -rf /$PROJECT_ROOT/yum/nginx.repo /etc/yum.repos.d/nginx.repo
 
 # Install all software needed for machine
@@ -97,7 +98,8 @@ $PHP_VERSION-cli $PHP_VERSION-pecl-jsonc $PHP_VERSION-devel \
 $PHP_VERSION-pecl-geoip $PHP_VERSION-pecl-redis redis \
 $PHP_VERSION-pecl-mongo mongodb mongodb-server \
 Percona-Server-client-56 Percona-Server-server-56 \
-percona-toolkit percona-xtrabackup mysql-utilities mysqlreport mysqltuner
+percona-toolkit percona-xtrabackup mysql-utilities mysqlreport mysqltuner \
+varnish
 
 # Set SELinux to permissive mode for Nginx
 # This is done because for a virtual environment, we do not want SELINUX to be
