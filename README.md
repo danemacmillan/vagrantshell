@@ -27,10 +27,11 @@ will also exist in a different repo.
 - Percona 5.6+ (MySQL)
 - Redis
 - MongoDB
-- Xdebug (read below)
+- Varnish 3.0+
 
 ### Minor
 
+- Xdebug (read below)
 - Git 2.2+
 - Rsync 3.1+
 
