@@ -18,7 +18,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 		develop.vm.network "forwarded_port", guest: 6379, host: 6379, auto_correct: true
 		develop.vm.network "forwarded_port", guest: 27017, host: 27017, auto_correct: true
 
-		#, :mount_options => ["dmode=777","fmode=777"]
+		# Look into Rsync for Windows, as it is slow.
+		# https://servercheck.in/blog/rsync-vagrant-15-file-performance-windows-dev
 		develop.vm.synced_folder ".", "/vagrant", type: "nfs"
 
 		develop.vm.post_up_message = "Having issues? Check the 'vagrantshell' documentation: https://github.com/danemacmillan/vagrantshell."
