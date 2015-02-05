@@ -69,7 +69,7 @@ https://github.com/dotless-de/vagrant-vbguest
 This is necessary so that the environment can be accessed in a browser. Edit
 `/etc/hosts` to include the following line:
 
-`192.168.80.80 dev develop.vagrant.dev`
+`192.168.80.80 dev vagrant.dev develop.vagrant.dev`
 
 On Windows, the file is located at `C:\Windows\System32\Drivers\etc\hosts`.
 
