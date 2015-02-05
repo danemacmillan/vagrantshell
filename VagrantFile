@@ -20,6 +20,9 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
 		# Look into Rsync for Windows, as it is slow.
 		# https://servercheck.in/blog/rsync-vagrant-15-file-performance-windows-dev
+		#develop.vm.synced_folder ".", "/vagrant", type: "rsync", rsync__auto: "true", rsync__exclude: ".git/", id: "vagrant"
+		
+		# NFS
 		develop.vm.synced_folder ".", "/vagrant", type: "nfs"
 
 		develop.vm.post_up_message = "Having issues? Check the 'vagrantshell' documentation: https://github.com/danemacmillan/vagrantshell."
