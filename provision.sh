@@ -106,9 +106,9 @@ varnish
 # overriding permissions.
 # TODO read this: http://nginx.com/blog/nginx-se-linux-changes-upgrading-rhel-6-6/
 #echo -e "Setting SELinux enforcing of Nginx policy to permissive mode."
-#setenforce 0
 #semanage permissive -a httpd_t
 echo -e "Disabling SELinux."
+setenforce 0
 sed -i -e 's/SELINUX=enforcing/SELINUX=disabled/g' /etc/sysconfig/selinux
 sed -i -e 's/SELINUX=permissive/SELINUX=disabled/g' /etc/sysconfig/selinux
 
