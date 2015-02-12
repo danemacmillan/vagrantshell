@@ -28,6 +28,7 @@ will also exist in a different repo.
 - Redis
 - MongoDB
 - Varnish 3.0+
+- Node.js
 
 ### Minor
 
