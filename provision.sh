@@ -62,7 +62,7 @@ rpm -Uhv --nosignature https://repo.varnish-cache.org/redhat/varnish-3.0.el6.rpm
 rpm -Uhv --nosignature http://nginx.org/packages/centos/6/noarch/RPMS/nginx-release-centos-6-0.el6.ngx.noarch.rpm
 
 # Switch to mainline Nginx version in repo file.
-sed -i -e 's/packages/packages\/mainline/g' /etc/yum.repos.d/nginx.repo
+sed -i -e 's/packages\/centos/packages\/mainline\/centos/g' /etc/yum.repos.d/nginx.repo
 #cp -rf /$PROJECT_ROOT/yum/nginx.repo /etc/yum.repos.d/nginx.repo
 
 # Clean yum
