@@ -93,7 +93,7 @@ yum -y install \
 zlib-devel vim vim-common vim-enhanced vim-minimal htop mytop nmap at yum-utils \
 openssl openssl-devel curl libcurl libcurl-devel lsof tmux bash-completion \
 cmake expect lua gpg rpm-build rpm-devel autoconf automake lynx gcc httpd httpd-devel \
-mod_ssl mod_fcgid mod_geoip memcached memcached-devel nginx npm pv \
+mod_ssl mod_fcgid mod_geoip memcached memcached-devel nginx npm pv parted \
 ca-certificates weechat bitlbee bitlbee-otr setroubleshoot atop autofs \
 $PHP_VERSION \
 $PHP_VERSION-devel $PHP_VERSION-common $PHP_VERSION-gd $PHP_VERSION-imap \
