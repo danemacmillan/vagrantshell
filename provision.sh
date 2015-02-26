@@ -59,7 +59,14 @@ rpm -Uhv --nosignature http://dl.iuscommunity.org/pub/ius/stable/CentOS/6/x86_64
 rpm -Uhv --nosignature http://www.percona.com/downloads/percona-release/percona-release-0.0-1.x86_64.rpm
 rpm -Uhv --nosignature http://yum.newrelic.com/pub/newrelic/el5/x86_64/newrelic-repo-5-3.noarch.rpm
 rpm -Uhv --nosignature https://repo.varnish-cache.org/redhat/varnish-3.0.el6.rpm
-cp -rf /$PROJECT_ROOT/yum/nginx.repo /etc/yum.repos.d/nginx.repo
+rpm -Uhv --nosignature http://nginx.org/packages/centos/6/noarch/RPMS/nginx-release-centos-6-0.el6.ngx.noarch.rpm
+
+# Switch to mainline Nginx version in repo file.
+sed -i -e 's/packages/packages\/mainline/g' /etc/yum.repos.d/nginx.repo
+#cp -rf /$PROJECT_ROOT/yum/nginx.repo /etc/yum.repos.d/nginx.repo
+
+# Clean yum
+yum clean all
 
 # Install all software needed for machine
 PHP_VERSION="php55u"
