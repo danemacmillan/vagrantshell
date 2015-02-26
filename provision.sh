@@ -99,7 +99,12 @@ $PHP_VERSION-pecl-geoip $PHP_VERSION-pecl-redis redis \
 $PHP_VERSION-pecl-mongo mongodb mongodb-server \
 Percona-Server-client-56 Percona-Server-server-56 \
 percona-toolkit percona-xtrabackup mysql-utilities mysqlreport mysqltuner \
-varnish
+varnish \
+svn cpp make libtool patch gcc-c++ wget boost-devel mysql-devel pcre-devel \
+gd-devel libxml2-devel expat-devel libicu-devel bzip2-devel oniguruma-devel \
+openldap-devel readline-devel libc-client-devel libcap-devel binutils-devel \
+pam-devel elfutils-libelf-devel ImageMagick-devel libxslt-devel libevent-devel \
+libcurl-devel libmcrypt-devel tbb-devel libdwarf-devel
 
 # Set SELinux to permissive mode for Nginx
 # This is done because for a virtual environment, we do not want SELINUX to be
