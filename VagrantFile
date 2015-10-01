@@ -7,7 +7,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 	# vagrantshell machine
 	config.vm.define "develop", primary: true do |develop|
 
-		develop.vm.box = "geerlingguy/centos6"
+		develop.vm.box = "bento/centos-6.7"
 		#develop.vm.box = "chef/centos-6.6"
 		#develop.vm.box_url = ""
 		develop.vm.hostname = "vagrant.dev"
