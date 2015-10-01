@@ -24,7 +24,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 		#develop.vm.synced_folder ".", "/vagrant", type: "rsync", rsync__auto: "true", rsync__exclude: [".vagrant/",".git/"]
 
 		# NFS
-		develop.vm.synced_folder ".", "/vagrant", type: "nfs"
+		develop.vm.synced_folder ".", "/vagrant", type: "nfs", mount_options: ['rw', 'vers=3', 'tcp', 'fsc']
 
 		develop.vm.post_up_message = "Having issues? Check the 'vagrantshell' documentation: https://github.com/danemacmillan/vagrantshell."
 
