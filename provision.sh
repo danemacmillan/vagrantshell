@@ -194,8 +194,8 @@ mysql -u $DB_USER --password="$DB_PASS" -e "DROP DATABASE IF EXISTS $DB_NAME; CR
 #
 echo -e "Symlinking httpd and nginx vhosts files."
 # Move unnecessary default configs into bak directories.
-#mkdir -pv /etc/httpd/conf.d/bak /etc/nginx/conf.d/bak
-#mv /etc/nginx/conf.d/*.conf /etc/nginx/conf.d/bak/
+mkdir -pv /etc/httpd/conf.d/bak /etc/nginx/conf.d/bak
+mv /etc/nginx/conf.d/*.conf /etc/nginx/conf.d/bak/
 # apache
 ln -nsfv /$PROJECT_ROOT/httpd/vagrant.dev.httpd.conf /etc/httpd/conf.d
 # nginx
