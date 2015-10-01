@@ -194,12 +194,27 @@ mysql -u $DB_USER --password="$DB_PASS" -e "DROP DATABASE IF EXISTS $DB_NAME; CR
 #
 echo -e "Symlinking httpd and nginx vhosts files."
 # Move unnecessary default configs into bak directories.
-mkdir -pv /etc/httpd/conf.d/bak /etc/nginx/conf.d/bak
-mv /etc/nginx/conf.d/*.conf /etc/nginx/conf.d/bak/
+#mkdir -pv /etc/httpd/conf.d/bak /etc/nginx/conf.d/bak
+#mv /etc/nginx/conf.d/*.conf /etc/nginx/conf.d/bak/
 # apache
 ln -nsfv /$PROJECT_ROOT/httpd/vagrant.dev.httpd.conf /etc/httpd/conf.d
 # nginx
-ln -nsfv /$PROJECT_ROOT/nginx/vagrant.dev.nginx.conf /etc/nginx/conf.d
+#ln -nsfv /$PROJECT_ROOT/nginx/vagrant.dev.nginx.conf /etc/nginx/conf.d
+
+# Just symlink the entire dir, because all settings are custom.
+#
+# Remap them. Handle "cp: cannot overwrite non-directory
+# `/symlink/path' with directory `/hard/path'. Use anonymous pipes to pipe
+# stderr only to command.
+sudo 'cp' -vRsf --backup=numbered /$PROJECT_ROOT/nginx /etc 2> >(HANDLESYM=$(cut -d "\`" -f2 | cut -d "'" -f1); [ $HANDLESYM ] && echo -e "Fixing symlink: $HANDLESYM" && unlink $HANDLESYM)
+# Run again to update unlinked content
+sudo 'cp' -Rsf --backup=numbered /$PROJECT_ROOT/nginx /etc
+# Clean up any backups that are just symlinks.
+sudo find /etc/nginx -type l -name "*.~[1-9]~" -exec unlink {} \;
+
+# Remove all dangling symlinks
+echo -e "Removing dangling symlinks."
+sudo symlinks -d /etc/nginx/* &> /dev/null
 
 # For shitty code, turn on PHP's short_open_tags
 echo -e "Setting short_open_tag on."
@@ -208,6 +223,8 @@ sed -i -e 's/short_open_tag = Off/short_open_tag = On/g' /etc/php.ini
 # Copying xdebug config. PHP 5.5 uses different ini naming convention. (#-..ini)
 echo -e "Configuring PHP Xdebug."
 cp -rf /$PROJECT_ROOT/php/xdebug.ini /etc/php.d/15-xdebug.ini
+mv /etc/php-fpm.d/www.conf /etc/php-fpm.d/www.conf.bak
+ln -s /$PROJECT_ROOT/php-fpm.d/www.conf /etc/php-fpm.d
 
 # Restart httpd for new configs and fcgid wrapper
 echo -e "Restarting servers to use vhost configs."
