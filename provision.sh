@@ -38,11 +38,10 @@ fi
 if [ -f $VAGRANT_PROVISION_DONE ]; then
 	echo -e "Box is already provisioned. Delete the $VAGRANT_PROVISION_DONE file to rebuild on vagrant up."
 
-	# for some reason the httpd daemon is not starting on boot, though
+	# for some reason the nginx daemon is not starting on boot, though
 	# it's configured to, so just boot it here.
 	echo "Restarting services."
 	/etc/init.d/nginx restart
-	/etc/init.d/httpd stop
 	/etc/init.d/php-fpm restart
 	/etc/init.d/mysql restart
 	/etc/init.d/memcached restart
@@ -110,7 +109,7 @@ gd-devel libxml2-devel expat-devel libicu-devel bzip2-devel oniguruma-devel \
 openldap-devel readline-devel libc-client-devel libcap-devel binutils-devel \
 pam-devel elfutils-libelf-devel ImageMagick-devel libxslt-devel libevent-devel \
 libcurl-devel libmcrypt-devel tbb-devel libdwarf-devel \
-tuned cachefilesd
+tuned cachefilesd symlinks
 
 # Installing PHP composer...
 echo "Installing Composer."
@@ -146,7 +145,6 @@ pecl install http://pecl.php.net/get/pecl_http-1.7.6.tgz
 
 echo "Adding services to boot."
 chkconfig nginx on
-chkconfig httpd off
 chkconfig mysql on
 chkconfig php-fpm on
 chkconfig memcached on
@@ -164,7 +162,6 @@ service cachefilesd start
 # Start services
 echo "Starting/stopping services."
 /etc/init.d/nginx start
-/etc/init.d/httpd stop
 /etc/init.d/mysql start
 /etc/init.d/php-fpm start
 /etc/init.d/memcached start
@@ -182,19 +179,20 @@ echo "Setting up DB, and granting all privileges to '$DB_USER'@'%'."
 mysql -u $DB_USER --password="$DB_PASS" -e "GRANT ALL PRIVILEGES ON *.* TO '$DB_USER'@'%' WITH GRANT OPTION"
 mysql -u $DB_USER --password="$DB_PASS" -e "DROP DATABASE IF EXISTS $DB_NAME; CREATE DATABASE $DB_NAME"
 
-# Copying xdebug config. PHP 5.5 uses different ini naming convention. (#-..ini)
+#
 echo -e "Configuring /etc/"
-# Migrate all vagrantshell to etc configs for mass symlinking.
-sudo 'cp' -vRsf --backup=numbered /$PROJECT_ROOT/etc/* /etc 2> >(HANDLESYM=$(cut -d "\`" -f2 | cut -d "'" -f1); [ $HANDLESYM ] && echo -e "Fixing symlink: $HANDLESYM" && unlink $HANDLESYM)
+# Remap them. Handle "cp: cannot overwrite non-directory
+# `/symlink/path' with directory `/hard/path'. Use anonymous pipes to pipe
+# stderr only to command.
+'cp' -vRsf --backup=numbered /$PROJECT_ROOT/etc/* /etc 2> >(HANDLESYM=$(cut -d "\`" -f2 | cut -d "'" -f1); [ $HANDLESYM ] && echo -e "Fixing symlink: $HANDLESYM" && unlink $HANDLESYM)
 # Run again to update unlinked content
-sudo 'cp' -Rsf --backup=numbered /$PROJECT_ROOT/etc/* /etc
+'cp' -Rsf --backup=numbered /$PROJECT_ROOT/etc/* /etc
 # Clean up any backups that are just symlinks.
-sudo find /etc/php.d -type l -name "*.~[1-9]~" -exec unlink {} \;
-sudo symlinks -d /etc/* &> /dev/null
+find /etc/php.d -type l -name "*.~[1-9]~" -exec unlink {} \;
+symlinks -d /etc/* &> /dev/null
 
-# Restart httpd for new configs and fcgid wrapper
+#
 echo -e "Restarting servers to use new configs."
-/etc/init.d/httpd stop
 /etc/init.d/nginx restart
 /etc/init.d/php-fpm restart
 /etc/init.d/mysql restart
