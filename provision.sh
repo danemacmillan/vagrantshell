@@ -62,10 +62,6 @@ rpm -Uhv --nosignature http://yum.newrelic.com/pub/newrelic/el5/x86_64/newrelic-
 rpm -Uhv --nosignature https://repo.varnish-cache.org/redhat/varnish-3.0.el6.rpm
 rpm -Uhv --nosignature http://nginx.org/packages/centos/6/noarch/RPMS/nginx-release-centos-6-0.el6.ngx.noarch.rpm
 
-# Switch to mainline Nginx version in repo file. This will be replaced by
-# symlink later on.
-sed -i -e 's/packages\/centos/packages\/mainline\/centos/g' /etc/yum.repos.d/nginx.repo
-
 # Clean yum
 yum clean all
 
@@ -114,6 +110,20 @@ openldap-devel readline-devel libc-client-devel libcap-devel binutils-devel \
 pam-devel elfutils-libelf-devel ImageMagick-devel libxslt-devel libevent-devel \
 libcurl-devel libmcrypt-devel tbb-devel libdwarf-devel \
 tuned cachefilesd symlinks
+
+# Use vagrantshell optimized configs.
+echo -e "Configuring /etc/"
+# Ensure nginx's terrible default configs are blown away.
+rm -rf /etc/nginx/conf.d
+# Remap them. Handle "cp: cannot overwrite non-directory
+# `/symlink/path' with directory `/hard/path'. Use anonymous pipes to pipe
+# stderr only to command.
+'cp' -vRsf --backup=numbered /$PROJECT_ROOT/etc/* /etc 2> >(HANDLESYM=$(cut -d "\`" -f2 | cut -d "'" -f1); [ $HANDLESYM ] && echo -e "Fixing symlink: $HANDLESYM" && unlink $HANDLESYM)
+# Run again to update unlinked content
+'cp' -Rsf --backup=numbered /$PROJECT_ROOT/etc/* /etc
+# Clean up any backups that are just symlinks.
+find /etc/php.d -type l -name "*.~[1-9]~" -exec unlink {} \;
+symlinks -d /etc/* &> /dev/null
 
 # Set SELinux to permissive mode for Nginx
 # This is done because for a virtual environment, we do not want SELINUX to be
@@ -176,11 +186,11 @@ service cachefilesd start
 
 # Start services
 echo "Starting/stopping services."
-/etc/init.d/nginx start
-/etc/init.d/mysql start
-/etc/init.d/php-fpm start
-/etc/init.d/memcached start
-/etc/init.d/redis start
+/etc/init.d/nginx restart
+/etc/init.d/mysql restart
+/etc/init.d/php-fpm restart
+/etc/init.d/memcached restart
+/etc/init.d/redis restart
 /etc/init.d/iptables stop
 /etc/init.d/ip6tables stop
 /etc/init.d/cachefilesd start
@@ -193,29 +203,6 @@ done
 echo "Setting up DB, and granting all privileges to '$DB_USER'@'%'."
 mysql -u $DB_USER --password="$DB_PASS" -e "GRANT ALL PRIVILEGES ON *.* TO '$DB_USER'@'%' WITH GRANT OPTION"
 mysql -u $DB_USER --password="$DB_PASS" -e "DROP DATABASE IF EXISTS $DB_NAME; CREATE DATABASE $DB_NAME"
-
-# Ensure nginx's terrible default configs are blown away.
-mkdir /etc/nginx/conf.d/bak
-mv /etc/nginx/conf.d/* /etc/nginx/conf.d/bak
-
-#
-echo -e "Configuring /etc/"
-# Remap them. Handle "cp: cannot overwrite non-directory
-# `/symlink/path' with directory `/hard/path'. Use anonymous pipes to pipe
-# stderr only to command.
-'cp' -vRsf --backup=numbered /$PROJECT_ROOT/etc/* /etc 2> >(HANDLESYM=$(cut -d "\`" -f2 | cut -d "'" -f1); [ $HANDLESYM ] && echo -e "Fixing symlink: $HANDLESYM" && unlink $HANDLESYM)
-# Run again to update unlinked content
-'cp' -Rsf --backup=numbered /$PROJECT_ROOT/etc/* /etc
-# Clean up any backups that are just symlinks.
-find /etc/php.d -type l -name "*.~[1-9]~" -exec unlink {} \;
-symlinks -d /etc/* &> /dev/null
-
-#
-echo -e "Restarting servers to use new configs."
-/etc/init.d/nginx restart
-/etc/init.d/php-fpm restart
-/etc/init.d/mysql restart
-/etc/init.d/redis restart
 
 # Update rsync
 echo -e "Updating rsync."

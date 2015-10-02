@@ -18,6 +18,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 		develop.vm.network "forwarded_port", guest: 6379, host: 6379, auto_correct: true
 		develop.vm.network "forwarded_port", guest: 27017, host: 27017, auto_correct: true
 
+		#develop.ssh.shell = "/bin/bash"
+
 		# Look into Rsync for Windows, as it is slow.
 		# https://servercheck.in/blog/rsync-vagrant-15-file-performance-windows-dev
 		#develop.vm.synced_folder ".", "/vagrant", type: "rsync", rsync__auto: "true", rsync__exclude: [".vagrant/",".git/"]
