@@ -55,6 +55,13 @@ using `cachefilesd`, which will seamlessly cache NFS-mounted files inside the
 guest box's filesystem. Reads and writes are also improved using the `tuned`
 utility.
 
+These performance enhancements were implemented in response to the poor
+performance of Magento 1.8+ in a Vagrant environment based on VirtualBox. This
+box is useful for everyone, and will be especially fast for most frameworks and
+needs, because it was tuned for the slowest PHP framework in the
+industry--namely, Magento. The logic being that if Magento performs very well
+on this box, everything else will fly.
+
 
 ## The `vshell` utility
 
