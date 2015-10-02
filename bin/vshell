@@ -9,4 +9,104 @@
 # @since 2.0.0
 #
 
-echo "This will be made available in a later release."
+tool_name="vshell"
+tool_version="2.0.0"
+
+# Explain how to use this tool.
+vshell_usage()
+{
+cat << EOF
+$tool_name $tool_version
+
+'$tool_name' is used for managing the vagrantshell VM.
+
+Usage:
+
+ $tool_name [ Options ]
+
+Options:
+
+ help                Show this usage message.
+ map                 Map contents of /vagrant/etc/ into /etc/.
+ restart             Restart multiple daemons.
+ update              Update vagrantshell from master.
+
+Examples:
+
+ Remap new /vagrant/etc/ files into core /etc/:
+   $tool_name map
+
+EOF
+}
+
+vshell_map()
+{
+	local vagrantshell_etc="/vagrant/etc"
+
+	echo -e "Mapping configs into /etc/"
+	# Remap them. Handle "cp: cannot overwrite non-directory
+	# `/symlink/path' with directory `/hard/path'. Use anonymous pipes to pipe
+	# stderr only to command.
+	sudo 'cp' -vRsf --backup=numbered ${vagrantshell_etc}/* /etc 2> >(HANDLESYM=$(cut -d "\`" -f2 | cut -d "'" -f1); [ $HANDLESYM ] && echo -e "Fixing symlink: $HANDLESYM" && unlink $HANDLESYM)
+	# Run again to update unlinked content
+	sudo 'cp' -Rsf --backup=numbered ${vagrantshell_etc}/* /etc
+
+	# Clean up any backups that are just symlinks.
+	sudo find /etc/ -type l -name "*.~[1-9]~" -exec unlink {} \;
+
+	# Remove all dangling symlinks
+	echo -e "Removing dangling symlinks."
+	sudo symlinks -d /etc/* &> /dev/null
+}
+
+vshell_restart()
+{
+	echo -e "Reloading service configs."
+	sudo /etc/init.d/nginx restart
+	sudo /etc/init.d/php-fpm restart
+	sudo /etc/init.d/mysql restart
+	sudo /etc/init.d/redis restart
+	#sudo /etc/init.d/varnish reload
+	sudo /etc/init.d/memcached restart
+	#sudo /etc/init.d/sshd reload
+	#sudo /etc/init.d/network reload
+	#sudo /etc/init.d/iptables reload
+}
+
+vshell_update()
+{
+	local vagrantshell="/vagrant"
+
+	echo -e "Updating inf files, remapping, restarting services."
+	(cd ${vagrantshell} && git pull)
+	vshell_map
+	vshell_restart
+
+	# Update any /etc/sysctl.conf changes
+	sysctl -p
+}
+
+##
+# Handle simple options (no need for getopts)
+#
+# No need for passing multiple options at once.
+
+if [[ "$1" == "help" ]]; then
+	vshell_usage
+fi
+
+if [[ "$1" == "map" ]]; then
+	vshell_map
+fi
+
+if [[ "$1" == "restart" ]]; then
+	vshell_restart
+fi
+
+if [[ "$1" == "update" ]]; then
+	vshell_update
+fi
+
+if [[ -z "$1" ]]; then
+	vshell_usage
+fi

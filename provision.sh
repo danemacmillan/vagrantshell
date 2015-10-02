@@ -114,10 +114,13 @@ pam-devel elfutils-libelf-devel ImageMagick-devel libxslt-devel libevent-devel \
 libcurl-devel libmcrypt-devel tbb-devel libdwarf-devel \
 tuned cachefilesd symlinks
 
-# Use vagrantshell optimized configs.
-echo -e "Configuring /etc/"
 # Ensure nginx's terrible default configs are blown away.
 rm -rf /etc/nginx/conf.d
+
+# TODO: use vshell commands.
+
+# Use vagrantshell optimized configs.
+echo -e "Configuring /etc/"
 # Remap them. Handle "cp: cannot overwrite non-directory
 # `/symlink/path' with directory `/hard/path'. Use anonymous pipes to pipe
 # stderr only to command.
