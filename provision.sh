@@ -172,6 +172,7 @@ chkconfig memcached on
 chkconfig redis on
 chkconfig iptables off
 chkconfig ip6tables off
+chkconfig cachefilesd on
 
 # Start services
 echo "Starting/stopping services."
@@ -196,7 +197,7 @@ mysql -u $DB_USER --password="$DB_PASS" -e "DROP DATABASE IF EXISTS $DB_NAME; CR
 
 # Tuning
 tuned-adm profile latency-performance
-cachefilesd
+cachefilesd -f /etc/cachefilesd.conf
 modprobe cachefiles
 service cachefilesd start
 
