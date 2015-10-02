@@ -10,8 +10,10 @@ PROJECT_ROOT="vagrant"
 
 # Create new project directory in sites/
 PROJECT_VHOST_DIR="develop.vagrant.dev"
-mkdir -pv /vagrant/sites/$PROJECT_VHOST_DIR
-cp /vagrant/sites/phpinfo.php /vagrant/sites/$PROJECT_VHOST_DIR/index.php
+if [[ ! -d $PROJECT_VHOST_DIR ]]; then
+	mkdir -pv /vagrant/sites/$PROJECT_VHOST_DIR
+	cp /vagrant/sites/phpinfo.php /vagrant/sites/$PROJECT_VHOST_DIR/index.php
+fi
 
 # Create project variables
 USER_USER="vagrant"
@@ -111,7 +113,8 @@ svn cpp make libtool patch gcc-c++ wget boost-devel mysql-devel pcre-devel \
 gd-devel libxml2-devel expat-devel libicu-devel bzip2-devel oniguruma-devel \
 openldap-devel readline-devel libc-client-devel libcap-devel binutils-devel \
 pam-devel elfutils-libelf-devel ImageMagick-devel libxslt-devel libevent-devel \
-libcurl-devel libmcrypt-devel tbb-devel libdwarf-devel
+libcurl-devel libmcrypt-devel tbb-devel libdwarf-devel \
+tuned cachefilesd
 
 # Set SELinux to permissive mode for Nginx
 # This is done because for a virtual environment, we do not want SELINUX to be
@@ -191,46 +194,38 @@ echo "Setting up DB, and granting all privileges to '$DB_USER'@'%'."
 mysql -u $DB_USER --password="$DB_PASS" -e "GRANT ALL PRIVILEGES ON *.* TO '$DB_USER'@'%' WITH GRANT OPTION"
 mysql -u $DB_USER --password="$DB_PASS" -e "DROP DATABASE IF EXISTS $DB_NAME; CREATE DATABASE $DB_NAME"
 
+# Tuning
+tuned-adm profile latency-performance
+cachefilesd
+modprobe cachefiles
+service cachefilesd start
+
 #
-echo -e "Symlinking httpd and nginx vhosts files."
-# Move unnecessary default configs into bak directories.
+echo -e "Symlinking httpd vhosts files."
+# Move unnecessary apache default configs into bak directory.
 mkdir -pv /etc/httpd/conf.d/bak /etc/nginx/conf.d/bak
-mv /etc/nginx/conf.d/*.conf /etc/nginx/conf.d/bak/
-# apache
 ln -nsfv /$PROJECT_ROOT/httpd/vagrant.dev.httpd.conf /etc/httpd/conf.d
-# nginx
-#ln -nsfv /$PROJECT_ROOT/nginx/vagrant.dev.nginx.conf /etc/nginx/conf.d
 
-# Just symlink the entire dir, because all settings are custom.
-#
-# Remap them. Handle "cp: cannot overwrite non-directory
-# `/symlink/path' with directory `/hard/path'. Use anonymous pipes to pipe
-# stderr only to command.
-sudo 'cp' -vRsf --backup=numbered /$PROJECT_ROOT/nginx /etc 2> >(HANDLESYM=$(cut -d "\`" -f2 | cut -d "'" -f1); [ $HANDLESYM ] && echo -e "Fixing symlink: $HANDLESYM" && unlink $HANDLESYM)
+# Copying xdebug config. PHP 5.5 uses different ini naming convention. (#-..ini)
+echo -e "Configuring /etc/"
+# Migrate all vagrantshell to etc configs for mass symlinking.
+sudo 'cp' -vRsf --backup=numbered /$PROJECT_ROOT/etc/* /etc 2> >(HANDLESYM=$(cut -d "\`" -f2 | cut -d "'" -f1); [ $HANDLESYM ] && echo -e "Fixing symlink: $HANDLESYM" && unlink $HANDLESYM)
 # Run again to update unlinked content
-sudo 'cp' -Rsf --backup=numbered /$PROJECT_ROOT/nginx /etc
+sudo 'cp' -Rsf --backup=numbered /$PROJECT_ROOT/etc/* /etc
 # Clean up any backups that are just symlinks.
-sudo find /etc/nginx -type l -name "*.~[1-9]~" -exec unlink {} \;
-
-# Remove all dangling symlinks
-echo -e "Removing dangling symlinks."
-sudo symlinks -d /etc/nginx/* &> /dev/null
+sudo find /etc/php.d -type l -name "*.~[1-9]~" -exec unlink {} \;
+sudo symlinks -d /etc/* &> /dev/null
 
 # For shitty code, turn on PHP's short_open_tags
 echo -e "Setting short_open_tag on."
 sed -i -e 's/short_open_tag = Off/short_open_tag = On/g' /etc/php.ini
 
-# Copying xdebug config. PHP 5.5 uses different ini naming convention. (#-..ini)
-echo -e "Configuring PHP Xdebug."
-cp -rf /$PROJECT_ROOT/php/xdebug.ini /etc/php.d/15-xdebug.ini
-mv /etc/php-fpm.d/www.conf /etc/php-fpm.d/www.conf.bak
-ln -s /$PROJECT_ROOT/php-fpm.d/www.conf /etc/php-fpm.d
-
 # Restart httpd for new configs and fcgid wrapper
-echo -e "Restarting servers to use vhost configs."
+echo -e "Restarting servers to use new configs."
 /etc/init.d/httpd stop
 /etc/init.d/nginx restart
 /etc/init.d/php-fpm restart
+/etc/init.d/mysql restart
 
 # Update rsync
 echo -e "Updating rsync."
