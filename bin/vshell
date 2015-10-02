@@ -80,7 +80,7 @@ vshell_update()
 	vshell_restart
 
 	# Update any /etc/sysctl.conf changes
-	sysctl -p
+	sudo sysctl -p
 }
 
 vshell_xdebug()
