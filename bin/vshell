@@ -95,7 +95,7 @@ vshell_xdebug()
 		sed -i -e 's/zend_extension/;zend_extension/g' ${xdebug_location}
 	fi
 
-	/etc/init.d/php-fpm reload
+	sudo /etc/init.d/php-fpm reload
 }
 
 ##
