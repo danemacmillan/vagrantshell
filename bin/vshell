@@ -94,6 +94,8 @@ vshell_xdebug()
 		echo "Toggling Xdebug off."
 		sed -i -e 's/zend_extension/;zend_extension/g' ${xdebug_location}
 	fi
+
+	/etc/init.d/php-fpm reload
 }
 
 ##
