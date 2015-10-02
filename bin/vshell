@@ -17,22 +17,18 @@ vshell_usage()
 {
 cat << EOF
 $tool_name $tool_version
-
 '$tool_name' is used for managing the vagrantshell VM.
 
 Usage:
-
  $tool_name [ Options ]
 
 Options:
-
  help                Show this usage message.
  map                 Map contents of /vagrant/etc/ into /etc/.
  restart             Restart multiple daemons.
  update              Update vagrantshell from master.
 
 Examples:
-
  Remap new /vagrant/etc/ files into core /etc/:
    $tool_name map
 
