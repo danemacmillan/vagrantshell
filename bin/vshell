@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+
+##
+# vshell - 2.0.0
+#
+# Vagrantshell provides a basic Bash utility for managing configs and updates.
+#
+# @author Dane MacMillan <work@danemacmillan.com>
+# @since 2.0.0
+#
+
+echo "This will be made available in a later release."

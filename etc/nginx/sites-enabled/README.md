@@ -9,10 +9,10 @@ exact domain name `192.168.80.80 foobar.dev`, reload `nginx`, then point the
 browser at that domain and all the content within that directory will be
 served automatically, without need for additional configuration.
 
-# Custom vhosts
+# Custom virtual hosts
 
 If the default wildcard vhost configuration is not sufficient, you can still
-create a new *.conf file in `nginx/vhosts/*.conf` with whatever specific
+create a new *.conf file in `nginx/sites-enabled/*.conf` with whatever specific
 values required, and then add the corresponding directory in `sites`. This will
 not have any impact on the way wildcard domains work. Odds are, this will
 not need to be used, except for rare requirements.

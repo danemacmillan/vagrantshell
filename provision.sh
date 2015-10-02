@@ -63,10 +63,6 @@ rpm -Uhv --nosignature http://yum.newrelic.com/pub/newrelic/el5/x86_64/newrelic-
 rpm -Uhv --nosignature https://repo.varnish-cache.org/redhat/varnish-3.0.el6.rpm
 rpm -Uhv --nosignature http://nginx.org/packages/centos/6/noarch/RPMS/nginx-release-centos-6-0.el6.ngx.noarch.rpm
 
-# Switch to mainline Nginx version in repo file.
-sed -i -e 's/packages\/centos/packages\/mainline\/centos/g' /etc/yum.repos.d/nginx.repo
-#cp -rf /$PROJECT_ROOT/yum/nginx.repo /etc/yum.repos.d/nginx.repo
-
 # Clean yum
 yum clean all
 
@@ -94,7 +90,7 @@ yum -y --setopt=group_package_types=mandatory,default groupinstall "Development 
 yum -y install \
 zlib-devel vim vim-common vim-enhanced vim-minimal htop mytop nmap at yum-utils \
 openssl openssl-devel curl libcurl libcurl-devel lsof tmux bash-completion \
-cmake expect lua gpg rpm-build rpm-devel autoconf automake lynx gcc httpd httpd-devel \
+cmake expect lua gpg rpm-build rpm-devel autoconf automake lynx gcc \
 mod_ssl mod_fcgid mod_geoip memcached memcached-devel nginx npm pv parted \
 ca-certificates weechat bitlbee bitlbee-otr setroubleshoot atop autofs bind-utils \
 $PHP_VERSION \
@@ -115,21 +111,6 @@ openldap-devel readline-devel libc-client-devel libcap-devel binutils-devel \
 pam-devel elfutils-libelf-devel ImageMagick-devel libxslt-devel libevent-devel \
 libcurl-devel libmcrypt-devel tbb-devel libdwarf-devel \
 tuned cachefilesd
-
-# Set SELinux to permissive mode for Nginx
-# This is done because for a virtual environment, we do not want SELINUX to be
-# overriding permissions.
-# TODO read this: http://nginx.com/blog/nginx-se-linux-changes-upgrading-rhel-6-6/
-#echo -e "Setting SELinux enforcing of Nginx policy to permissive mode."
-#semanage permissive -a httpd_t
-echo -e "Disabling SELinux."
-setenforce 0
-sed -i -e 's/SELINUX=enforcing/SELINUX=disabled/g' /etc/sysconfig/selinux
-sed -i -e 's/SELINUX=permissive/SELINUX=disabled/g' /etc/sysconfig/selinux
-
-# SPDY depends on "at" and "httpd"
-echo "Installing SPDY..."
-rpm -U https://dl-ssl.google.com/dl/linux/direct/mod-spdy-beta_current_x86_64.rpm
 
 # Installing PHP composer...
 echo "Installing Composer."
@@ -174,6 +155,12 @@ chkconfig iptables off
 chkconfig ip6tables off
 chkconfig cachefilesd on
 
+# Tuning
+tuned-adm profile latency-performance
+cachefilesd -f /etc/cachefilesd.conf
+modprobe cachefiles
+service cachefilesd start
+
 # Start services
 echo "Starting/stopping services."
 /etc/init.d/nginx start
@@ -184,6 +171,7 @@ echo "Starting/stopping services."
 /etc/init.d/redis start
 /etc/init.d/iptables stop
 /etc/init.d/ip6tables stop
+/etc/init.d/cachefilesd start
 
 echo "Waiting for Percona MySQL."
 while ! service mysql status | grep -q running; do
@@ -195,18 +183,6 @@ echo "Setting up DB, and granting all privileges to '$DB_USER'@'%'."
 mysql -u $DB_USER --password="$DB_PASS" -e "GRANT ALL PRIVILEGES ON *.* TO '$DB_USER'@'%' WITH GRANT OPTION"
 mysql -u $DB_USER --password="$DB_PASS" -e "DROP DATABASE IF EXISTS $DB_NAME; CREATE DATABASE $DB_NAME"
 
-# Tuning
-tuned-adm profile latency-performance
-cachefilesd -f /etc/cachefilesd.conf
-modprobe cachefiles
-service cachefilesd start
-
-#
-echo -e "Symlinking httpd vhosts files."
-# Move unnecessary apache default configs into bak directory.
-mkdir -pv /etc/httpd/conf.d/bak /etc/nginx/conf.d/bak
-ln -nsfv /$PROJECT_ROOT/httpd/vagrant.dev.httpd.conf /etc/httpd/conf.d
-
 # Copying xdebug config. PHP 5.5 uses different ini naming convention. (#-..ini)
 echo -e "Configuring /etc/"
 # Migrate all vagrantshell to etc configs for mass symlinking.
@@ -217,16 +193,13 @@ sudo 'cp' -Rsf --backup=numbered /$PROJECT_ROOT/etc/* /etc
 sudo find /etc/php.d -type l -name "*.~[1-9]~" -exec unlink {} \;
 sudo symlinks -d /etc/* &> /dev/null
 
-# For shitty code, turn on PHP's short_open_tags
-echo -e "Setting short_open_tag on."
-sed -i -e 's/short_open_tag = Off/short_open_tag = On/g' /etc/php.ini
-
 # Restart httpd for new configs and fcgid wrapper
 echo -e "Restarting servers to use new configs."
 /etc/init.d/httpd stop
 /etc/init.d/nginx restart
 /etc/init.d/php-fpm restart
 /etc/init.d/mysql restart
+/etc/init.d/redis restart
 
 # Update rsync
 echo -e "Updating rsync."

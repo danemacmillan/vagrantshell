@@ -4,6 +4,11 @@ vagrantshell
 This is a Vagrant box provisioned using plain old bash shell scripting. Avoid
 this box if you are hip, trendy, or both; they will all laugh at you.
 
+# NOTE ABOUT REPO (Oct2.2015)
+
+This repository is undergoing major changes. If things are broken, they will
+eventually be unbroken.
+
 ## Who is this for?
 
 This setup is for newcomers to Web development. It is also for veterans
@@ -20,9 +25,8 @@ will also exist in a different repo.
 
 ### Major
 
-- CentOS 6.6
-- Nginx 1.7+ (mainline branch)
-- Apache 2.2+
+- CentOS 6.7
+- Nginx 1.9+ (mainline branch)
 - PHP 5.5+ (PHP-FPM & opcache)
 - Percona 5.6+ (MySQL)
 - Redis
@@ -38,7 +42,7 @@ will also exist in a different repo.
 
 ### Additional
 
-- The `SPDY` protocol is activated for both Apache and Nginx when using `HTTPS`.
+- The `SPDY` / `HTTP2` protocol is activated for Nginx when using `HTTPS`.
 
 ## Installation
 
