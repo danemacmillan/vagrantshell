@@ -115,6 +115,17 @@ pam-devel elfutils-libelf-devel ImageMagick-devel libxslt-devel libevent-devel \
 libcurl-devel libmcrypt-devel tbb-devel libdwarf-devel \
 tuned cachefilesd symlinks
 
+# Set SELinux to permissive mode for Nginx
+# This is done because for a virtual environment, we do not want SELINUX to be
+# overriding permissions.
+# TODO read this: http://nginx.com/blog/nginx-se-linux-changes-upgrading-rhel-6-6/
+#echo -e "Setting SELinux enforcing of Nginx policy to permissive mode."
+#semanage permissive -a httpd_t
+echo -e "Disabling SELinux."
+setenforce 0
+sed -i -e 's/SELINUX=enforcing/SELINUX=disabled/g' /etc/sysconfig/selinux
+sed -i -e 's/SELINUX=permissive/SELINUX=disabled/g' /etc/sysconfig/selinux
+
 # Installing PHP composer...
 echo "Installing Composer."
 curl -sS https://getcomposer.org/installer | php
