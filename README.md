@@ -41,6 +41,31 @@ Read the `changelog` below for more information.
 
 - The `SPDY` / `HTTP2` protocol is activated for Nginx when using `HTTPS`.
 
+### The `vshell` utility
+
+`vagrantshell` includes a `vshell` Bash utility for managing certain tasks
+related to the box. It is located in `/vagrant/bin`. It is recommended to add
+it to the box's path: `export PATH="/vagrant/bin:$PATH"`
+
+```
+vshell 2.0.0
+'vshell' is used for managing the vagrantshell VM.
+
+Usage:
+ vshell [ Options ]
+
+Options:
+ help                Show this usage message.
+ map                 Map contents of /vagrant/etc/ into core /etc/.
+ restart             Restart multiple daemons.
+ update              Update vagrantshell from master.
+ xdebug              Toggle PHP Xdebug on or off.
+
+Examples:
+ Remap new /vagrant/etc/ files into core /etc/:
+   vshell map
+```
+
 ## Installation
 
 ### (For Windows users only)
@@ -103,12 +128,6 @@ on the connection.
 From the `vagrantshell` directory that contains the `VagrantFile` file, run
 `vagrant ssh`. You are in CentOS as user, `vagrant`. For root access,
 type, `sudo su`.
-
-### Add `vshell` utility to path
-
-`vagrantshell` includes a `vshell` Bash utility for managing certain tasks
-related to this. It is located in `/vagrant/bin`. It is recommended to add this
-to the box's path: `export PATH="/vagrant/bin:$PATH"`
 
 ### (For Windows users only)
 
