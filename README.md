@@ -41,7 +41,7 @@ Read the `changelog` below for more information.
 
 - The `SPDY` / `HTTP2` protocol is activated for Nginx when using `HTTPS`.
 
-### The `vshell` utility
+## The `vshell` utility
 
 `vagrantshell` includes a `vshell` Bash utility for managing certain tasks
 related to the box. It is located in `/vagrant/bin`. It is recommended to add
