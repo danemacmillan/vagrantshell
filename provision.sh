@@ -10,7 +10,7 @@ PROJECT_ROOT="vagrant"
 
 # Create new project directory in sites/
 PROJECT_VHOST_DIR="develop.vagrant.dev"
-if [[ ! -d $PROJECT_VHOST_DIR ]]; then
+if [[ ! -d /vagrant/sites/$PROJECT_VHOST_DIR ]]; then
 	mkdir -pv /vagrant/sites/$PROJECT_VHOST_DIR
 	cp /vagrant/sites/phpinfo.php /vagrant/sites/$PROJECT_VHOST_DIR/index.php
 fi

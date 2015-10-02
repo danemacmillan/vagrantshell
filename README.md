@@ -4,11 +4,6 @@ vagrantshell
 This is a Vagrant box provisioned using plain old bash shell scripting. Avoid
 this box if you are hip, trendy, or both; they will all laugh at you.
 
-# NOTE ABOUT REPO (Oct2.2015)
-
-This repository is undergoing major changes. If things are broken, they will
-eventually be unbroken.
-
 ## Who is this for?
 
 This setup is for newcomers to Web development. It is also for veterans
@@ -22,6 +17,8 @@ There will come a time when `saltstack` or `ansible` will be used, but that
 will also exist in a different repo.
 
 ## Technology stack
+
+Read the `changelog` below for more information.
 
 ### Major
 
@@ -37,7 +34,7 @@ will also exist in a different repo.
 ### Minor
 
 - Xdebug (read below)
-- Git 2.2+
+- Git 2.5+
 - Rsync 3.1+
 
 ### Additional
@@ -107,12 +104,17 @@ From the `vagrantshell` directory that contains the `VagrantFile` file, run
 `vagrant ssh`. You are in CentOS as user, `vagrant`. For root access,
 type, `sudo su`.
 
+### Add `vshell` utility to path
+
+`vagrantshell` includes a `vshell` Bash utility for managing certain tasks
+related to this. It is located in `/vagrant/bin`. It is recommended to add this
+to the box's path: `export PATH="/vagrant/bin:$PATH"`
+
 ### (For Windows users only)
 
 Oddly, the dotfiles are not sourced during post-provision, so upon SSH'ing into
 the box for the first time, run `source ~/.dotfiles/bootsrap.sh`. This will
 change the color of your PS1 and add a tonne of handy functionality.
-
 
 ### Directories
 
@@ -128,11 +130,10 @@ codebases. On your host machine, point your IDE or editor to
 ### Access from Web browser
 
 Browse to the address at `develop.vagrant.dev` using `HTTP` or `HTTPS`. This
-will work so long as the hosts file has been updated. Note that the `SPDY`
-protocol will be used for secure connections; this is true for both Apache and
-Nginx.
+will work so long as the hosts file has been updated. Note that the `SPDY` \ 
+`HTTP2` protocol will be used.
 
-### Adding new vhosts
+### Adding new virtual hosts
 
 Create a new directory in `sites`. Nginx will automatically pick up on it. A
 corresponding `/etc/hosts` entry should exist, otherwise the new directory will
@@ -142,9 +143,6 @@ the host's host file to include `192.168.80.80 foobar.dev`, and browse to it.
 Note that the directory name will be *exactly* what should be typed in a browser's
 address bar.
 
-The setup is a little different if using the Apache server, as it does not
-support wildcard server names like Nginx.
-
 ### Post-provision
 
 Read the `README.md` in `post-provision` to see how post-provision scripts and
@@ -152,7 +150,7 @@ DB imports work.
 
 ### Debugging PHP
 
-Xdebug is running. It is configured according this tutorial:
+Xdebug is not enabled by default. It is configured according this tutorial:
 
 https://danemacmillan.com/how-to-configure-xdebug-in-phpstorm-through-vagrant/
 
@@ -204,6 +202,13 @@ policy to reactivate. This blocks Nginx from being accessible. Since CentOS 6.6
 ## Author
 
 [Dane MacMillan](https://danemacmillan.com)
+
+## Changelog
+
+### 2.0.0 (October 2, 2015)
+
+The entire structure of the repository was changed. If a fork from before this
+date exists, it will no longer be compatible with this version.
 
 ## Copyright & license
 
