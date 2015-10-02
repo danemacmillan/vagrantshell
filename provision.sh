@@ -179,6 +179,10 @@ echo "Setting up DB, and granting all privileges to '$DB_USER'@'%'."
 mysql -u $DB_USER --password="$DB_PASS" -e "GRANT ALL PRIVILEGES ON *.* TO '$DB_USER'@'%' WITH GRANT OPTION"
 mysql -u $DB_USER --password="$DB_PASS" -e "DROP DATABASE IF EXISTS $DB_NAME; CREATE DATABASE $DB_NAME"
 
+# Ensure nginx's terrible default configs are blown away.
+mkdir /etc/nginx/conf.d/bak
+mv /etc/nginx/conf.d/* /etc/nginx/conf.d/bak
+
 #
 echo -e "Configuring /etc/"
 # Remap them. Handle "cp: cannot overwrite non-directory
