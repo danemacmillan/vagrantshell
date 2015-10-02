@@ -85,7 +85,7 @@ vshell_update()
 
 vshell_xdebug()
 {
-	local xdebug_location="/vagrant/php.d/15-xdebug.ini"
+	local xdebug_location="/vagrant/etc/php.d/15-xdebug.ini"
 
 	if grep -q ";zend_extension" "$xdebug_location"; then
 		echo "Toggling Xdebug on."
