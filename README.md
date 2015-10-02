@@ -18,7 +18,8 @@ will also exist in a different repo.
 
 ## Technology stack
 
-Read the `changelog` below for more information.
+Read the `changelog` below for more information. Version 2.0.0 (October 2, 2015)
+introduced a major break from the previous version.
 
 ### Major
 
@@ -40,6 +41,20 @@ Read the `changelog` below for more information.
 ### Additional
 
 - The `SPDY` / `HTTP2` protocol is activated for Nginx when using `HTTPS`.
+
+### Performance
+
+This box is configured for high performance and makes very low-level changes
+to the underlying OS settings. The configurations in place descend from a much
+larger, battle-hardened production environment, with tweaks made to memory
+allocation for this smaller VM, so this box also serves as a good example of
+a performance-tuned stack.
+
+In addition, this box has specific VM-only configs that speed up NFS,
+using `cachefilesd`, which will seamlessly cache NFS-mounted files inside the
+guest box's filesystem. Reads and writes are also improved using the `tuned`
+utility.
+
 
 ## The `vshell` utility
 
