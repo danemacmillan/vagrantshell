@@ -177,7 +177,6 @@ echo "Waiting for Percona MySQL."
 while ! service mysql status | grep -q running; do
 	sleep 1
 done
-
 # Set database user credentials
 echo "Setting up DB, and granting all privileges to '$DB_USER'@'%'."
 mysql -u $DB_USER --password="$DB_PASS" -e "GRANT ALL PRIVILEGES ON *.* TO '$DB_USER'@'%' WITH GRANT OPTION"
