@@ -47,7 +47,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 		# Default provider order: https://docs.vagrantup.com/v2/providers/basic_usage.html
 
 			# Provider: Parallels
-			vagrantshell.vm.provider "virtualbox" do |p, override|
+			vagrantshell.vm.provider "parallels" do |p, override|
 				override.vm.box = "parallels/centos-6.7"
 				p.memory = mem
 				p.cpus = cpus
