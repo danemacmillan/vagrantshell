@@ -32,7 +32,7 @@ nbproject/
 post-provision/*
 !post-provision/README.md
 !post-provision/00-dotfiles.sh
-!post-provision/01-devlogsdash.sh
+!post-provision/01-dev.sh
 
 ## sites
 # Ignore them all, except for the default. Make sure project files not added,

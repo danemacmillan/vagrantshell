@@ -183,6 +183,7 @@ chkconfig redis on
 chkconfig iptables off
 chkconfig ip6tables off
 chkconfig cachefilesd on
+chkconfig mongod on
 
 # Tuning
 tuned-adm profile latency-performance
@@ -200,6 +201,7 @@ echo "Starting/stopping services."
 /etc/init.d/iptables stop
 /etc/init.d/ip6tables stop
 /etc/init.d/cachefilesd start
+/etc/init.d/mongod restart
 
 echo "Waiting for Percona MySQL."
 while ! service mysql status | grep -q running; do
