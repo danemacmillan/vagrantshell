@@ -145,15 +145,14 @@ On Windows, the file is located at `C:\Windows\System32\Drivers\etc\hosts`.
 
 ### Provisioning
 
-1. Copy any post-provision scripts or SQL dumps into `vagrantshell/post-provision`.
-These will be files used to build the actual project you want to develop. Without
-these, the vagrantshell will just be a hosting environment ready to start new
-projects. If there are none, this step can be ignored.
+> Note: `vagrantshell` provisions mostly everything for modern development.
+Read about post-provision scripts below if adding additional content automation is
+required.
 
-2. Run `vagrant up` in the `vagrantshell` directory where the `VagrantFile` file
+1. Run `vagrant up` in the `vagrantshell` directory where the `VagrantFile` file
 exists.
 
-3. Wait for everything to install. This can take about ten minutes, depending
+2. Wait for everything to install. This can take about twenty minutes, depending
 on the connection.
 
 ## Development
@@ -192,10 +191,10 @@ will work so long as the hosts file has been updated. Note that the `SPDY` \
 Create a new directory in `sites`. Nginx will automatically pick up on it. A
 corresponding `/etc/hosts` entry should exist, otherwise the new directory will
 be inaccessible. For example, create a directory, `tests.vagrant.dev` or
-`foobar.dev` in `sites`, reload `nginx` (`/etc/init.d/nginx reload`), and edit
-the host's host file to include `192.168.80.80 foobar.dev`, and browse to it.
-Note that the directory name will be *exactly* what should be typed in a browser's
-address bar.
+`foobar.dev` in `sites`, and edit
+the host's host file to include `192.168.80.80 foobar.dev`, then browse to it.
+**The directory name will be exactly what should be typed in a browser's
+address bar.**
 
 ### Post-provision
 
