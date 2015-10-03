@@ -17,7 +17,7 @@ cd /vagrant/sites/dev && git clone https://github.com/afaqurk/linux-dash.git
 echo -e "\nInstalling xhprof and xhgui to https://dev/xhgui"
 echo -e "--------------------------------------------------------------------------------"
 echo "Installing xhprof."
-pecl install xhprof
+pecl install channel://pecl.php.net/xhprof-0.9.4
 echo "Booting mongodb."
 sudo /etc/init.d/mongod restart
 echo "Installing xhgui."
