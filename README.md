@@ -91,7 +91,7 @@ will be used, then fallback to VirtualBox. Parallels is faster, but not free.
 
 - The `SPDY` / `HTTP2` protocol is activated for Nginx when using `HTTPS`.
 
-### Performance
+### :boom: Performance
 
 This box is configured for high performance and makes low-level changes
 to the underlying OS. The configurations in place descend from a much
@@ -210,7 +210,7 @@ codebases. On your host machine, point your IDE or editor to
 ### Access from Web browser
 
 Browse to the address at `develop.vagrant.dev` using `HTTP` or `HTTPS`. This
-will work so long as the hosts file has been updated. Note that the `SPDY` \
+will work so long as the hosts file has been updated. Note that the `SPDY` /
 `HTTP2` protocol will be used.
 
 ### Adding new virtual hosts
@@ -243,7 +243,7 @@ https://danemacmillan.com/how-to-configure-xdebug-in-phpstorm-through-vagrant/
 The `xdebug.idekey` is `PHPSTORM`, and the `xdebug.remote_port` is `9000`.
 
 To toggle debugging on, use `vshell xdebug`. The state of the debug setting
-will be displayed.
+will be displayed.g
 
 ## Dependencies
 
