@@ -242,6 +242,9 @@ https://danemacmillan.com/how-to-configure-xdebug-in-phpstorm-through-vagrant/
 
 The `xdebug.idekey` is `PHPSTORM`, and the `xdebug.remote_port` is `9000`.
 
+To toggle debugging on, use `vshell xdebug`. The state of the debug setting
+will be displayed.
+
 ## Dependencies
 
 This vagrant provision includes the following dotfiles:
