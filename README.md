@@ -16,6 +16,45 @@ you to start looking at more advanced build processes.
 There will come a time when `saltstack` or `ansible` will be used, but that
 will also exist in a different repo.
 
+## Some features
+
+### The `vshell` utility
+
+`vagrantshell` includes a `vshell` Bash utility for managing certain tasks
+related to the box. It is located in `/vagrant/bin`. It is recommended to add
+it to the box's path: `export PATH="/vagrant/bin:$PATH"`. By default it is
+symlinked into `$HOME/bin`, so it may already be available.
+
+```
+vshell 2.0.0
+'vshell' is used for managing the vagrantshell VM.
+
+Usage:
+ vshell [ Options ]
+
+Options:
+ help                Show this usage message.
+ map                 Map contents of /vagrant/etc/ into core /etc/.
+ restart             Restart multiple daemons.
+ update              Update vagrantshell from master.
+ xdebug              Toggle PHP Xdebug on or off.
+ xhprof              Toggle PHP XHProf on or off.
+
+Examples:
+ Remap new /vagrant/etc/ files into core /etc/:
+   vshell map
+```
+
+### The `//dev` tools
+
+Located at `https://dev` is an index of various tools configured for this box.
+It exposes the following:
+- `phpinfo()` for easy viewing
+- `sites` listing all virtual hosts installed
+- `logs` directory for all daemons / services provisioned by `vagrantshell`
+- [linux-dash](https://github.com/afaqurk/linux-dash)
+- [xhgui](https://github.com/perftools/xhgui) to visualize XHProf profiling data
+
 ## Technology stack
 
 Read the `changelog` below for more information. Version 2.0.0 (October 2, 2015)
@@ -61,32 +100,6 @@ box is useful for everyone, and will be especially fast for most frameworks and
 needs, because it was tuned for the slowest PHP framework in the
 industry--namely, Magento. The logic being that if Magento performs very well
 on this box, everything else will fly.
-
-
-## The `vshell` utility
-
-`vagrantshell` includes a `vshell` Bash utility for managing certain tasks
-related to the box. It is located in `/vagrant/bin`. It is recommended to add
-it to the box's path: `export PATH="/vagrant/bin:$PATH"`
-
-```
-vshell 2.0.0
-'vshell' is used for managing the vagrantshell VM.
-
-Usage:
- vshell [ Options ]
-
-Options:
- help                Show this usage message.
- map                 Map contents of /vagrant/etc/ into core /etc/.
- restart             Restart multiple daemons.
- update              Update vagrantshell from master.
- xdebug              Toggle PHP Xdebug on or off.
-
-Examples:
- Remap new /vagrant/etc/ files into core /etc/:
-   vshell map
-```
 
 ## Installation
 
