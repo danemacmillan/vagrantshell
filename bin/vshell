@@ -66,6 +66,7 @@ vshell_restart()
 	sudo /etc/init.d/redis restart
 	#sudo /etc/init.d/varnish reload
 	sudo /etc/init.d/memcached restart
+	sudo /etc/init.d/mongod restart
 	#sudo /etc/init.d/sshd reload
 	#sudo /etc/init.d/network reload
 	#sudo /etc/init.d/iptables reload
