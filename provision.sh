@@ -220,16 +220,21 @@ yum -y remove rsync && yum -y install rsync31u
 echo -e 'Updating Git.'
 yum -y remove git && yum -y install git2u
 
-# Set permissions on regular user.
-echo -e "Setting permissions for $USER_USER:$USER_GROUP on /home/$USER_USER"
-chown -R $USER_USER:$USER_GROUP /home/$USER_USER
-
-# Symlink vshell utility into PATH
+# Symlink vshell utility into PATH for root and vagrant users.
 echo -e "Add vshell utility to PATH."
 if [[ ! -d "$HOME/bin" ]]; then
 	mkdir -pv "$HOME/bin"
 fi
 ln -s /vagrant/bin/vshell $HOME/bin
+
+if [[ ! -d "/home/$USER_USER/bin" ]]; then
+	mkdir -pv "/home/$USER_USER/bin"
+fi
+ln -s /vagrant/bin/vshell /home/$USER_USER/bin
+
+# Set permissions on regular user.
+echo -e "Setting permissions for $USER_USER:$USER_GROUP on /home/$USER_USER"
+chown -R $USER_USER:$USER_GROUP /home/$USER_USER
 
 # Generate install files to prevent reinstalls.
 echo -e "Cleaning install."
