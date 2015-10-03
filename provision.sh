@@ -224,6 +224,13 @@ yum -y remove git && yum -y install git2u
 echo -e "Setting permissions for $USER_USER:$USER_GROUP on /home/$USER_USER"
 chown -R $USER_USER:$USER_GROUP /home/$USER_USER
 
+# Symlink vshell utility into PATH
+echo -e "Add vshell utility to PATH."
+if [[ ! -d "$HOME/bin" ]]; then
+	mkdir -pv "$HOME/bin"
+fi
+ln -s /vagrant/bin/vshell $HOME/bin
+
 # Generate install files to prevent reinstalls.
 echo -e "Cleaning install."
 touch $VAGRANT_PROVISION_FIRST

@@ -16,7 +16,7 @@ you to start looking at more advanced build processes.
 There will come a time when `saltstack` or `ansible` will be used, but that
 will also exist in a different repo.
 
-## Some features
+## Feature highlights
 
 ### The `vshell` utility
 
@@ -83,13 +83,13 @@ introduced a major break from the previous version.
 
 ### Performance
 
-This box is configured for high performance and makes very low-level changes
+This box is configured for high performance and makes low-level changes
 to the underlying OS settings. The configurations in place descend from a much
 larger, battle-hardened production environment, with tweaks made to memory
-allocation for this smaller VM, so this box also serves as a good example of
-a performance-tuned stack.
+allocation for this smaller VM (as well as development tweaks), so this box
+also serves as a good example of a performance-tuned stack.
 
-In addition, this box has specific VM-only configs that speed up NFS,
+In addition, it has specific VM-only configs that speed up NFS,
 using `cachefilesd`, which will seamlessly cache NFS-mounted files inside the
 guest box's filesystem. Reads and writes are also improved using the `tuned`
 utility.
@@ -163,12 +163,6 @@ From the `vagrantshell` directory that contains the `VagrantFile` file, run
 `vagrant ssh`. You are in CentOS as user, `vagrant`. For root access,
 type, `sudo su`.
 
-### (For Windows users only)
-
-Oddly, the dotfiles are not sourced during post-provision, so upon SSH'ing into
-the box for the first time, run `source ~/.dotfiles/bootsrap.sh`. This will
-change the color of your PS1 and add a tonne of handy functionality.
-
 ### Directories
 
 A default root directory of `develop.vagrant.dev` will be created in `sites`.
@@ -200,6 +194,12 @@ address bar.**
 
 Read the `README.md` in `post-provision` to see how post-provision scripts and
 DB imports work.
+
+#### (For Windows users only)
+
+Oddly, the dotfiles are not sourced during post-provision, so upon SSH'ing into
+the box for the first time, run `source ~/.dotfiles/dotfiles`. This will
+change the color of your PS1 and add a tonne of handy functionality.
 
 ### Debugging PHP
 
@@ -242,6 +242,10 @@ blogging platform are available online.
 ### Wordpress
 
 [Wordpress](https://wordpress.org/) development is not an issue.
+
+### Symfony
+
+It works fast.
 
 ## Troubleshooting
 
