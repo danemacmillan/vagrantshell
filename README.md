@@ -60,6 +60,14 @@ It exposes the following:
 Read the `changelog` below for more information. Version 2.0.0 (October 2, 2015)
 introduced a major break from the previous version.
 
+### Vagrant providers
+
+The original `vagrantshell` repository on the `master` branch uses `VirtualBox`.
+
+An experimental feature branch, `provider/parallels`, also exists, which uses
+`Parallels` as a provider. `Parallels` is noticeably (about 20%) faster
+than `VirtualBox`; in particular its filesystem works much better with NFS.
+
 ### Major
 
 - CentOS 6.7
@@ -101,6 +109,9 @@ needs, because it was tuned for the slowest PHP framework in the
 industry--namely, Magento. The logic being that if Magento performs very well
 on this box, everything else will fly.
 
+If using the `provider/parallels` branch with `Parallels`, all the goodness
+above gets boosted even more.
+
 ## Installation
 
 ### (For Windows users only)
@@ -113,6 +124,10 @@ it. It has nothing to offer. Use [cmder](https://bliker.github.io/cmder/).
 If you have OSX, just use `brew`, otherwise have a look here:
 
 https://www.virtualbox.org/wiki/Downloads
+
+(If using `provider/parallels` branch, a license will be required to use
+`Parallels`. The [vagrant-parallels](http://parallels.github.io/vagrant-parallels/docs/installation/)
+plugin will also need to be installed.)
 
 ### Install Vagrant
 
@@ -145,7 +160,7 @@ On Windows, the file is located at `C:\Windows\System32\Drivers\etc\hosts`.
 
 ### Provisioning
 
-> :warning: Note: `vagrantshell` provisions mostly everything for modern 
+> :warning: Note: `vagrantshell` provisions mostly everything for modern
 development. Read about post-provision scripts below if adding additional
 content automation is required.
 
@@ -177,7 +192,7 @@ codebases. On your host machine, point your IDE or editor to
 ### Access from Web browser
 
 Browse to the address at `develop.vagrant.dev` using `HTTP` or `HTTPS`. This
-will work so long as the hosts file has been updated. Note that the `SPDY` \ 
+will work so long as the hosts file has been updated. Note that the `SPDY` \
 `HTTP2` protocol will be used.
 
 ### Adding new virtual hosts
