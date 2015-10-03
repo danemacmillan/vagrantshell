@@ -62,11 +62,13 @@ introduced a major break from the previous version.
 
 ### Vagrant providers
 
-The original `vagrantshell` repository on the `master` branch uses `VirtualBox`.
+The default provider will be automatically selected according to Vagrant's
+[Basic Provider Usage](https://docs.vagrantup.com/v2/providers/basic_usage.html)
+article. `vagrantshell` defines Parallels first, because if it is available, it
+will be used, then fallback to VirtualBox. Parallels is faster, but not free.
 
-An experimental feature branch, `provider/parallels`, also exists, which uses
-`Parallels` as a provider. `Parallels` is noticeably (about 20%) faster
-than `VirtualBox`; in particular its filesystem works much better with NFS.
+- VirtualBox (free)
+- [Parallels](http://www.parallels.com/ca/) (licensed)
 
 ### Major
 
@@ -92,7 +94,7 @@ than `VirtualBox`; in particular its filesystem works much better with NFS.
 ### Performance
 
 This box is configured for high performance and makes low-level changes
-to the underlying OS settings. The configurations in place descend from a much
+to the underlying OS. The configurations in place descend from a much
 larger, battle-hardened production environment, with tweaks made to memory
 allocation for this smaller VM (as well as development tweaks), so this box
 also serves as a good example of a performance-tuned stack.
@@ -109,8 +111,8 @@ needs, because it was tuned for the slowest PHP framework in the
 industry--namely, Magento. The logic being that if Magento performs very well
 on this box, everything else will fly.
 
-If using the `provider/parallels` branch with `Parallels`, all the goodness
-above gets boosted even more.
+If the Parallels provider is used, there will be an additional performance
+boost.
 
 ## Installation
 
@@ -119,15 +121,21 @@ above gets boosted even more.
 If you are on Windows and are still using the basic command prompt, stop using
 it. It has nothing to offer. Use [cmder](https://bliker.github.io/cmder/).
 
-### Install VirtualBox
+### Install provider (choose one)
 
-If you have OSX, just use `brew`, otherwise have a look here:
+#### VirtualBox
+
+This provider is free. If you have OSX, just use `brew`, otherwise have a look
+here:
 
 https://www.virtualbox.org/wiki/Downloads
 
-(If using `provider/parallels` branch, a license will be required to use
-`Parallels`. The [vagrant-parallels](http://parallels.github.io/vagrant-parallels/docs/installation/)
-plugin will also need to be installed.)
+#### Parallels
+
+This provider requires a license. If you have OSX, just use `brew`, otherwise
+have a look here:
+
+http://www.parallels.com/ca/
 
 ### Install Vagrant
 
@@ -135,11 +143,21 @@ If you have OSX, just use `brew`, otherwise have a look here:
 
 https://www.vagrantup.com/downloads.html
 
-### Install guest additions plugin
+#### Install Vagrant plugins
+
+These plugins correspond with the provider installed in the previous step.
+
+**Vagrant's Guest Additions plugin:**
 
 `vagrant plugin install vagrant-vbguest`
 
 https://github.com/dotless-de/vagrant-vbguest
+
+**Vagrant's Parallels plugin:**
+
+`vagrant plugin install vagrant-parallels`
+
+http://parallels.github.io/vagrant-parallels/docs/installation/
 
 ### Edit hosts file
 
