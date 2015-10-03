@@ -145,9 +145,9 @@ On Windows, the file is located at `C:\Windows\System32\Drivers\etc\hosts`.
 
 ### Provisioning
 
-> Note: `vagrantshell` provisions mostly everything for modern development.
-Read about post-provision scripts below if adding additional content automation is
-required.
+> :warning: Note: `vagrantshell` provisions mostly everything for modern 
+development. Read about post-provision scripts below if adding additional
+content automation is required.
 
 1. Run `vagrant up` in the `vagrantshell` directory where the `VagrantFile` file
 exists.
