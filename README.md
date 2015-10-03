@@ -49,11 +49,11 @@ Examples:
 
 Located at `https://dev` is an index of various tools configured for this box.
 It exposes the following:
-- `phpinfo()` for easy viewing
-- `sites` listing all virtual hosts installed
-- `logs` directory for all daemons / services provisioned by `vagrantshell`
-- [linux-dash](https://github.com/afaqurk/linux-dash)
-- [xhgui](https://github.com/perftools/xhgui) to visualize XHProf profiling data
+- `phpinfo()` for easy viewing [`https://dev/phpinfo.php`]
+- `sites` listing all virtual hosts installed [`https://dev/sites`]
+- `logs` directory for provisioned daemons [`https://dev/logs`]
+- [linux-dash](https://github.com/afaqurk/linux-dash) [`https://dev/linux-dash`]
+- [xhgui](https://github.com/perftools/xhgui) XHProf profiler [`https://dev/xhgui`]
 
 ## Technology stack
 
