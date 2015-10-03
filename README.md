@@ -143,19 +143,19 @@ If you have OSX, just use `brew`, otherwise have a look here:
 
 https://www.vagrantup.com/downloads.html
 
-#### Install Vagrant plugins
+#### Install Vagrant plugins (choose one)
 
 These plugins correspond with the provider installed in the previous step.
 
-**Vagrant's Guest Additions plugin:**
+##### VirtualBox
 
-`vagrant plugin install vagrant-vbguest`
+Guest Additions plugin: `vagrant plugin install vagrant-vbguest`
 
 https://github.com/dotless-de/vagrant-vbguest
 
-**Vagrant's Parallels plugin:**
+##### Parallels
 
-`vagrant plugin install vagrant-parallels`
+Parallels plugin: `vagrant plugin install vagrant-parallels`
 
 http://parallels.github.io/vagrant-parallels/docs/installation/
 
