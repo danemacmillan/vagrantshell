@@ -103,12 +103,12 @@ vshell_xhprof()
 {
 	local xhprof_location="/vagrant/etc/php.ini"
 
-	if grep -q "auto_prepend_file =" "$xhprof_location"; then
-		echo "Toggling xhprof on."
-		sed -i -e 's/auto_prepend_file =/auto_prepend_file =\/vagrant\/sites\/dev\/xhgui\/external\/header\.php/g' ${xhprof_location}
-	else
+	if grep -q "auto_prepend_file\s=\/vagrant" "$xhprof_location"; then
 		echo "Toggling xhprof off."
 		sed -i -e 's/auto_prepend_file =\/vagrant\/sites\/dev\/xhgui\/external\/header\.php/auto_prepend_file =/g' ${xhprof_location}
+	else
+		echo "Toggling xhprof on."
+		sed -i -e 's/auto_prepend_file =/auto_prepend_file =\/vagrant\/sites\/dev\/xhgui\/external\/header\.php/g' ${xhprof_location}
 	fi
 
 	sudo /etc/init.d/php-fpm reload
