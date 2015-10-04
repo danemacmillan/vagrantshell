@@ -51,7 +51,7 @@ fi
 
 # Set timezone
 mv /etc/localtime /etc/localtime.bak
-ln -nsfv /usr/share/zoneinfo/America/Montreal /etc/localtime
+ln -nsfv /usr/share/zoneinfo/EST5EDT /etc/localtime
 
 # Update base box
 echo "Updating current software."
