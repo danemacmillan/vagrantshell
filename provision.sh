@@ -49,6 +49,10 @@ if [ -f $VAGRANT_PROVISION_DONE ]; then
 	exit 0;
 fi
 
+# Set timezone
+mv /etc/localtime /etc/localtime.bak
+ln -nsfv /usr/share/zoneinfo/America/Montreal /etc/localtime
+
 # Update base box
 echo "Updating current software."
 yum -y update
