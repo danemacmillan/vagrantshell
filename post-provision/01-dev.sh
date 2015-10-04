@@ -8,9 +8,9 @@ fi
 echo -e "Adding phpinfo"
 cp /vagrant/sites/phpinfo.php /vagrant/sites/dev/
 echo -e "Symlinking sites listing"
-ln -s /vagrant/sites /vagrant/sites/dev/sites
+cd /vagrant/sites/dev && ln -s ../../sites
 echo -e "Symlinking logs"
-ln -s /vagrant/logs /vagrant/sites/dev/logs
+cd /vagrant/sites/dev && ln -s ../../logs
 echo -e "Installing linux-dash"
 cd /vagrant/sites/dev && git clone https://github.com/afaqurk/linux-dash.git
 
@@ -22,5 +22,5 @@ echo "Booting mongodb."
 sudo /etc/init.d/mongod restart
 echo "Installing xhgui."
 cd /vagrant/sites/dev && git clone https://github.com/perftools/xhgui.git
-cd /vagrant/sites/dev/xhgui && php install.php
 cp /vagrant/sites/dev/xhgui/config/config.default.php /vagrant/sites/dev/xhgui/config/config.php
+cd /vagrant/sites/dev/xhgui && php install.php
