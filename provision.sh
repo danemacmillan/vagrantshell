@@ -189,7 +189,6 @@ echo "Starting/stopping services."
 /etc/init.d/redis restart
 /etc/init.d/iptables stop
 /etc/init.d/ip6tables stop
-/etc/init.d/cachefilesd start
 /etc/init.d/mongod restart
 
 echo "Waiting for Percona MySQL."
