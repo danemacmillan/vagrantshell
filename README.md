@@ -21,9 +21,9 @@ will also exist in a different repo.
 ### The `vshell` utility
 
 `vagrantshell` includes a `vshell` Bash utility for managing certain tasks
-related to the box. It is located in `/vagrant/bin`. It is recommended to add
-it to the box's path: `export PATH="/vagrant/bin:$PATH"`. By default it is
-symlinked into `$HOME/bin`, so it may already be available.
+related to the box. By default it is symlinked into `$HOME/bin`, so it may
+already be available. If not, it is located in `/vagrant/bin`; it is
+recommended to add it to the box's path: `export PATH="/vagrant/bin:$PATH"`.
 
 ```
 vshell 2.0.0
