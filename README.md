@@ -91,7 +91,7 @@ will be used, then fallback to VirtualBox. Parallels is faster, but not free.
 
 - The `SPDY` / `HTTP2` protocol is activated for Nginx when using `HTTPS`.
 
-### :boom: Performance
+### Performance :boom:
 
 This box is configured for high performance and makes low-level changes
 to the underlying OS. The configurations in place descend from a much
@@ -115,6 +115,12 @@ If the Parallels provider is used, there will be an additional performance
 boost.
 
 ## Installation
+
+The average install time on a `MBP 15" Retina / i7-4850HQ@2.30GHz * 8 / 16 GB / 512GB SSD`
+with `25Mbps` down:
+
+- VirtualBox (~30 minutes)
+- Parallels (~14 minutes)
 
 ### (For Windows users only)
 
