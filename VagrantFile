@@ -14,7 +14,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 		# Default shell
 		#vagrantshell.ssh.shell = "/bin/bash"
 
-		#vagrantshell.vm.hostname = "vagrant.dev"
+		vagrantshell.vm.hostname = "vagrantshell"
 		vagrantshell.vm.network :private_network, ip: "192.168.80.80"
 		#vagrantshell.vm.network "forwarded_port", guest: 22, host: 4444, id: "ssh", auto_correct: true
 		#vagrantshell.vm.network "forwarded_port", guest: 2368, host: 2368, auto_correct: true

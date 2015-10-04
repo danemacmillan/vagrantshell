@@ -65,20 +65,30 @@ rpm -Uhv --nosignature http://nginx.org/packages/centos/6/noarch/RPMS/nginx-rele
 # Switch to mainline Nginx version in repo file.
 sed -i -e 's/packages\/centos/packages\/mainline\/centos/g' /etc/yum.repos.d/nginx.repo
 
-# Clean yum
-yum clean all
-
 # Install all software needed for machine
-PHP_VERSION="php55u"
 echo "Installing base software."
-
-PHP_OPCODE_VERSION="$PHP_VERSION-pecl-apc"
-if [ $PHP_VERSION == "php55u" ]; then
-	PHP_OPCODE_VERSION="$PHP_VERSION-opcache"
-fi;
+PHP_VERSION="php55u"
 
 # Smaller footprint. 66M downloaded.
-yum -y --setopt=group_package_types=mandatory,default groupinstall "Development Tools"
+yum -y groupinstall "Development Tools"
+
+# Install some essentials. 165MB downloaded.
+yum -y install \
+vim vim-common vim-enhanced vim-minimal htop mytop nmap at wget yum-utils \
+openssl openssl-devel curl libcurl libcurl-devel lsof tmux bash-completion \
+gpg lynx memcached memcached-devel nginx npm pv parted ca-certificates \
+setroubleshoot atop autofs bind-utils tuned cachefilesd symlinks varnish \
+$PHP_VERSION \
+$PHP_VERSION-devel $PHP_VERSION-common $PHP_VERSION-gd $PHP_VERSION-imap \
+$PHP_VERSION-mbstring $PHP_VERSION-mcrypt $PHP_VERSION-mhash \
+$PHP_VERSION-mysql $PHP_VERSION-pear $PHP_VERSION-pecl-memcached \
+$PHP_VERSION-pecl-memcached-debuginfo $PHP_VERSION-pecl-xdebug \
+$PHP_VERSION-xml $PHP_VERSION-pdo $PHP_VERSION-fpm $PHP_VERSION-opcache \
+$PHP_VERSION-cli $PHP_VERSION-pecl-jsonc $PHP_VERSION-devel \
+$PHP_VERSION-pecl-geoip $PHP_VERSION-pecl-redis redis \
+$PHP_VERSION-pecl-mongo mongodb mongodb-server \
+Percona-Server-client-56 Percona-Server-server-56 \
+percona-toolkit percona-xtrabackup mysql-utilities mysqlreport mysqltuner \
 
 # This will be 1.2GB downloaded.
 # Install groups of software. Some of the essentials below will already be
@@ -88,48 +98,23 @@ yum -y --setopt=group_package_types=mandatory,default groupinstall "Development 
 #"Base" "Development Tools" "Console internet tools" "Debugging Tools" \
 #"Networking Tools" "Performance Tools"
 
-# Install some essentials. 165MB downloaded.
-yum -y install \
-zlib-devel vim vim-common vim-enhanced vim-minimal htop mytop nmap at yum-utils \
-openssl openssl-devel curl libcurl libcurl-devel lsof tmux bash-completion \
-cmake expect lua gpg rpm-build rpm-devel autoconf automake lynx gcc \
-mod_ssl mod_fcgid mod_geoip memcached memcached-devel nginx npm pv parted \
-ca-certificates weechat bitlbee bitlbee-otr setroubleshoot atop autofs bind-utils \
-$PHP_VERSION \
-$PHP_VERSION-devel $PHP_VERSION-common $PHP_VERSION-gd $PHP_VERSION-imap \
-$PHP_VERSION-mbstring $PHP_VERSION-mcrypt $PHP_VERSION-mhash \
-$PHP_VERSION-mysql $PHP_VERSION-pear $PHP_VERSION-pecl-memcached \
-$PHP_VERSION-pecl-memcached-debuginfo $PHP_VERSION-pecl-xdebug \
-$PHP_VERSION-xml $PHP_VERSION-pdo $PHP_VERSION-fpm $PHP_OPCODE_VERSION \
-$PHP_VERSION-cli $PHP_VERSION-pecl-jsonc $PHP_VERSION-devel \
-$PHP_VERSION-pecl-geoip $PHP_VERSION-pecl-redis redis \
-$PHP_VERSION-pecl-mongo mongodb mongodb-server \
-Percona-Server-client-56 Percona-Server-server-56 \
-percona-toolkit percona-xtrabackup mysql-utilities mysqlreport mysqltuner \
-varnish \
-svn cpp make libtool patch gcc-c++ wget boost-devel mysql-devel pcre-devel \
-gd-devel libxml2-devel expat-devel libicu-devel bzip2-devel oniguruma-devel \
-openldap-devel readline-devel libc-client-devel libcap-devel binutils-devel \
-pam-devel elfutils-libelf-devel ImageMagick-devel libxslt-devel libevent-devel \
-libcurl-devel libmcrypt-devel tbb-devel libdwarf-devel \
-tuned cachefilesd symlinks
+# Essentials for compiling a number of projects, but mostly unnecessary for Web.
+#yum -y install \
+#zlib-devel cmake expect lua rpm-build rpm-devel autoconf automake gcc \
+#svn cpp make libtool patch gcc-c++ boost-devel mysql-devel pcre-devel \
+#gd-devel libxml2-devel expat-devel libicu-devel bzip2-devel oniguruma-devel \
+#openldap-devel readline-devel libc-client-devel libcap-devel binutils-devel \
+#pam-devel elfutils-libelf-devel ImageMagick-devel libxslt-devel libevent-devel \
+#libcurl-devel libmcrypt-devel tbb-devel libdwarf-devel
+
+# Clean yum
+yum clean all
 
 # Ensure nginx's terrible default configs are blown away.
 rm -rf /etc/nginx/conf.d
 
-# TODO: use vshell commands.
-
-# Use vagrantshell optimized configs.
-echo -e "Configuring /etc/"
-# Remap them. Handle "cp: cannot overwrite non-directory
-# `/symlink/path' with directory `/hard/path'. Use anonymous pipes to pipe
-# stderr only to command.
-'cp' -vRsf --backup=numbered /$PROJECT_ROOT/etc/* /etc 2> >(HANDLESYM=$(cut -d "\`" -f2 | cut -d "'" -f1); [ $HANDLESYM ] && echo -e "Fixing symlink: $HANDLESYM" && unlink $HANDLESYM)
-# Run again to update unlinked content
-'cp' -Rsf --backup=numbered /$PROJECT_ROOT/etc/* /etc
-# Clean up any backups that are just symlinks.
-find /etc/php.d -type l -name "*.~[1-9]~" -exec unlink {} \;
-symlinks -d /etc/* &> /dev/null
+# Map configs into core.
+source /vagrant/bin/vshell map
 
 # Set SELinux to permissive mode for Nginx
 # This is done because for a virtual environment, we do not want SELINUX to be
@@ -174,6 +159,12 @@ pecl install scrypt
 echo "Installing PECL Http 1.7.6 extension for PHP."
 pecl install http://pecl.php.net/get/pecl_http-1.7.6.tgz
 
+# Tuning
+tuned-adm profile latency-performance
+cachefilesd -f /etc/cachefilesd.conf
+modprobe cachefiles
+service cachefilesd start
+
 echo "Adding services to boot."
 chkconfig nginx on
 chkconfig mysql on
@@ -184,12 +175,6 @@ chkconfig iptables off
 chkconfig ip6tables off
 chkconfig cachefilesd on
 chkconfig mongod on
-
-# Tuning
-tuned-adm profile latency-performance
-cachefilesd -f /etc/cachefilesd.conf
-modprobe cachefiles
-service cachefilesd start
 
 # Start services
 echo "Starting/stopping services."
@@ -226,7 +211,6 @@ if [[ ! -d "$HOME/bin" ]]; then
 	mkdir -pv "$HOME/bin"
 fi
 ln -s /vagrant/bin/vshell $HOME/bin
-
 if [[ ! -d "/home/$USER_USER/bin" ]]; then
 	mkdir -pv "/home/$USER_USER/bin"
 fi
