@@ -246,10 +246,12 @@ Xdebug is not enabled by default. It is configured according this tutorial:
 
 https://danemacmillan.com/how-to-configure-xdebug-in-phpstorm-through-vagrant/
 
-The `xdebug.idekey` is `PHPSTORM`, and the `xdebug.remote_port` is `9000`.
+The `xdebug.idekey` is `PHPSTORM`, and the `xdebug.remote_port` is `9000`. If
+the provider is VirtualBox, the IP to connect to the host is `10.0.2.2`. If
+the provider is Parallels, the IP to connect to the host is `192.168.0.1`.
 
 To toggle debugging on, use `vshell xdebug`. The state of the debug setting
-will be displayed.g
+will be displayed.
 
 ## Dependencies
 
