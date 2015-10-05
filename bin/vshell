@@ -77,7 +77,7 @@ vshell_update()
 	local vagrantshell="/vagrant"
 
 	echo -e "Updating inf files, remapping, restarting services."
-	(cd ${vagrantshell} && git pull)
+	(cd ${vagrantshell} && git stash && git pull && git stash pop)
 	vshell_map
 	vshell_restart
 
