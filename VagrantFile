@@ -33,11 +33,11 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 			if host =~ /darwin/
 				cpus = `sysctl -n hw.ncpu`.to_i
 				# sysctl returns Bytes and we need to convert to MB
-				mem = `sysctl -n hw.memsize`.to_i / 1024 / 1024 / 3
+				mem = `sysctl -n hw.memsize`.to_i / 1024 / 1024 / 2
 			elsif host =~ /linux/
 				cpus = `nproc`.to_i
 				# meminfo shows KB and we need to convert to MB
-				mem = `grep 'MemTotal' /proc/meminfo | sed -e 's/MemTotal://' -e 's/ kB//'`.to_i / 1024 / 3
+				mem = `grep 'MemTotal' /proc/meminfo | sed -e 's/MemTotal://' -e 's/ kB//'`.to_i / 1024 / 2
 			else # Windows
 				cpus = 2
 				mem = 2048
