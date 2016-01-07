@@ -41,7 +41,7 @@ fastcgi_send_timeout 400;
 # Regular pages: 2
 # Product pages: 12 with 300 concurrency
 # Product listings: 19 with 300 concurrency
-fastcgi_read_timeout 42;
+fastcgi_read_timeout 4200;
 # Never turn this on. Concurrency and throughput drop significantly.
 fastcgi_keep_conn off;
 
