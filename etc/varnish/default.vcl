@@ -139,7 +139,7 @@ unset req.http.Cookie;
 unset req.http.X-Varnish-Faked-Session;
 return (lookup);
 }
-if (req.url ~ "^(/media/|/skin/|/fr/|/js/|/)(?:(?:index|litespeed)\.php/)?(?:admin|api|cron\.php|customer|checkout|ajax|garage|wishlist|sales|shell|pL8320fs0WHgFQYev|linusadmin|sitemap|robots\.txt|webutils|LiveSearchSiteAuth.xml|n98-magerun)" ||
+if (req.url ~ "^(/media/|/skin/|/default/|/en/|/fr/|/js/|/)(?:(?:index|litespeed)\.php/)?(?:admin|api|cron\.php|customer|checkout|ajax|garage|wishlist|sales|shell|pL8320fs0WHgFQYev|linusadmin|sitemap|robots\.txt|webutils|LiveSearchSiteAuth.xml|n98-magerun)" ||
 req.url ~ "\?.*__from_store=") {
 return (pipe);
 }
