@@ -59,12 +59,12 @@ yum -y update
 
 # Install missing repos
 echo "Installing repos for epel, IUS, Percona, nginx."
-rpm -Uhv --nosignature http://dl.iuscommunity.org/pub/ius/stable/CentOS/6/x86_64/epel-release-6-5.noarch.rpm
-rpm -Uhv --nosignature http://dl.iuscommunity.org/pub/ius/stable/CentOS/6/x86_64/ius-release-1.0-14.ius.centos6.noarch.rpm
-rpm -Uhv --nosignature http://www.percona.com/downloads/percona-release/percona-release-0.0-1.x86_64.rpm
-rpm -Uhv --nosignature http://yum.newrelic.com/pub/newrelic/el5/x86_64/newrelic-repo-5-3.noarch.rpm
-rpm -Uhv --nosignature https://repo.varnish-cache.org/redhat/varnish-3.0.el6.rpm
-rpm -Uhv --nosignature http://nginx.org/packages/centos/6/noarch/RPMS/nginx-release-centos-6-0.el6.ngx.noarch.rpm
+yum -y install epel-release
+yum -y install https://centos6.iuscommunity.org/ius-release.rpm
+yum -y install http://www.percona.com/downloads/percona-release/redhat/0.1-3/percona-release-0.1-3.noarch.rpm
+yum -y install http://yum.newrelic.com/pub/newrelic/el5/x86_64/newrelic-repo-5-3.noarch.rpm
+yum -y install https://repo.varnish-cache.org/redhat/varnish-3.0.el6.rpm
+yum -y install http://nginx.org/packages/centos/6/noarch/RPMS/nginx-release-centos-6-0.el6.ngx.noarch.rpm
 
 # Switch to mainline Nginx version in repo file.
 sed -i -e 's/packages\/centos/packages\/mainline\/centos/g' /etc/yum.repos.d/nginx.repo
@@ -78,10 +78,11 @@ yum -y groupinstall "Development Tools"
 
 # Install some essentials. 165MB downloaded.
 yum -y install \
-vim vim-common vim-enhanced vim-minimal htop mytop nmap at wget yum-utils \
+yum-utils yum-plugin-replace \
+vim vim-common vim-enhanced vim-minimal htop mytop nmap at wget \
 openssl openssl-devel curl libcurl libcurl-devel lsof tmux bash-completion \
 gpg lynx memcached memcached-devel nginx npm pv parted ca-certificates \
-setroubleshoot atop autofs bind-utils tuned cachefilesd symlinks varnish \
+setroubleshoot atop autofs bind-utils tuned cachefilesd symlinks \
 $PHP_VERSION \
 $PHP_VERSION-devel $PHP_VERSION-common $PHP_VERSION-gd $PHP_VERSION-imap \
 $PHP_VERSION-mbstring $PHP_VERSION-mcrypt $PHP_VERSION-mhash \
@@ -89,10 +90,17 @@ $PHP_VERSION-mysql $PHP_VERSION-pear $PHP_VERSION-pecl-memcached \
 $PHP_VERSION-pecl-memcached-debuginfo $PHP_VERSION-pecl-xdebug \
 $PHP_VERSION-xml $PHP_VERSION-pdo $PHP_VERSION-fpm $PHP_VERSION-opcache \
 $PHP_VERSION-cli $PHP_VERSION-pecl-jsonc $PHP_VERSION-devel \
-$PHP_VERSION-pecl-geoip $PHP_VERSION-pecl-redis redis \
+$PHP_VERSION-pecl-geoip $PHP_VERSION-pecl-redis \
 $PHP_VERSION-pecl-mongo mongodb mongodb-server \
+$PHP_VERSION-ioncube-loader \
 Percona-Server-client-56 Percona-Server-server-56 \
 percona-toolkit percona-xtrabackup mysql-utilities mysqlreport mysqltuner \
+varnish redis \
+make patch wget mysql-devel pcre-devel \
+gd-devel libxml2-devel expat-devel libicu-devel bzip2-devel oniguruma-devel \
+openldap-devel readline-devel libc-client-devel libcap-devel binutils-devel \
+pam-devel elfutils-libelf-devel ImageMagick-devel libxslt-devel libevent-devel \
+libcurl-devel libmcrypt-devel tbb-devel libdwarf-devel
 
 # This will be 1.2GB downloaded.
 # Install groups of software. Some of the essentials below will already be
@@ -200,13 +208,10 @@ echo "Setting up DB, and granting all privileges to '$DB_USER'@'%'."
 mysql -u $DB_USER --password="$DB_PASS" -e "GRANT ALL PRIVILEGES ON *.* TO '$DB_USER'@'%' WITH GRANT OPTION"
 mysql -u $DB_USER --password="$DB_PASS" -e "DROP DATABASE IF EXISTS $DB_NAME; CREATE DATABASE $DB_NAME"
 
-# Update rsync
-echo -e "Updating rsync."
-yum -y remove rsync && yum -y install rsync31u
-
-# Git update. Note: git2u may change with IUS repo.
 echo -e 'Updating Git.'
-yum -y remove git && yum -y install git2u
+yum -y replace git --replace-with git2u
+echo -e "Updating rsync."
+yum -y replace rsync --replace-with rsync31u
 
 # Symlink vshell utility into PATH for root and vagrant users.
 echo -e "Add vshell utility to PATH."
