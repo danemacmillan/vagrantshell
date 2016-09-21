@@ -49,6 +49,9 @@ if [ -f $VAGRANT_PROVISION_DONE ]; then
 	exit 0;
 fi
 
+mkdir -pv /var/log/mysql
+chown mysql:mysql /var/log/mysql
+
 # Set timezone
 mv /etc/localtime /etc/localtime.bak
 ln -nsfv /usr/share/zoneinfo/EST5EDT /etc/localtime
