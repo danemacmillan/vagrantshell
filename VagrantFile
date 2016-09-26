@@ -9,10 +9,14 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
 		# Default box
 		vagrantshell.vm.box = "bento/centos-6.7"
+		vagrantshell.vm.box = "parallels/centos-6.7"
 		#vagrantshell.vm.box_url = ""
 
 		# Default shell
 		#vagrantshell.ssh.shell = "/bin/bash"
+		# Until version 1.8.6 gets released" https://github.com/mitchellh/vagrant/issues/5186
+		vagrantshell.ssh.username = "vagrant"
+		vagrantshell.ssh.password = "vagrant"
 
 		vagrantshell.vm.hostname = "vagrantshell"
 		vagrantshell.vm.network :private_network, ip: "192.168.80.80"
