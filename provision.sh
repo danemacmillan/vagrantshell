@@ -105,6 +105,10 @@ openldap-devel readline-devel libc-client-devel libcap-devel binutils-devel \
 pam-devel elfutils-libelf-devel ImageMagick-devel libxslt-devel libevent-devel \
 libcurl-devel libmcrypt-devel tbb-devel libdwarf-devel
 
+# Latest version of Node.js
+curl --silent --location https://rpm.nodesource.com/setup_6.x | bash -
+yum -y install nodejs
+
 # This will be 1.2GB downloaded.
 # Install groups of software. Some of the essentials below will already be
 # included in these groups, but in case you ever want to shrink the size of the
