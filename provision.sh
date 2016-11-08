@@ -74,7 +74,7 @@ yum -y install http://nginx.org/packages/centos/6/noarch/RPMS/nginx-release-cent
 
 # Install all software needed for machine
 echo "Installing base software."
-PHP_VERSION="php55u"
+PHP_VERSION="php56u"
 
 # Smaller footprint. 66M downloaded.
 yum -y groupinstall "Development Tools"
